@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { MessageCircle, Send } from "lucide-react";
+import { MessageCircle, Send, Phone, Mail, MapPin } from "lucide-react";
 
 const ContactPage = () => {
-  const [form, setForm] = useState({ name: "", company: "", phone: "", email: "", product: "", message: "" });
+  const [form, setForm] = useState({ name: "", company: "", phone: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, integrate with API/email service
     setSubmitted(true);
   };
 
@@ -15,7 +14,7 @@ const ContactPage = () => {
     <div className="bg-hero min-h-screen">
       <div className="container mx-auto px-6 lg:px-12 py-16">
         <h1 className="text-3xl md:text-4xl font-bold text-hero-headline mb-4">Contact Us</h1>
-        <p className="text-hero-muted max-w-2xl mb-12">Have a requirement? Fill the form below or reach us directly via WhatsApp.</p>
+        <p className="text-hero-muted max-w-2xl mb-12">Have a requirement? Fill the form below or reach us directly.</p>
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Form */}
@@ -32,13 +31,12 @@ const ContactPage = () => {
               <form onSubmit={handleSubmit} className="space-y-5">
                 {[
                   { name: "name" as const, label: "Name", type: "text", required: true },
-                  { name: "company" as const, label: "Company", type: "text", required: false },
+                  { name: "company" as const, label: "Company", type: "text", required: true },
                   { name: "phone" as const, label: "Phone", type: "tel", required: true },
                   { name: "email" as const, label: "Email", type: "email", required: true },
-                  { name: "product" as const, label: "Product of Interest", type: "text", required: false },
                 ].map((field) => (
                   <div key={field.name}>
-                    <label className="block text-hero-foreground text-sm font-medium mb-1.5">{field.label}{field.required && " *"}</label>
+                    <label className="block text-hero-foreground text-sm font-medium mb-1.5">{field.label} *</label>
                     <input
                       type={field.type}
                       required={field.required}
@@ -71,20 +69,49 @@ const ContactPage = () => {
           <div className="space-y-8">
             <div>
               <h3 className="text-hero-headline font-semibold text-lg mb-3">Direct Contact</h3>
-              <div className="space-y-2 text-hero-muted text-sm">
-                <p>📞 +91 98765 43210</p>
-                <p>✉️ info@precisiontest.in</p>
-                <p>📍 Chennai, Tamil Nadu, India</p>
+              <div className="space-y-3 text-hero-muted text-sm">
+                <a href="tel:+919751458300" className="flex items-center gap-2 hover:text-hero-accent transition-colors">
+                  <Phone className="w-4 h-4 text-hero-accent" /> +91 97514 58300
+                </a>
+                <a href="mailto:horizonindiatechnologies@gmail.com" className="flex items-center gap-2 hover:text-hero-accent transition-colors">
+                  <Mail className="w-4 h-4 text-hero-accent" /> horizonindiatechnologies@gmail.com
+                </a>
               </div>
             </div>
-            <a
-              href="https://wa.me/919876543210?text=Hi%2C%20I%20have%20an%20enquiry."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#1ebe5d] transition-colors"
-            >
-              <MessageCircle className="w-5 h-5" /> Chat on WhatsApp
-            </a>
+
+            <div>
+              <h3 className="text-hero-headline font-semibold text-lg mb-3">Head Office – Karur</h3>
+              <div className="flex items-start gap-2 text-hero-muted text-sm">
+                <MapPin className="w-4 h-4 mt-0.5 text-hero-accent shrink-0" />
+                <span>3/126, Mettu Street, Mettumahadhanapuram, Mahadhanapuram North, Karur – 639105, Tamil Nadu</span>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-hero-headline font-semibold text-lg mb-3">Branch Office – Coimbatore</h3>
+              <div className="flex items-start gap-2 text-hero-muted text-sm">
+                <MapPin className="w-4 h-4 mt-0.5 text-hero-accent shrink-0" />
+                <span>182, Nanjappa Nagar, 5th Street West, Singanallur, Coimbatore – 641005</span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="tel:+919751458300"
+                className="inline-flex items-center gap-2 bg-hero-accent text-accent-foreground font-semibold px-6 py-3 rounded-lg hover:bg-hero-accent-hover transition-colors"
+              >
+                <Phone className="w-5 h-5" /> Call Now
+              </a>
+              <a
+                href="https://wa.me/919751458300?text=Hi%20I%20am%20interested%20in%20your%20products"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#25D366] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#1ebe5d] transition-colors"
+              >
+                <MessageCircle className="w-5 h-5" /> WhatsApp
+              </a>
+            </div>
+
             <div>
               <h3 className="text-hero-headline font-semibold text-lg mb-3">Business Hours</h3>
               <div className="text-hero-muted text-sm space-y-1">

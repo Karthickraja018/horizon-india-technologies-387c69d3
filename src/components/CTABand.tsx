@@ -11,7 +11,7 @@ const CTABand = () => (
       </p>
       <div className="flex flex-wrap justify-center gap-4">
         <a
-          href="https://wa.me/919876543210?text=Hi%2C%20I%20would%20like%20to%20discuss%20a%20requirement."
+          href="https://wa.me/919751458300?text=Hi%20I%20am%20interested%20in%20your%20products"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-[#25D366] text-white font-semibold px-8 py-3 rounded-lg hover:bg-[#1ebe5d] transition-colors"
@@ -19,7 +19,7 @@ const CTABand = () => (
           <MessageCircle className="w-5 h-5" /> WhatsApp Us
         </a>
         <a
-          href="mailto:info@precisiontest.in"
+          href="mailto:horizonindiatechnologies@gmail.com"
           className="inline-flex items-center gap-2 border border-hero-muted/30 text-hero-foreground font-semibold px-8 py-3 rounded-lg hover:border-hero-accent/50 hover:text-hero-accent transition-colors"
         >
           <Mail className="w-5 h-5" /> Send Email

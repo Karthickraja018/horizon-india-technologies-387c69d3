@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Phone, Mail } from "lucide-react";
 import { categories } from "@/data/products";
 
 const Header = () => {
@@ -9,10 +9,22 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-hero/95 backdrop-blur-md border-b border-hero-muted/10">
+      {/* Top bar */}
+      <div className="hidden lg:block border-b border-hero-muted/10">
+        <div className="container mx-auto px-6 lg:px-12 flex items-center justify-end gap-6 h-9 text-xs text-hero-muted">
+          <a href="tel:+919751458300" className="flex items-center gap-1.5 hover:text-hero-accent transition-colors">
+            <Phone className="w-3 h-3" /> +91 97514 58300
+          </a>
+          <a href="mailto:horizonindiatechnologies@gmail.com" className="flex items-center gap-1.5 hover:text-hero-accent transition-colors">
+            <Mail className="w-3 h-3" /> horizonindiatechnologies@gmail.com
+          </a>
+        </div>
+      </div>
+
       <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link to="/" className="text-hero-headline font-bold text-xl tracking-tight">
-          <span className="text-hero-accent">Precision</span>Test
+        <Link to="/" className="text-hero-headline font-bold text-lg tracking-tight leading-tight">
+          <span className="text-hero-accent">Horizon</span> India Technologies
         </Link>
 
         {/* Desktop Nav */}
@@ -77,6 +89,10 @@ const Header = () => {
           <Link to="/services" className="block text-hero-foreground py-2" onClick={() => setMobileOpen(false)}>Services</Link>
           <Link to="/about" className="block text-hero-foreground py-2" onClick={() => setMobileOpen(false)}>About</Link>
           <Link to="/contact" className="block text-hero-foreground py-2" onClick={() => setMobileOpen(false)}>Contact</Link>
+          <div className="flex flex-col gap-2 pt-2 border-t border-hero-muted/10">
+            <a href="tel:+919751458300" className="text-hero-muted text-sm flex items-center gap-2"><Phone className="w-4 h-4" /> +91 97514 58300</a>
+            <a href="mailto:horizonindiatechnologies@gmail.com" className="text-hero-muted text-sm flex items-center gap-2"><Mail className="w-4 h-4" /> Email Us</a>
+          </div>
           <Link to="/contact" className="block bg-hero-accent text-accent-foreground font-semibold px-5 py-2.5 rounded-lg text-center" onClick={() => setMobileOpen(false)}>
             Get a Quote
           </Link>

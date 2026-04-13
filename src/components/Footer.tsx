@@ -5,14 +5,15 @@ const Footer = () => (
   <footer className="bg-hero border-t border-hero-muted/10">
     <div className="container mx-auto px-6 lg:px-12 py-16">
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
-        {/* Brand */}
+        {/* Company */}
         <div>
           <Link to="/" className="text-hero-headline font-bold text-xl tracking-tight">
-            <span className="text-hero-accent">Precision</span>Test
+            <span className="text-hero-accent">Horizon</span> India Technologies
           </Link>
           <p className="text-hero-muted text-sm mt-4 leading-relaxed">
-            Leading supplier of material testing equipment across Southern India. NABL accredited with 25+ years of expertise.
+            Industrial Testing Equipment Supplier in Tamil Nadu. Sales, Service & Calibration of material testing, metrology, and quality control equipment.
           </p>
+          <p className="text-hero-muted text-xs mt-3">Proprietor: T V Shankar</p>
         </div>
 
         {/* Quick Links */}
@@ -33,19 +34,13 @@ const Footer = () => (
           </div>
         </div>
 
-        {/* Top Categories */}
+        {/* Services */}
         <div>
-          <h4 className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-4">Products</h4>
+          <h4 className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-4">Services</h4>
           <div className="space-y-2">
-            {[
-              { to: "/products/hardness-testing", label: "Hardness Testing" },
-              { to: "/products/universal-testing-machines", label: "UTM" },
-              { to: "/products/ndt-equipment", label: "NDT Equipment" },
-              { to: "/products/metrology", label: "Metrology" },
-              { to: "/products/impact-testing", label: "Impact Testing" },
-            ].map((l) => (
-              <Link key={l.to} to={l.to} className="block text-hero-muted text-sm hover:text-hero-accent transition-colors">
-                {l.label}
+            {["Sales", "Services", "Calibration"].map((s) => (
+              <Link key={s} to="/services" className="block text-hero-muted text-sm hover:text-hero-accent transition-colors">
+                {s}
               </Link>
             ))}
           </div>
@@ -55,9 +50,20 @@ const Footer = () => (
         <div>
           <h4 className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-4">Contact Us</h4>
           <div className="space-y-3 text-hero-muted text-sm">
-            <div className="flex items-start gap-2"><Phone className="w-4 h-4 mt-0.5 text-hero-accent" /> +91 98765 43210</div>
-            <div className="flex items-start gap-2"><Mail className="w-4 h-4 mt-0.5 text-hero-accent" /> info@precisiontest.in</div>
-            <div className="flex items-start gap-2"><MapPin className="w-4 h-4 mt-0.5 text-hero-accent" /> Chennai, Tamil Nadu, India</div>
+            <a href="tel:+919751458300" className="flex items-start gap-2 hover:text-hero-accent transition-colors">
+              <Phone className="w-4 h-4 mt-0.5 text-hero-accent shrink-0" /> +91 97514 58300
+            </a>
+            <a href="mailto:horizonindiatechnologies@gmail.com" className="flex items-start gap-2 hover:text-hero-accent transition-colors">
+              <Mail className="w-4 h-4 mt-0.5 text-hero-accent shrink-0" /> horizonindiatechnologies@gmail.com
+            </a>
+            <div className="flex items-start gap-2">
+              <MapPin className="w-4 h-4 mt-0.5 text-hero-accent shrink-0" />
+              <span>3/126, Mettu Street, Mettumahadhanapuram, Karur – 639105, Tamil Nadu</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <MapPin className="w-4 h-4 mt-0.5 text-hero-accent shrink-0" />
+              <span>182, Nanjappa Nagar, 5th Street West, Singanallur, Coimbatore – 641005</span>
+            </div>
           </div>
         </div>
       </div>
@@ -65,8 +71,8 @@ const Footer = () => (
 
     <div className="border-t border-hero-muted/10 py-6">
       <div className="container mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-4 text-hero-muted text-xs">
-        <p>© {new Date().getFullYear()} PrecisionTest. All rights reserved.</p>
-        <p>NABL Accredited · ISO 17025 Certified</p>
+        <p>© {new Date().getFullYear()} Horizon India Technologies. All rights reserved.</p>
+        <p>Sales · Service · Calibration</p>
       </div>
     </div>
   </footer>
