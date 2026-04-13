@@ -1,11 +1,10 @@
-import { Shield, Award, Clock, Wrench, MapPin } from "lucide-react";
+import { Shield, Award, Clock, MapPin } from "lucide-react";
 
 const items = [
   { icon: Shield, label: "NABL Accredited" },
   { icon: Award, label: "ISO 17025" },
   { icon: Clock, label: "24h Response" },
-  { icon: Wrench, label: "Sales + Service + Calibration" },
-  { icon: MapPin, label: "Southern India Coverage" },
+  { icon: MapPin, label: "Regional Service Coverage" },
 ];
 
 const TrustBar = () => (
