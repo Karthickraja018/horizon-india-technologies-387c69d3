@@ -71,7 +71,15 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+  }
+
+  p {
+    line-height: 1.65;
   }
 
   html.theme-transition,
@@ -93,17 +101,75 @@
     background-color: hsl(var(--secondary) / 0.35);
   }
 
+  .section-header {
+    @apply text-center mb-14;
+  }
+
+  .section-header span {
+    @apply text-hero-accent font-semibold text-sm tracking-widest uppercase;
+  }
+
+  .section-header h2 {
+    @apply text-3xl md:text-4xl font-bold text-hero-headline mt-2;
+  }
+
+  .section-header p {
+    @apply text-hero-muted mt-4 max-w-2xl mx-auto text-base leading-relaxed;
+  }
+
   .surface-card {
-    @apply rounded-xl border border-border bg-card shadow-lg;
-    box-shadow: 0 8px 24px hsl(var(--foreground) / 0.06);
+    @apply rounded-xl border border-border bg-card;
+    box-shadow: 0 4px 16px hsl(var(--foreground) / 0.04);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                border-color 0.3s ease;
+  }
+
+  .surface-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px hsl(var(--foreground) / 0.08);
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-hero-accent px-6 py-3 font-semibold text-accent-foreground transition-all duration-300 hover:bg-hero-accent-hover;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-hero-accent px-6 py-3 font-semibold text-accent-foreground;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    @apply bg-hero-accent-hover;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px hsl(var(--hero-accent) / 0.25);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-hero-accent bg-transparent px-6 py-3 font-semibold text-hero-accent transition-all duration-300 hover:bg-hero-accent/10;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-hero-accent bg-transparent px-6 py-3 font-semibold text-hero-accent;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-outline:hover {
+    background-color: hsl(var(--hero-accent) / 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px hsl(var(--hero-accent) / 0.12);
+  }
+
+  .btn-outline:active {
+    transform: translateY(0);
+  }
+
+  .image-hover {
+    @apply overflow-hidden;
+  }
+
+  .image-hover img {
+    transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .image-hover:hover img {
+    transform: scale(1.05);
   }
 }
 
