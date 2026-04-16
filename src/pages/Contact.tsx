@@ -11,14 +11,14 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="bg-hero min-h-screen">
+    <div className="bg-background min-h-screen">
       <div className="container mx-auto px-6 lg:px-12 py-16">
         <h1 className="text-3xl md:text-4xl font-bold text-hero-headline mb-4">Contact Us</h1>
         <p className="text-hero-muted max-w-2xl mb-12">Have a requirement? Fill the form below or reach us directly.</p>
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Form */}
-          <div className="bg-hero-frame border border-hero-muted/10 rounded-lg p-8">
+          <div className="surface-card p-8">
             {submitted ? (
               <div className="text-center py-12">
                 <div className="w-16 h-16 bg-hero-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -42,7 +42,7 @@ const ContactPage = () => {
                       required={field.required}
                       value={form[field.name]}
                       onChange={(e) => setForm({ ...form, [field.name]: e.target.value })}
-                      className="w-full bg-hero border border-hero-muted/20 text-hero-foreground rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-hero-accent/50 transition-colors placeholder:text-hero-muted/50"
+                      className="w-full bg-background border border-border text-hero-foreground rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-hero-accent/50 transition-colors placeholder:text-hero-muted/50"
                     />
                   </div>
                 ))}
@@ -52,12 +52,12 @@ const ContactPage = () => {
                     rows={4}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full bg-hero border border-hero-muted/20 text-hero-foreground rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-hero-accent/50 transition-colors placeholder:text-hero-muted/50 resize-none"
+                    className="w-full bg-background border border-border text-hero-foreground rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-hero-accent/50 transition-colors placeholder:text-hero-muted/50 resize-none"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-hero-accent text-accent-foreground font-semibold py-3 rounded-lg hover:bg-hero-accent-hover transition-colors"
+                  className="w-full btn-primary"
                 >
                   Submit Enquiry
                 </button>
@@ -98,7 +98,7 @@ const ContactPage = () => {
             <div className="flex flex-wrap gap-3">
               <a
                 href="tel:+919751458300"
-                className="inline-flex items-center gap-2 bg-hero-accent text-accent-foreground font-semibold px-6 py-3 rounded-lg hover:bg-hero-accent-hover transition-colors"
+                className="btn-primary"
               >
                 <Phone className="w-5 h-5" /> Call Now
               </a>
@@ -106,7 +106,7 @@ const ContactPage = () => {
                 href="https://wa.me/919751458300?text=Hi%20I%20am%20interested%20in%20your%20products"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#25D366] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#1ebe5d] transition-colors"
+                className="btn-primary"
               >
                 <MessageCircle className="w-5 h-5" /> WhatsApp
               </a>

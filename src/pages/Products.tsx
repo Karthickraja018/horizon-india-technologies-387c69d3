@@ -7,7 +7,7 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 const ProductsPage = () => (
-  <div className="bg-hero min-h-screen">
+  <div className="bg-background min-h-screen">
     <div className="container mx-auto px-6 lg:px-12 py-16">
       <div className="mb-4 text-sm text-hero-muted">
         <Link to="/" className="hover:text-hero-accent transition-colors">Home</Link>
@@ -25,7 +25,7 @@ const ProductsPage = () => (
             <Link
               key={cat.slug}
               to={`/products/${cat.slug}`}
-              className="group bg-hero-frame border border-hero-muted/10 rounded-lg p-6 hover:border-hero-accent/30 transition-all"
+              className="group surface-card p-6 hover:border-hero-accent/35 hover:-translate-y-0.5 transition-all"
             >
               <Icon className="w-8 h-8 text-hero-accent mb-4" />
               <h2 className="text-hero-headline font-semibold text-lg mb-2 group-hover:text-hero-accent transition-colors">{cat.name}</h2>

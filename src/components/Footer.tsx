@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin } from "lucide-react";
 
 const Footer = () => (
-  <footer className="bg-hero border-t border-hero-muted/10">
+  <footer className="bg-background border-t border-border">
     <div className="container mx-auto px-6 lg:px-12 py-16">
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* Company */}
@@ -69,7 +69,7 @@ const Footer = () => (
       </div>
     </div>
 
-    <div className="border-t border-hero-muted/10 py-6">
+    <div className="border-t border-border py-6">
       <div className="container mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-4 text-hero-muted text-xs">
         <p>© {new Date().getFullYear()} Horizon India Technologies. All rights reserved.</p>
         <p>Sales · Service · Calibration</p>

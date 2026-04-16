@@ -10,7 +10,7 @@ const CategoryPage = () => {
   if (!cat) return <NotFound />;
 
   return (
-    <div className="bg-hero min-h-screen">
+    <div className="bg-background min-h-screen">
       <div className="container mx-auto px-6 lg:px-12 py-16">
         <div className="mb-4 text-sm text-hero-muted">
           <Link to="/" className="hover:text-hero-accent transition-colors">Home</Link>
@@ -31,9 +31,9 @@ const CategoryPage = () => {
               <Link
                 key={product.id}
                 to={`/products/${product.categorySlug}/${product.slug}`}
-                className="bg-hero-frame border border-hero-muted/10 rounded-lg overflow-hidden group hover:border-hero-accent/30 transition-all"
+                className="surface-card overflow-hidden group hover:border-hero-accent/35 transition-all"
               >
-                <div className="aspect-square bg-hero-frame flex items-center justify-center p-6">
+                <div className="aspect-square bg-secondary/35 flex items-center justify-center p-6 border-b border-border">
                   <img src={product.image} alt={product.name} className="w-full h-full object-contain" loading="lazy" />
                 </div>
                 <div className="p-5">

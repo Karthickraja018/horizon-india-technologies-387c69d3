@@ -65,13 +65,13 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen bg-hero overflow-hidden">
+    <section className="relative min-h-screen bg-background overflow-hidden">
       {/* Grid pattern */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage:
-            "linear-gradient(hsl(var(--hero-foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--hero-foreground)) 1px, transparent 1px)",
+            "linear-gradient(hsl(var(--border)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)",
           backgroundSize: "60px 60px",
         }}
       />
@@ -111,19 +111,11 @@ const HeroSection = () => {
                 </p>
 
                 <div className="flex flex-wrap gap-4">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="group inline-flex items-center gap-2 bg-hero-accent text-accent-foreground font-semibold px-8 py-4 rounded-lg transition-colors duration-300 hover:bg-hero-accent-hover"
-                  >
+                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="group btn-primary px-8 py-4">
                     Request a Quote
                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="inline-flex items-center gap-2 border border-hero-muted/30 text-hero-foreground font-semibold px-8 py-4 rounded-lg transition-colors duration-300 hover:border-hero-accent/50 hover:text-hero-accent"
-                  >
+                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="btn-outline px-8 py-4">
                     View Products
                   </motion.button>
                 </div>
@@ -135,7 +127,7 @@ const HeroSection = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="flex gap-10 mt-12 pt-8 border-t border-hero-muted/15"
+              className="flex gap-10 mt-12 pt-8 border-t border-border"
             >
               {[
                 { value: "25+", label: "Years Experience" },
@@ -154,7 +146,7 @@ const HeroSection = () => {
           <div className="order-1 lg:order-2 flex flex-col items-center justify-center min-h-[400px] lg:min-h-[500px]">
             <div className="relative w-full max-w-md">
               {/* Frame */}
-              <div className="relative bg-hero-frame rounded-2xl p-8 border border-hero-frame-border/20 overflow-hidden">
+              <div className="relative rounded-2xl p-8 border border-border overflow-hidden bg-gradient-to-br from-card to-secondary/35 shadow-2xl">
                 <AnimatePresence mode="wait" custom={direction}>
                   <motion.div
                     key={activeIndex}
@@ -181,12 +173,12 @@ const HeroSection = () => {
                 </AnimatePresence>
 
                 {/* Corner accents */}
-                <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-hero-frame-border/40 rounded-tr-2xl" />
-                <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-hero-frame-border/40 rounded-bl-2xl" />
+                <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-hero-accent/30 rounded-tr-2xl" />
+                <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-hero-accent/30 rounded-bl-2xl" />
               </div>
 
               {/* Glow */}
-              <div className="absolute -inset-4 bg-hero-accent/5 rounded-3xl blur-3xl -z-10" />
+              <div className="absolute -inset-4 bg-hero-accent/10 rounded-3xl blur-3xl -z-10" />
             </div>
 
             {/* Navigation dots + arrows */}

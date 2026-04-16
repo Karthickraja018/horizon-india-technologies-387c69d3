@@ -8,7 +8,7 @@ const cards = [
 ];
 
 const WhyChooseUs = () => (
-  <section className="bg-hero-frame py-20">
+  <section className="section-alt">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="text-center mb-12">
         <span className="text-hero-accent font-semibold text-sm tracking-widest uppercase">Why Us</span>
@@ -17,7 +17,7 @@ const WhyChooseUs = () => (
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {cards.map((card) => (
-          <div key={card.title} className="bg-hero border border-hero-muted/10 rounded-lg p-6 text-center">
+          <div key={card.title} className="surface-card p-6 text-center">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-hero-accent/10 mb-4">
               <card.icon className="w-7 h-7 text-hero-accent" />
             </div>

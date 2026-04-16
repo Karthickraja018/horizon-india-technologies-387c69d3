@@ -4,7 +4,7 @@ import { products } from "@/data/products";
 const featured = products.slice(0, 4);
 
 const FeaturedProducts = () => (
-  <section className="bg-hero py-20">
+  <section className="section-base">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="text-center mb-12">
         <span className="text-hero-accent font-semibold text-sm tracking-widest uppercase">Top Picks</span>
@@ -13,8 +13,8 @@ const FeaturedProducts = () => (
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {featured.map((product) => (
-          <div key={product.id} className="bg-hero-frame border border-hero-muted/10 rounded-lg overflow-hidden group">
-            <div className="aspect-square bg-hero-frame flex items-center justify-center p-6">
+          <div key={product.id} className="surface-card overflow-hidden group">
+            <div className="aspect-square bg-secondary/35 flex items-center justify-center p-6 border-b border-border">
               <img src={product.image} alt={product.name} className="w-full h-full object-contain" loading="lazy" />
             </div>
             <div className="p-5">
@@ -29,7 +29,7 @@ const FeaturedProducts = () => (
               <div className="flex gap-2">
                 <Link
                   to={`/products/${product.categorySlug}/${product.slug}`}
-                  className="flex-1 text-center border border-hero-muted/20 text-hero-foreground text-xs font-semibold py-2 rounded-lg hover:border-hero-accent/50 hover:text-hero-accent transition-colors"
+                  className="flex-1 text-center btn-outline text-xs py-2"
                 >
                   View Details
                 </Link>
@@ -37,7 +37,7 @@ const FeaturedProducts = () => (
                   href={`https://wa.me/919876543210?text=${encodeURIComponent(`Hi, I am interested in ${product.name} (${product.model}). Please share a quote.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 text-center bg-hero-accent text-accent-foreground text-xs font-semibold py-2 rounded-lg hover:bg-hero-accent-hover transition-colors"
+                  className="flex-1 text-center btn-primary text-xs py-2"
                 >
                   Request Quote
                 </a>

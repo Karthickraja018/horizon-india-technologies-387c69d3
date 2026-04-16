@@ -7,7 +7,7 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 const CategoriesGrid = () => (
-  <section className="bg-hero py-20">
+  <section className="section-base">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="text-center mb-12">
         <span className="text-hero-accent font-semibold text-sm tracking-widest uppercase">Our Range</span>
@@ -22,7 +22,7 @@ const CategoriesGrid = () => (
             <Link
               key={cat.slug}
               to={`/products/${cat.slug}`}
-              className="group bg-hero-frame border border-hero-muted/10 rounded-lg p-6 hover:border-hero-accent/30 transition-all duration-300"
+              className="group surface-card p-6 hover:border-hero-accent/35 hover:-translate-y-0.5 transition-all duration-300"
             >
               <Icon className="w-8 h-8 text-hero-accent mb-4" />
               <h3 className="text-hero-headline font-semibold text-lg mb-2 group-hover:text-hero-accent transition-colors">{cat.name}</h3>

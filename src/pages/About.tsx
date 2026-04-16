@@ -2,7 +2,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import CTABand from "@/components/CTABand";
 
 const AboutPage = () => (
-  <div className="bg-hero min-h-screen">
+  <div className="bg-background min-h-screen">
     <div className="container mx-auto px-6 lg:px-12 py-16">
       <h1 className="text-3xl md:text-4xl font-bold text-hero-headline mb-4">About Horizon India Technologies</h1>
       <div className="max-w-3xl space-y-4 text-hero-foreground leading-relaxed mb-8">

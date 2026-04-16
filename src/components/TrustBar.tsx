@@ -8,7 +8,7 @@ const items = [
 ];
 
 const TrustBar = () => (
-  <section className="bg-hero border-y border-hero-muted/10">
+  <section className="bg-secondary/30 border-y border-border">
     <div className="container mx-auto px-6 lg:px-12 py-6">
       <div className="flex flex-wrap justify-center gap-8 lg:gap-16">
         {items.map((item) => (

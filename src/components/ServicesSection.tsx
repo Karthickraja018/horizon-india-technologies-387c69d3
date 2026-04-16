@@ -10,7 +10,7 @@ const services = [
 ];
 
 const ServicesSection = () => (
-  <section className="bg-hero-frame py-20">
+  <section className="section-alt">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="text-center mb-12">
         <span className="text-hero-accent font-semibold text-sm tracking-widest uppercase">Services</span>
@@ -20,7 +20,7 @@ const ServicesSection = () => (
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((s) => (
-          <div key={s.title} className="bg-hero border border-hero-muted/10 rounded-lg p-6 hover:border-hero-accent/20 transition-colors">
+          <div key={s.title} className="surface-card p-6 hover:border-hero-accent/25 transition-colors">
             <s.icon className="w-8 h-8 text-hero-accent mb-4" />
             <h3 className="text-hero-headline font-semibold text-lg mb-2">{s.title}</h3>
             <p className="text-hero-muted text-sm leading-relaxed">{s.description}</p>
