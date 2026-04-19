@@ -38,8 +38,8 @@ const IndustryChallenges = () => (
       </AnimatedSection>
 
       <div className="grid lg:grid-cols-12 gap-6">
-        <AnimatedSection>
-          <div className="lg:col-span-7 surface-card p-6 lg:p-8">
+        <AnimatedSection className="lg:col-span-7">
+          <div className="surface-card p-6 lg:p-8 h-full">
             <span className="label-eyebrow">The Problem</span>
             <h3 className="text-hero-headline font-bold text-xl md:text-2xl mt-1 mb-6">Common pain points in QC labs</h3>
             <ul className="space-y-5">
@@ -58,8 +58,8 @@ const IndustryChallenges = () => (
           </div>
         </AnimatedSection>
 
-        <AnimatedSection delay={0.1}>
-          <div className="lg:col-span-5 surface-card p-6 lg:p-8 h-full flex flex-col">
+        <AnimatedSection delay={0.1} className="lg:col-span-5">
+          <div className="surface-card p-6 lg:p-8 h-full flex flex-col">
             <span className="label-eyebrow">Our Response</span>
             <h3 className="text-hero-headline font-bold text-xl md:text-2xl mt-1 mb-6">Lifecycle support, one partner</h3>
             <ul className="space-y-3 flex-1">
