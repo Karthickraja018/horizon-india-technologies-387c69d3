@@ -1,17 +1,29 @@
 import { Wrench, FileCheck, Gauge, ArrowUpCircle, Package, GraduationCap } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 
-const services = [
-  { icon: Wrench, title: "Sales", description: "New equipment supply from leading global brands with application support." },
-  { icon: FileCheck, title: "AMC", description: "Annual maintenance contracts with preventive checks and priority breakdown support." },
-  { icon: Gauge, title: "Calibration", description: "NABL-accredited calibration services for all types of testing instruments." },
-  { icon: ArrowUpCircle, title: "Upgradation", description: "Retrofit and upgrade older equipment with digital readouts and PC interfaces." },
-  { icon: Package, title: "Spares", description: "Genuine spare parts and consumables for all major instrument brands." },
-  { icon: GraduationCap, title: "Training", description: "Operator training and application workshops on testing standards and methods." },
+const groups = [
+  {
+    title: "Core Services",
+    eyebrow: "Primary Offering",
+    items: [
+      { icon: Wrench, title: "Sales", description: "New equipment supply from leading global brands with application support." },
+      { icon: FileCheck, title: "AMC", description: "Annual maintenance contracts with preventive checks and priority breakdown response." },
+      { icon: Gauge, title: "Calibration", description: "NABL-accredited calibration services for all types of testing instruments." },
+    ],
+  },
+  {
+    title: "Support Services",
+    eyebrow: "Lifecycle Care",
+    items: [
+      { icon: GraduationCap, title: "Training", description: "Operator training and application workshops on testing standards and methods." },
+      { icon: Package, title: "Spares", description: "Genuine spare parts and consumables for all major instrument brands." },
+      { icon: ArrowUpCircle, title: "Upgradation", description: "Retrofit older equipment with digital readouts, automation, and PC interfaces." },
+    ],
+  },
 ];
 
 const ServicesSection = () => (
-  <section className="section-alt">
+  <section className="section-base">
     <div className="container mx-auto px-6 lg:px-12">
       <AnimatedSection>
         <div className="section-header">
@@ -21,17 +33,33 @@ const ServicesSection = () => (
         </div>
       </AnimatedSection>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services.map((s, i) => (
-          <AnimatedSection key={s.title} delay={i * 0.06}>
-            <div className="surface-card p-6 h-full hover:border-hero-accent/25 group">
-              <div className="inline-flex items-center justify-center w-11 h-11 rounded-lg bg-hero-accent/8 group-hover:bg-hero-accent/15 transition-colors duration-300 mb-4">
-                <s.icon className="w-5 h-5 text-hero-accent" />
+      <div className="space-y-12">
+        {groups.map((group, gi) => (
+          <div key={group.title} className={gi === 1 ? "pt-12 border-t border-border" : ""}>
+            <AnimatedSection>
+              <div className="flex items-baseline justify-between mb-6 flex-wrap gap-2">
+                <div>
+                  <span className="label-eyebrow">{group.eyebrow}</span>
+                  <h3 className="text-hero-headline font-bold text-xl md:text-2xl mt-1">{group.title}</h3>
+                </div>
+                <div className="h-px bg-border flex-1 ml-6 hidden md:block" />
               </div>
-              <h3 className="text-hero-headline font-semibold text-lg mb-2">{s.title}</h3>
-              <p className="text-hero-muted text-sm leading-relaxed">{s.description}</p>
+            </AnimatedSection>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {group.items.map((s, i) => (
+                <AnimatedSection key={s.title} delay={i * 0.05}>
+                  <div className="surface-card p-6 h-full group">
+                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-md bg-hero-accent/10 text-hero-accent group-hover:bg-hero-accent group-hover:text-accent-foreground transition-colors mb-4">
+                      <s.icon className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-hero-headline font-semibold text-base mb-1.5">{s.title}</h4>
+                    <p className="text-hero-muted text-sm leading-relaxed">{s.description}</p>
+                  </div>
+                </AnimatedSection>
+              ))}
             </div>
-          </AnimatedSection>
+          </div>
         ))}
       </div>
     </div>
