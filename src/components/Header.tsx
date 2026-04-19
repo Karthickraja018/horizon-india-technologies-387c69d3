@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, Phone, Mail } from "lucide-react";
 import { categories } from "@/data/products";
+import { useQuoteModal } from "@/context/QuoteModalContext";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -14,24 +15,13 @@ const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const location = useLocation();
+  const { openQuoteModal } = useQuoteModal();
 
   const isActive = (path: string) => location.pathname === path;
   const isProductsActive = location.pathname.startsWith("/products");
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
-      {/* Top bar */}
-      <div className="hidden lg:block border-b border-border/80">
-        <div className="container mx-auto px-6 lg:px-12 flex items-center justify-end gap-6 h-9 text-xs text-hero-muted">
-          <a href="tel:+919751458300" className="flex items-center gap-1.5 hover:text-hero-accent transition-colors duration-200">
-            <Phone className="w-3 h-3" /> +91 97514 58300
-          </a>
-          <a href="mailto:horizonindiatechnologies@gmail.com" className="flex items-center gap-1.5 hover:text-hero-accent transition-colors duration-200">
-            <Mail className="w-3 h-3" /> horizonindiatechnologies@gmail.com
-          </a>
-        </div>
-      </div>
-
       <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
         {/* Logo */}
         <Link to="/" className="text-hero-headline font-bold text-lg tracking-tight leading-tight">
@@ -100,12 +90,13 @@ const Header = () => {
         </nav>
 
         {/* Desktop CTA */}
-        <Link
-          to="/contact"
-          className="hidden lg:inline-flex items-center gap-2 btn-primary text-sm px-5 py-2.5"
+        <button
+          type="button"
+          onClick={() => openQuoteModal()}
+          className="hidden lg:inline-flex items-center gap-2 btn-primary text-sm px-5 py-2.5 animate-button-scale"
         >
           Get a Quote
-        </Link>
+        </button>
 
         {/* Mobile Toggle */}
         <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-hero-foreground">
@@ -125,9 +116,16 @@ const Header = () => {
             <a href="tel:+919751458300" className="text-hero-muted text-sm flex items-center gap-2"><Phone className="w-4 h-4" /> +91 97514 58300</a>
             <a href="mailto:horizonindiatechnologies@gmail.com" className="text-hero-muted text-sm flex items-center gap-2"><Mail className="w-4 h-4" /> Email Us</a>
           </div>
-          <Link to="/contact" className="block btn-primary text-center" onClick={() => setMobileOpen(false)}>
+          <button
+            type="button"
+            className="block btn-primary text-center w-full"
+            onClick={() => {
+              setMobileOpen(false);
+              openQuoteModal();
+            }}
+          >
             Get a Quote
-          </Link>
+          </button>
         </div>
       )}
     </header>

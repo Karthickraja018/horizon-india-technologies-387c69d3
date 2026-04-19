@@ -40,7 +40,7 @@ const CategoriesGrid = () => (
               <Link
                 key={cat.slug}
                 to={`/products/${cat.slug}`}
-                className="group surface-card overflow-hidden flex flex-col w-[260px] sm:w-[280px] shrink-0 snap-start"
+                className="group surface-card animate-card-lift overflow-hidden flex flex-col w-[260px] sm:w-[280px] shrink-0 snap-start"
               >
                 <div className="aspect-[4/3] bg-background border-b border-border flex items-center justify-center p-5 image-hover">
                   <img
@@ -65,7 +65,7 @@ const CategoriesGrid = () => (
 
             <Link
               to="/products"
-              className="group surface-card border-dashed flex flex-col items-center justify-center text-center w-[260px] sm:w-[280px] shrink-0 snap-start p-6"
+              className="group surface-card animate-card-lift border-dashed flex flex-col items-center justify-center text-center w-[260px] sm:w-[280px] shrink-0 snap-start p-6"
             >
               <span className="label-eyebrow mb-2">Full Catalogue</span>
               <p className="text-hero-headline font-semibold text-base mb-1 group-hover:text-hero-accent transition-colors">Explore all categories</p>

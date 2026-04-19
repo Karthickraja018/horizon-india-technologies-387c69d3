@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useQuoteModal } from "@/context/QuoteModalContext";
 import testingMachine from "@/assets/testing-machine.png";
 import hardnessTester from "@/assets/hardness-tester.png";
 import impactTester from "@/assets/impact-tester.png";
@@ -35,6 +37,7 @@ const products = [
 const HeroSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1); // 1 = next, -1 = prev
+  const { openQuoteModal } = useQuoteModal();
 
   // Auto-cycle every 6s
   useEffect(() => {
@@ -65,7 +68,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen bg-background overflow-hidden">
+    <section id="home" className="relative min-h-screen bg-background overflow-hidden">
       {/* Grid pattern */}
       <div
         className="absolute inset-0 opacity-[0.04]"
@@ -111,13 +114,17 @@ const HeroSection = () => {
                 </p>
 
                 <div className="flex flex-wrap gap-4">
-                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="group btn-primary px-8 py-4">
+                  <button
+                    type="button"
+                    onClick={() => openQuoteModal({ productName: product.label })}
+                    className="group btn-primary px-8 py-4 animate-button-scale"
+                  >
                     Request a Quote
                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </motion.button>
-                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="btn-outline px-8 py-4">
+                  </button>
+                  <Link to="/products" className="btn-outline px-8 py-4 animate-button-scale">
                     View Products
-                  </motion.button>
+                  </Link>
                 </div>
               </motion.div>
             </AnimatePresence>

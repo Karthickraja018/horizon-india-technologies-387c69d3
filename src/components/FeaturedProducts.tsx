@@ -2,12 +2,18 @@ import { Link } from "react-router-dom";
 import { products } from "@/data/products";
 import { ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useQuoteModal } from "@/context/QuoteModalContext";
+import { getQuickSpecs } from "@/lib/utils";
 
 const featured = products.slice(0, 4);
 const badgeFor = (i: number) => (i === 0 ? "best" : i === 1 ? "new" : null);
 
-const FeaturedProducts = () => (
-  <section className="section-alt border-y border-border">
+const FeaturedProducts = () => {
+  const { openQuoteModal } = useQuoteModal();
+
+  return (
+  <section id="products" className="section-alt border-y border-border">
     <div className="container mx-auto px-6 lg:px-12">
       <AnimatedSection>
         <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
@@ -26,24 +32,45 @@ const FeaturedProducts = () => (
         {featured.map((product, i) => {
           const badge = badgeFor(i);
           const specs = Object.entries(product.specifications).slice(0, 3);
+          const tooltipSpecs = getQuickSpecs(product.specifications, product.model);
+
           return (
             <AnimatedSection key={product.id} delay={i * 0.05}>
-              <div className="surface-card overflow-hidden group flex flex-col h-full">
-                <div className="relative aspect-[4/3] bg-background flex items-center justify-center p-4 border-b border-border image-hover">
-                  {badge && (
-                    <span className={`absolute top-2.5 left-2.5 z-10 ${badge === "best" ? "badge-best" : "badge-new"}`}>
-                      {badge === "best" ? "Best Seller" : "New"}
-                    </span>
-                  )}
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-contain"
-                    loading="lazy"
-                    width={400}
-                    height={300}
-                  />
-                </div>
+              <div className="surface-card animate-card-lift overflow-hidden group flex flex-col h-full">
+                <Tooltip delayDuration={120}>
+                  <TooltipTrigger asChild>
+                    <div className="relative aspect-[4/3] bg-background flex items-center justify-center p-4 border-b border-border image-hover cursor-help">
+                      {badge && (
+                        <span className={`absolute top-2.5 left-2.5 z-10 ${badge === "best" ? "badge-best" : "badge-new"}`}>
+                          {badge === "best" ? "Best Seller" : "New"}
+                        </span>
+                      )}
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-contain"
+                        loading="lazy"
+                        width={400}
+                        height={300}
+                      />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent
+                    side="top"
+                    className="w-60 rounded-md border border-border bg-background p-3 shadow-[0_4px_12px_rgba(15,23,42,0.08)] text-xs animate-in fade-in-0 data-[state=closed]:fade-out-0"
+                  >
+                    <p className="font-semibold text-hero-headline mb-2">Quick Specs</p>
+                    <div className="space-y-1.5">
+                      {tooltipSpecs.map(([key, value]) => (
+                        <div key={key} className="flex items-start justify-between gap-2">
+                          <span className="text-hero-muted uppercase tracking-wider text-[10px]">{key}</span>
+                          <span className="text-hero-foreground text-right">{value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+
                 <div className="p-4 flex flex-col flex-1">
                   <p className="label-eyebrow mb-1 text-[10px]">{product.category}</p>
                   <h3 className="text-hero-headline font-semibold text-sm leading-snug mb-1 group-hover:text-hero-accent transition-colors line-clamp-2">{product.name}</h3>
@@ -61,18 +88,23 @@ const FeaturedProducts = () => (
                   <div className="grid grid-cols-2 gap-2">
                     <Link
                       to={`/products/${product.categorySlug}/${product.slug}`}
-                      className="btn-outline text-[11px] py-1.5 px-2"
+                      className="btn-outline text-[11px] py-1.5 px-2 animate-button-scale"
                     >
                       Details
                     </Link>
-                    <a
-                      href={`https://wa.me/919751458300?text=${encodeURIComponent(`Hi, I am interested in ${product.name} (${product.model}). Please share a quote.`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-primary text-[11px] py-1.5 px-2"
+                    <button
+                      type="button"
+                      onClick={() =>
+                        openQuoteModal({
+                          productName: product.name,
+                          model: product.model,
+                          category: product.category,
+                        })
+                      }
+                      className="btn-primary text-[11px] py-1.5 px-2 animate-button-scale"
                     >
                       Quote
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -83,5 +115,6 @@ const FeaturedProducts = () => (
     </div>
   </section>
 );
+};
 
 export default FeaturedProducts;

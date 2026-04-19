@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MessageCircle, Send, Phone, Mail, MapPin } from "lucide-react";
 
 const ContactPage = () => {
-  const [form, setForm] = useState({ name: "", company: "", phone: "", email: "", message: "" });
+  const [form, setForm] = useState({ name: "", company: "", phone: "", email: "", message: "", preferDemo: false });
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -59,6 +59,15 @@ const ContactPage = () => {
                       className="w-full bg-background border border-border text-hero-foreground rounded-md px-3.5 py-2.5 text-sm focus:outline-none focus:border-hero-accent transition-colors resize-none"
                     />
                   </div>
+                  <label className="inline-flex items-center gap-2 text-sm text-hero-foreground">
+                    <input
+                      type="checkbox"
+                      checked={form.preferDemo}
+                      onChange={(e) => setForm({ ...form, preferDemo: e.target.checked })}
+                      className="rounded border-border"
+                    />
+                    I prefer a product demo along with quotation.
+                  </label>
                   <button type="submit" className="btn-primary w-full sm:w-auto">
                     Submit Enquiry
                   </button>

@@ -23,7 +23,7 @@ const groups = [
 ];
 
 const ServicesSection = () => (
-  <section className="section-base">
+  <section id="services" className="section-base">
     <div className="container mx-auto px-6 lg:px-12">
       <AnimatedSection>
         <div className="section-header">
@@ -49,8 +49,8 @@ const ServicesSection = () => (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {group.items.map((s, i) => (
                 <AnimatedSection key={s.title} delay={i * 0.05}>
-                  <div className="surface-card p-6 h-full group">
-                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-md border border-border bg-background text-hero-accent mb-4">
+                  <div className="surface-card animate-card-lift p-6 h-full group">
+                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-md border border-border bg-background text-hero-accent mb-4 animate-icon-shift">
                       <s.icon className="w-5 h-5" />
                     </div>
                     <h4 className="text-hero-headline font-semibold text-base mb-1.5">{s.title}</h4>

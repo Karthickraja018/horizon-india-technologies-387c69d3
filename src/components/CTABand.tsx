@@ -1,7 +1,11 @@
 import { MessageCircle, Phone } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
+import { useQuoteModal } from "@/context/QuoteModalContext";
 
-const CTABand = () => (
+const CTABand = () => {
+  const { openQuoteModal } = useQuoteModal();
+
+  return (
   <section className="bg-card border-y border-border">
     <div className="container mx-auto px-6 lg:px-12 py-10">
       <AnimatedSection>
@@ -13,15 +17,14 @@ const CTABand = () => (
             </h2>
           </div>
           <div className="flex flex-wrap gap-2.5 shrink-0">
-            <a
-              href="https://wa.me/919751458300?text=Hi%20I%20am%20interested%20in%20your%20products"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary text-sm py-2.5 px-4"
+            <button
+              type="button"
+              onClick={() => openQuoteModal()}
+              className="btn-primary text-sm py-2.5 px-4 animate-button-scale"
             >
-              <MessageCircle className="w-4 h-4" /> WhatsApp Us
-            </a>
-            <a href="tel:+919751458300" className="btn-outline text-sm py-2.5 px-4">
+              <MessageCircle className="w-4 h-4" /> Get Recommendation
+            </button>
+            <a href="tel:+919751458300" className="btn-outline text-sm py-2.5 px-4 animate-button-scale">
               <Phone className="w-4 h-4" /> +91 97514 58300
             </a>
           </div>
@@ -30,5 +33,6 @@ const CTABand = () => (
     </div>
   </section>
 );
+};
 
 export default CTABand;
