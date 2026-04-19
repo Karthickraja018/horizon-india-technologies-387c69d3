@@ -3,7 +3,6 @@ import TrustBar from "@/components/TrustBar";
 import IndustriesStrip from "@/components/IndustriesStrip";
 import IndustryChallenges from "@/components/IndustryChallenges";
 import CategoriesGrid from "@/components/CategoriesGrid";
-import WhyChooseUs from "@/components/WhyChooseUs";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import ServicesSection from "@/components/ServicesSection";
 import CTABand from "@/components/CTABand";
@@ -15,7 +14,6 @@ const Index = () => (
     <IndustriesStrip />
     <IndustryChallenges />
     <CategoriesGrid />
-    <WhyChooseUs />
     <FeaturedProducts />
     <ServicesSection />
     <CTABand />
@@ -23,3 +21,4 @@ const Index = () => (
 );
 
 export default Index;
+
