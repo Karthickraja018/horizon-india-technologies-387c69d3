@@ -53,17 +53,17 @@ const Footer = () => (
             <h4 className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-4">Contact Us</h4>
             <div className="space-y-3 text-hero-muted text-sm">
               <a href="tel:+919751458300" className="flex items-start gap-2 hover:text-hero-accent transition-colors duration-200">
-                <Phone className="w-4 h-4 mt-0.5 text-hero-accent shrink-0" /> +91 97514 58300
+                <Phone className="w-4 h-4 mt-0.5 text-hero-muted shrink-0" /> +91 97514 58300
               </a>
               <a href="mailto:horizonindiatechnologies@gmail.com" className="flex items-start gap-2 hover:text-hero-accent transition-colors duration-200">
-                <Mail className="w-4 h-4 mt-0.5 text-hero-accent shrink-0" /> horizonindiatechnologies@gmail.com
+                <Mail className="w-4 h-4 mt-0.5 text-hero-muted shrink-0" /> horizonindiatechnologies@gmail.com
               </a>
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 mt-0.5 text-hero-accent shrink-0" />
+                <MapPin className="w-4 h-4 mt-0.5 text-hero-muted shrink-0" />
                 <span>3/126, Mettu Street, Mettumahadhanapuram, Karur – 639105, Tamil Nadu</span>
               </div>
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 mt-0.5 text-hero-accent shrink-0" />
+                <MapPin className="w-4 h-4 mt-0.5 text-hero-muted shrink-0" />
                 <span>182, Nanjappa Nagar, 5th Street West, Singanallur, Coimbatore – 641005</span>
               </div>
             </div>

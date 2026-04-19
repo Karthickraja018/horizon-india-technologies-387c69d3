@@ -29,7 +29,7 @@ const CategoriesGrid = () => {
               className="group surface-card p-8 flex flex-col h-full lg:row-span-2"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-md bg-hero-accent/10 text-hero-accent">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-md border border-border bg-background text-hero-accent">
                   <FeaturedIcon className="w-6 h-6" />
                 </div>
                 <span className="label-eyebrow">Featured Range</span>
@@ -54,7 +54,7 @@ const CategoriesGrid = () => {
                   className="group surface-card p-5 flex flex-col h-full"
                 >
                   <div className="flex items-start gap-4 mb-3">
-                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-md bg-hero-accent/10 text-hero-accent shrink-0">
+                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-md border border-border bg-background text-hero-accent shrink-0">
                       <Icon className="w-5 h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
