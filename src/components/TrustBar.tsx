@@ -10,22 +10,20 @@ const items = [
 ];
 
 const TrustBar = () => (
-  <section className="bg-secondary/30 border-y border-border">
-    <div className="container mx-auto px-6 lg:px-12 py-6">
-      <div className="flex flex-wrap justify-center gap-8 lg:gap-14">
+  <section className="bg-card border-y border-border">
+    <div className="container mx-auto px-6 lg:px-12 py-5">
+      <div className="flex flex-wrap items-center justify-center divide-x divide-border">
         {items.map((item, i) => (
           <motion.div
             key={item.label}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.08 }}
-            className="flex items-center gap-2.5 group"
+            transition={{ duration: 0.35, delay: i * 0.06 }}
+            className="flex items-center gap-2.5 px-5 lg:px-8 py-1"
           >
-            <div className="p-1.5 rounded-lg bg-hero-accent/8 group-hover:bg-hero-accent/15 transition-colors duration-300">
-              <item.icon className="w-4 h-4 text-hero-accent" />
-            </div>
-            <span className="text-hero-foreground text-sm font-medium whitespace-nowrap">{item.label}</span>
+            <item.icon className="w-4 h-4 text-hero-accent shrink-0" />
+            <span className="text-hero-foreground text-xs lg:text-sm font-medium uppercase tracking-wider whitespace-nowrap">{item.label}</span>
           </motion.div>
         ))}
       </div>
