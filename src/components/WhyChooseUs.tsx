@@ -22,7 +22,7 @@ const WhyChooseUs = () => (
         {stats.map((s, i) => (
           <AnimatedSection key={s.label} delay={i * 0.06}>
             <div className="p-8 lg:p-10 text-center h-full flex flex-col justify-center">
-              <div className="text-4xl lg:text-5xl font-bold text-hero-accent tracking-tight mb-2">{s.value}</div>
+              <div className="text-4xl lg:text-5xl font-bold text-hero-headline tracking-tight mb-2">{s.value}</div>
               <div className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-1">{s.label}</div>
               <div className="text-hero-muted text-xs">{s.sub}</div>
             </div>

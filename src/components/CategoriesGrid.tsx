@@ -26,10 +26,10 @@ const CategoriesGrid = () => {
           <AnimatedSection>
             <Link
               to={`/products/${featured.slug}`}
-              className="group surface-card p-8 flex flex-col h-full lg:row-span-2 bg-secondary/30"
+              className="group surface-card p-8 flex flex-col h-full lg:row-span-2"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-md bg-hero-accent text-accent-foreground">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-md bg-hero-accent/10 text-hero-accent">
                   <FeaturedIcon className="w-6 h-6" />
                 </div>
                 <span className="label-eyebrow">Featured Range</span>
