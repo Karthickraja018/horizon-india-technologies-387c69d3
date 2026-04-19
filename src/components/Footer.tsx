@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
+import BrandLogo from "./BrandLogo";
 
 const Footer = () => (
   <footer className="bg-background border-t border-border">
@@ -9,8 +10,8 @@ const Footer = () => (
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Company */}
           <div>
-            <Link to="/" className="text-hero-headline font-bold text-xl tracking-tight">
-              <span className="text-hero-accent">Horizon</span> India Technologies
+            <Link to="/" aria-label="Horizon India Technologies home">
+              <BrandLogo size="md" />
             </Link>
             <p className="text-hero-muted text-sm mt-4 leading-relaxed">
               Industrial Testing Equipment Supplier in Tamil Nadu. Sales, Service & Calibration of material testing, metrology, and quality control equipment.
@@ -26,6 +27,7 @@ const Footer = () => (
                 { to: "/", label: "Home" },
                 { to: "/products", label: "Products" },
                 { to: "/services", label: "Services" },
+                { to: "/services/calibration-services-chennai", label: "Calibration Services" },
                 { to: "/about", label: "About Us" },
                 { to: "/contact", label: "Contact" },
               ].map((l) => (

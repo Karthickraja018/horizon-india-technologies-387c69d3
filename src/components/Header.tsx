@@ -3,10 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, Phone, Mail } from "lucide-react";
 import { categories } from "@/data/products";
 import { useQuoteModal } from "@/context/QuoteModalContext";
+import BrandLogo from "@/components/BrandLogo";
 
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
+  { to: "/services/calibration-services-chennai", label: "Calibration Services" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ];
@@ -24,8 +26,8 @@ const Header = () => {
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link to="/" className="text-hero-headline font-bold text-lg tracking-tight leading-tight">
-          <span className="text-hero-accent">Horizon</span> India Technologies
+        <Link to="/" aria-label="Horizon India Technologies home">
+          <BrandLogo size="sm" />
         </Link>
 
         {/* Desktop Nav */}
@@ -110,6 +112,7 @@ const Header = () => {
           <Link to="/" className={`block py-2 ${isActive("/") ? "text-hero-accent font-semibold" : "text-hero-foreground"}`} onClick={() => setMobileOpen(false)}>Home</Link>
           <Link to="/products" className={`block py-2 ${isProductsActive ? "text-hero-accent font-semibold" : "text-hero-foreground"}`} onClick={() => setMobileOpen(false)}>Products</Link>
           <Link to="/services" className={`block py-2 ${isActive("/services") ? "text-hero-accent font-semibold" : "text-hero-foreground"}`} onClick={() => setMobileOpen(false)}>Services</Link>
+          <Link to="/services/calibration-services-chennai" className={`block py-2 ${isActive("/services/calibration-services-chennai") ? "text-hero-accent font-semibold" : "text-hero-foreground"}`} onClick={() => setMobileOpen(false)}>Calibration Services</Link>
           <Link to="/about" className={`block py-2 ${isActive("/about") ? "text-hero-accent font-semibold" : "text-hero-foreground"}`} onClick={() => setMobileOpen(false)}>About</Link>
           <Link to="/contact" className={`block py-2 ${isActive("/contact") ? "text-hero-accent font-semibold" : "text-hero-foreground"}`} onClick={() => setMobileOpen(false)}>Contact</Link>
           <div className="flex flex-col gap-2 border-t border-border pt-2">

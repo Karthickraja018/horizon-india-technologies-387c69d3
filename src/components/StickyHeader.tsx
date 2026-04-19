@@ -4,6 +4,7 @@ import { ChevronDown, Menu, ShieldCheck, X } from "lucide-react";
 import { categories } from "@/data/products";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { useQuoteModal } from "@/context/QuoteModalContext";
+import BrandLogo from "@/components/BrandLogo";
 
 const sectionLinks = [
   { id: "home", label: "Home" },
@@ -51,8 +52,8 @@ const StickyHeader = () => {
           isCompact ? "h-14" : "h-16"
         }`}
       >
-        <Link to="/" className="text-hero-headline font-bold text-base lg:text-lg tracking-tight">
-          <span className="text-hero-accent">Horizon</span> India Technologies
+        <Link to="/" aria-label="Horizon India Technologies home">
+          <BrandLogo size="sm" />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
@@ -105,6 +106,9 @@ const StickyHeader = () => {
           <Link to="/about" className="text-hero-foreground hover:text-hero-accent transition-colors duration-200">
             About
           </Link>
+          <Link to="/services/calibration-services-chennai" className="text-hero-foreground hover:text-hero-accent transition-colors duration-200">
+            Calibration Services
+          </Link>
           <Link to="/contact" className="text-hero-foreground hover:text-hero-accent transition-colors duration-200">
             Contact
           </Link>
@@ -150,6 +154,9 @@ const StickyHeader = () => {
           </Link>
           <Link to="/about" className="block py-2 text-hero-foreground" onClick={() => setMobileOpen(false)}>
             About
+          </Link>
+          <Link to="/services/calibration-services-chennai" className="block py-2 text-hero-foreground" onClick={() => setMobileOpen(false)}>
+            Calibration Services
           </Link>
           <Link to="/contact" className="block py-2 text-hero-foreground" onClick={() => setMobileOpen(false)}>
             Contact

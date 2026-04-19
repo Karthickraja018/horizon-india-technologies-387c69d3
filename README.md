@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# Horizon India Technologies
 
 TODO: Document your project here
