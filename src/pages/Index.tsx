@@ -1,5 +1,7 @@
 import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
+import IndustriesStrip from "@/components/IndustriesStrip";
+import IndustryChallenges from "@/components/IndustryChallenges";
 import CategoriesGrid from "@/components/CategoriesGrid";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import FeaturedProducts from "@/components/FeaturedProducts";
@@ -10,6 +12,8 @@ const Index = () => (
   <>
     <HeroSection />
     <TrustBar />
+    <IndustriesStrip />
+    <IndustryChallenges />
     <CategoriesGrid />
     <WhyChooseUs />
     <FeaturedProducts />
