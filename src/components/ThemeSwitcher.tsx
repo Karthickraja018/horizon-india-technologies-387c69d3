@@ -19,8 +19,8 @@ const ThemeSwitcher = ({ compact = false }: ThemeSwitcherProps) => {
             onClick={() => setTheme(option.key)}
             className={`group relative overflow-hidden rounded-xl border p-2 text-left transition-all duration-300 ${
               isActive
-                ? "border-hero-accent bg-hero-accent/12 shadow-[0_0_0_1px_hsl(var(--hero-accent)/0.35)]"
-                : "border-hero-muted/25 bg-hero/35 hover:border-hero-accent/55 hover:bg-hero/45"
+                ? "border-hero-accent bg-white"
+                : "border-border bg-white hover:border-hero-accent/55 hover:bg-[#f8fafc]"
             }`}
             aria-pressed={isActive}
             aria-label={`Switch to ${option.label} theme`}

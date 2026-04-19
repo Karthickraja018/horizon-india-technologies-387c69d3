@@ -146,7 +146,7 @@ const HeroSection = () => {
           <div className="order-1 lg:order-2 flex flex-col items-center justify-center min-h-[400px] lg:min-h-[500px]">
             <div className="relative w-full max-w-md">
               {/* Frame */}
-              <div className="relative rounded-2xl p-8 border border-border overflow-hidden bg-gradient-to-br from-card to-secondary/35 shadow-2xl">
+              <div className="relative rounded-2xl p-8 border border-border overflow-hidden bg-white">
                 <AnimatePresence mode="wait" custom={direction}>
                   <motion.div
                     key={activeIndex}
@@ -169,7 +169,7 @@ const HeroSection = () => {
                         loading="eager"
                         fetchPriority="high"
                         decoding="async"
-                        className="w-full drop-shadow-2xl"
+                        className="w-full"
                       />
                     </motion.div>
                   </motion.div>
@@ -180,8 +180,7 @@ const HeroSection = () => {
                 <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-hero-accent/30 rounded-bl-2xl" />
               </div>
 
-              {/* Glow */}
-              <div className="absolute -inset-4 bg-hero-accent/10 rounded-3xl blur-3xl -z-10" />
+              <div className="absolute -inset-1 rounded-3xl -z-10 bg-[#f8fafc]" />
             </div>
 
             {/* Navigation dots + arrows */}

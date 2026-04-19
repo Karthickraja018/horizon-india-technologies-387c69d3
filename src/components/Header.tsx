@@ -73,7 +73,7 @@ const Header = () => {
                 <Link
                   key={cat.slug}
                   to={`/products/${cat.slug}`}
-                  className="block px-4 py-2 text-hero-foreground hover:text-hero-accent hover:bg-secondary/40 transition-colors duration-200 text-sm"
+                  className="block px-4 py-2 text-hero-foreground hover:text-hero-accent hover:bg-[#f8fafc] transition-colors duration-200 text-sm"
                 >
                   {cat.name}
                 </Link>

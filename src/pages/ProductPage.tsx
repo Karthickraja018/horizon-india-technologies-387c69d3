@@ -79,7 +79,7 @@ const ProductPage = () => {
             <table className="w-full text-sm">
               <tbody>
                 {Object.entries(product.specifications).map(([key, value], i) => (
-                  <tr key={key} className={i % 2 === 0 ? "bg-card" : "bg-secondary/20"}>
+                  <tr key={key} className={i % 2 === 0 ? "bg-card" : "bg-[#f8fafc]"}>
                     <td className="px-6 py-3 text-hero-muted uppercase tracking-wider text-xs w-1/3 border-b border-border">{key}</td>
                     <td className="px-6 py-3 text-hero-foreground font-medium border-b border-border">{value}</td>
                   </tr>

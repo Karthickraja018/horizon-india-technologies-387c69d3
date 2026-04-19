@@ -25,7 +25,7 @@ const FloatingThemeButton = () => {
     <div className="fixed bottom-6 left-6 z-40" ref={menuRef}>
       {/* Menu */}
       {isOpen && (
-        <div className="absolute bottom-16 left-0 mb-2 flex flex-col gap-2 bg-card border border-border rounded-lg shadow-lg p-3 backdrop-blur-sm min-w-max">
+        <div className="absolute bottom-16 left-0 mb-2 flex flex-col gap-2 bg-card border border-border rounded-lg p-3 backdrop-blur-sm min-w-max">
           {options.map((option) => {
             const isActive = option.key === theme;
             return (
@@ -37,8 +37,8 @@ const FloatingThemeButton = () => {
                 }}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
                   isActive
-                    ? "bg-hero-accent text-white shadow-md"
-                    : "hover:bg-secondary/50 text-hero-foreground"
+                    ? "bg-hero-accent text-white"
+                    : "hover:bg-[#f8fafc] text-hero-foreground"
                 }`}
               >
                 <div className="flex items-center gap-1.5">
@@ -61,7 +61,7 @@ const FloatingThemeButton = () => {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="group flex items-center justify-center w-14 h-14 rounded-full bg-hero-accent hover:bg-hero-accent-hover text-white shadow-lg transition-all duration-300 hover:scale-110 active:scale-95"
+        className="group flex items-center justify-center w-14 h-14 rounded-full bg-hero-accent hover:bg-hero-accent-hover text-white transition-all duration-300 hover:scale-110 active:scale-95"
         aria-label="Toggle theme"
         title="Change theme"
       >

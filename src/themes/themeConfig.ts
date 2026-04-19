@@ -19,44 +19,44 @@ type ThemeMeta = {
 
 export const themeConfig: Record<ThemeName, ThemePalette> = {
   precisionGreen: {
-    bgPrimary: "#F5FAF7",
+    bgPrimary: "#FFFFFF",
     bgSecondary: "#FFFFFF",
     textPrimary: "#1A1F24",
     textSecondary: "#4F5B67",
     accentPrimary: "#2A8C5A",
     accentSecondary: "#50C87E",
     darkPrimary: "#0F1C14",
-    border: "#D6E8DE",
+    border: "#E5E7EB",
   },
   slateAmber: {
-    bgPrimary: "#F9F4EE",
+    bgPrimary: "#FFFFFF",
     bgSecondary: "#FFFFFF",
     textPrimary: "#1F2933",
     textSecondary: "#8A9BAC",
     accentPrimary: "#E07B2A",
     accentSecondary: "#F5C89A",
     darkPrimary: "#1C2B3A",
-    border: "#E7D8C4",
+    border: "#E5E7EB",
   },
   indigoGold: {
-    bgPrimary: "#F7F6FF",
+    bgPrimary: "#FFFFFF",
     bgSecondary: "#FFFFFF",
     textPrimary: "#1E2142",
     textSecondary: "#6B68A0",
     accentPrimary: "#C9960A",
     accentSecondary: "#E5D47A",
     darkPrimary: "#1A1560",
-    border: "#DAD5FF",
+    border: "#E5E7EB",
   },
   blueLight: {
-    bgPrimary: "#F0F6FF",
+    bgPrimary: "#FFFFFF",
     bgSecondary: "#FFFFFF",
     textPrimary: "#1A2A3A",
     textSecondary: "#4B6072",
     accentPrimary: "#2E86DE",
     accentSecondary: "#5B8AB5",
     darkPrimary: "#0A1628",
-    border: "#CFE0F5",
+    border: "#E5E7EB",
   },
 };
 
@@ -126,7 +126,8 @@ const withLightness = (hex: string, delta: number): string => {
 const asHslVar = (hex: string): string => hslToString(hexToHsl(hex));
 
 export const getThemeCssVariables = (theme: ThemePalette): Record<string, string> => {
-  const darkMuted = withLightness(theme.darkPrimary, 50);
+  const neutralSurface = "#F8FAFC";
+  const neutralMuted = "#F1F5F9";
 
   return {
     "--bgPrimary": theme.bgPrimary,
@@ -147,10 +148,10 @@ export const getThemeCssVariables = (theme: ThemePalette): Record<string, string
 
     "--primary": asHslVar(theme.darkPrimary),
     "--primary-foreground": asHslVar(theme.bgSecondary),
-    "--secondary": asHslVar(theme.accentSecondary),
+    "--secondary": asHslVar(neutralSurface),
     "--secondary-foreground": asHslVar(theme.textPrimary),
 
-    "--muted": asHslVar(theme.accentSecondary),
+    "--muted": asHslVar(neutralMuted),
     "--muted-foreground": asHslVar(theme.textSecondary),
 
     "--accent": asHslVar(theme.accentPrimary),
@@ -168,7 +169,7 @@ export const getThemeCssVariables = (theme: ThemePalette): Record<string, string
     "--hero-accent": asHslVar(theme.accentPrimary),
     "--hero-accent-hover": withLightness(theme.accentPrimary, -7),
     "--hero-muted": asHslVar(theme.textSecondary),
-    "--hero-frame": asHslVar(theme.bgSecondary),
+    "--hero-frame": asHslVar(neutralSurface),
     "--hero-frame-border": asHslVar(theme.border),
 
     "--overlay": asHslVar(theme.darkPrimary),
@@ -179,7 +180,7 @@ export const getThemeCssVariables = (theme: ThemePalette): Record<string, string
     "--sidebar-foreground": asHslVar(theme.textPrimary),
     "--sidebar-primary": asHslVar(theme.darkPrimary),
     "--sidebar-primary-foreground": asHslVar(theme.bgSecondary),
-    "--sidebar-accent": asHslVar(theme.accentSecondary),
+    "--sidebar-accent": asHslVar(neutralSurface),
     "--sidebar-accent-foreground": asHslVar(theme.textPrimary),
     "--sidebar-border": asHslVar(theme.border),
     "--sidebar-ring": asHslVar(theme.accentPrimary),
