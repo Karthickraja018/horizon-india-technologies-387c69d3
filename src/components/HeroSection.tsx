@@ -166,6 +166,9 @@ const HeroSection = () => {
                         alt={product.label}
                         width={800}
                         height={900}
+                        loading="eager"
+                        fetchPriority="high"
+                        decoding="async"
                         className="w-full drop-shadow-2xl"
                       />
                     </motion.div>

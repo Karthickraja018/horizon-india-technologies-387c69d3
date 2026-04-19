@@ -1,33 +1,38 @@
-import AnimatedSection from "./AnimatedSection";
+import { motion } from "framer-motion";
 
 const stats = [
-  { value: "25+", label: "Years Experience", sub: "Serving industrial clients" },
-  { value: "NABL", label: "Accredited Lab", sub: "ISO/IEC 17025 calibration" },
-  { value: "24h", label: "Response Time", sub: "Engineer dispatch SLA" },
-  { value: "5", label: "States Covered", sub: "TN, KA, KL, AP, TG" },
+  { value: "25+", label: "Years Experience" },
+  { value: "NABL", label: "Accredited Lab" },
+  { value: "24h", label: "Response SLA" },
+  { value: "5", label: "States Covered" },
 ];
 
 const WhyChooseUs = () => (
-  <section className="section-alt border-y border-border">
-    <div className="container mx-auto px-6 lg:px-12">
-      <AnimatedSection>
-        <div className="section-header">
-          <span>Why Us</span>
-          <h2>Engineered for Reliability</h2>
-          <p>Numbers that reflect our commitment to precision, uptime, and technical support.</p>
+  <section className="bg-card border-y border-border">
+    <div className="container mx-auto px-6 lg:px-12 py-10">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div className="lg:max-w-xs">
+          <span className="label-eyebrow">Why Us</span>
+          <h2 className="text-xl md:text-2xl font-bold text-hero-headline mt-1 leading-tight">
+            Engineered for reliability
+          </h2>
         </div>
-      </AnimatedSection>
 
-      <div className="metrics-strip">
-        {stats.map((s, i) => (
-          <AnimatedSection key={s.label} delay={i * 0.06}>
-            <div className="metrics-cell">
-              <div className="text-4xl lg:text-5xl font-bold text-hero-headline tracking-tight mb-2 leading-none">{s.value}</div>
-              <div className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-1">{s.label}</div>
-              <div className="text-hero-muted text-xs">{s.sub}</div>
-            </div>
-          </AnimatedSection>
-        ))}
+        <div className="grid grid-cols-2 lg:grid-cols-4 lg:divide-x divide-border lg:flex-1">
+          {stats.map((s, i) => (
+            <motion.div
+              key={s.label}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: i * 0.06 }}
+              className="px-4 py-3 lg:px-8 text-center lg:text-left"
+            >
+              <div className="text-2xl lg:text-3xl font-bold text-hero-headline tracking-tight leading-none">{s.value}</div>
+              <div className="text-hero-muted text-[11px] uppercase tracking-wider mt-1.5">{s.label}</div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
