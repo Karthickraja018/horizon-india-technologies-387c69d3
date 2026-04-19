@@ -50,7 +50,7 @@ const ServicesSection = () => (
               {group.items.map((s, i) => (
                 <AnimatedSection key={s.title} delay={i * 0.05}>
                   <div className="surface-card p-6 h-full group">
-                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-md bg-hero-accent/10 text-hero-accent group-hover:bg-hero-accent group-hover:text-accent-foreground transition-colors mb-4">
+                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-md bg-hero-accent/10 text-hero-accent mb-4">
                       <s.icon className="w-5 h-5" />
                     </div>
                     <h4 className="text-hero-headline font-semibold text-base mb-1.5">{s.title}</h4>
