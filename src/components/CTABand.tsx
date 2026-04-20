@@ -11,10 +11,10 @@ const CTABand = () => {
       <AnimatedSection>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
           <div>
-            <span className="label-eyebrow">Get In Touch</span>
-            <h2 className="text-xl md:text-2xl font-bold text-hero-headline mt-1 leading-tight">
-              Have a testing requirement? <span className="text-hero-muted font-normal">Talk to our engineers.</span>
-            </h2>
+            <span className="eyebrow">Get In Touch</span>
+            <h3 className="h3 mt-1">
+              Have a testing requirement? <span className="text-gray-500 font-normal">Talk to our engineers.</span>
+            </h3>
           </div>
           <div className="flex flex-wrap gap-2.5 shrink-0">
             <button

@@ -43,14 +43,12 @@ const StickyHeader = () => {
 
   return (
     <header
-      className={`sticky top-0 z-50 bg-white border-b border-[#e5e7eb] transition-all duration-300 ${
-        isCompact ? "shadow-[0_4px_12px_rgba(15,23,42,0.08)]" : ""
-      }`}
+      className={`sticky top-0 z-50 bg-white border-b border-[#e5e7eb] transition-all duration-300 ${isCompact ? "shadow-[0_4px_12px_rgba(15,23,42,0.08)]" : ""
+        }`}
     >
       <div
-        className={`container mx-auto px-6 lg:px-12 flex items-center justify-between transition-all duration-300 ${
-          isCompact ? "h-14" : "h-16"
-        }`}
+        className={`container mx-auto px-6 lg:px-12 flex items-center justify-between transition-all duration-300 ${isCompact ? "h-14" : "h-16"
+          }`}
       >
         <Link to="/" aria-label="Horizon India Technologies home">
           <BrandLogo size="sm" />
@@ -64,15 +62,13 @@ const StickyHeader = () => {
                 key={link.id}
                 type="button"
                 onClick={() => scrollToSection(link.id)}
-                className={`relative transition-colors duration-200 ${
-                  active ? "text-hero-accent" : "text-hero-foreground hover:text-hero-accent"
-                }`}
+                className={`relative transition-colors duration-200 ${active ? "text-hero-accent" : "text-hero-foreground hover:text-hero-accent"
+                  }`}
               >
                 {link.label}
                 <span
-                  className={`absolute left-0 -bottom-1 h-0.5 bg-hero-accent transition-all duration-200 ${
-                    active ? "w-full" : "w-0"
-                  }`}
+                  className={`absolute left-0 -bottom-1 h-0.5 bg-hero-accent transition-all duration-200 ${active ? "w-full" : "w-0"
+                    }`}
                 />
               </button>
             );
@@ -87,9 +83,8 @@ const StickyHeader = () => {
               All Products <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${productsOpen ? "rotate-180" : ""}`} />
             </Link>
             <div
-              className={`absolute top-full left-0 mt-2 w-64 bg-card border border-border rounded-md shadow-[0_10px_15px_rgba(15,23,42,0.08)] py-2 transition-all duration-200 ${
-                productsOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
-              }`}
+              className={`absolute top-full left-0 mt-2 w-64 bg-card border border-border rounded-md shadow-[0_10px_15px_rgba(15,23,42,0.08)] py-2 transition-all duration-200 ${productsOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                }`}
             >
               {categories.map((cat) => (
                 <Link

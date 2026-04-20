@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuoteModal } from "@/context/QuoteModalContext";
 import testingMachine from "@/assets/testing-machine.png";
@@ -28,9 +28,9 @@ const products = [
     image: impactTester,
     label: "Charpy Impact Tester",
     tagline: "Structural Integrity",
-    headline: ["Impact Resistance", "Analysis", "Systems"],
+    headline: ["Precision Impact", "Testing Equipment", "for Reliable Quality Control"],
     description:
-      "High-performance impact testing systems designed to evaluate material toughness and fracture behavior under dynamic loading conditions.",
+      "High-performance systems designed to evaluate material toughness and fracture behavior under dynamic loading. Compliant with ASTM and ISO standards.",
   },
 ];
 
@@ -56,33 +56,39 @@ const HeroSection = () => {
   const product = products[activeIndex];
 
   const textVariants = {
-    enter: (d: number) => ({ opacity: 0, y: 20 * d }),
+    enter: (d: number) => ({ opacity: 0, y: 15 * d }),
     center: { opacity: 1, y: 0 },
-    exit: (d: number) => ({ opacity: 0, y: -20 * d }),
+    exit: (d: number) => ({ opacity: 0, y: -15 * d }),
   };
 
   const imageVariants = {
-    enter: (d: number) => ({ opacity: 0, x: 60 * d }),
-    center: { opacity: 1, x: 0 },
-    exit: (d: number) => ({ opacity: 0, x: -60 * d }),
+    enter: (d: number) => ({ opacity: 0, scale: 0.98, x: 20 * d }),
+    center: { opacity: 1, scale: 1, x: 0 },
+    exit: (d: number) => ({ opacity: 0, scale: 1.02, x: -20 * d }),
   };
 
   return (
-    <section id="home" className="relative min-h-screen bg-background overflow-hidden">
-      {/* Grid pattern */}
+    <section id="home" className="relative h-screen max-h-[1080px] bg-background overflow-hidden">
+      {/* Background Layer: Left (White) & Right (Grey Masked) */}
+      <div className="absolute inset-0 flex">
+        <div className="w-full lg:w-[50%] bg-background h-full" />
+        <div className="hidden lg:block lg:w-[50%] bg-[#f8fafc] h-full lg:clip-path-hero" />
+      </div>
+
+      {/* Background Decorative Grid (on left side) */}
       <div
-        className="absolute inset-0 opacity-[0.04]"
+        className="absolute inset-0 opacity-[0.03] pointer-events-none lg:w-[50%]"
         style={{
           backgroundImage:
             "linear-gradient(hsl(var(--border)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
+          backgroundSize: "40px 40px",
         }}
       />
 
-      <div className="relative z-10 container mx-auto px-6 lg:px-12 min-h-screen flex items-center">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full py-20">
-          {/* Left: Text */}
-          <div className="order-2 lg:order-1 min-h-[420px] flex flex-col justify-center">
+      <div className="container mx-auto px-6 lg:px-12 relative z-10 h-full">
+        <div className="flex flex-col lg:flex-row h-full pt-40 lg:pt-36">
+          {/* Left Content Area */}
+          <div className="w-full lg:w-[50%] h-full flex flex-col justify-center py-12 lg:py-0">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={activeIndex}
@@ -90,114 +96,113 @@ const HeroSection = () => {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 variants={textVariants}
+                className="space-y-6 lg:pr-12"
               >
-                <span className="inline-block text-hero-accent font-semibold text-sm tracking-widest uppercase mb-4">
-                  {product.tagline}
-                </span>
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="flex items-center gap-2"
+                >
+                  <span className="h-px w-8 bg-hero-accent" />
+                  <span className="text-hero-accent eyebrow">
+                    {product.tagline}
+                  </span>
+                </motion.div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-hero-headline leading-tight mb-6">
-                  {product.headline[0]}
-                  <br />
+                <motion.h1
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="h1"
+                >
+                  <span className="block">{product.headline[0]}</span>
                   <span className="text-hero-accent">{product.headline[1]}</span>
                   {product.headline[2] && (
-                    <>
-                      {" "}
+                    <span className="block lg:inline ml-0 lg:ml-3">
                       {product.headline[2]}
-                    </>
+                    </span>
                   )}
-                </h1>
+                </motion.h1>
 
-                <p className="text-hero-muted text-lg md:text-xl leading-relaxed mb-8 max-w-lg">
+                <motion.p
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="text-body-lg max-w-lg font-medium"
+                >
                   {product.description}
-                </p>
+                </motion.p>
 
-                <div className="flex flex-wrap gap-4">
-                  <button
-                    type="button"
-                    onClick={() => openQuoteModal({ productName: product.label })}
-                    className="group btn-primary px-8 py-4 animate-button-scale"
-                  >
-                    Request a Quote
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </button>
-                  <Link to="/products" className="btn-outline px-8 py-4 animate-button-scale">
-                    View Products
-                  </Link>
-                </div>
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="space-y-8"
+                >
+                  <div className="flex flex-wrap gap-5">
+                    <button
+                      type="button"
+                      onClick={() => openQuoteModal({ productName: product.label })}
+                      className="group bg-hero-accent text-white px-10 py-5 rounded-full font-bold text-lg transition-all duration-300 hover:shadow-xl hover:shadow-hero-accent/20 hover:scale-[1.02] active:scale-100"
+                    >
+                      Request a Quote
+                    </button>
+                    <Link
+                      to="/products"
+                      className="inline-flex items-center justify-center px-10 py-5 rounded-full border-2 border-border font-bold text-lg hover:bg-muted/50 hover:scale-[1.02] active:scale-100 transition-all duration-300"
+                    >
+                      Talk to an Engineer
+                    </Link>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 opacity-80">
+                    <div className="flex items-center gap-1.5 text-sm text-gray-600 font-medium">
+                      <CheckCircle2 className="w-4 h-4 text-hero-accent" />
+                      <span>NABL Certified</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-sm text-gray-600 font-medium">
+                      <CheckCircle2 className="w-4 h-4 text-hero-accent" />
+                      <span>ISO 17025</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-sm text-gray-600 font-medium">
+                      <CheckCircle2 className="w-4 h-4 text-hero-accent" />
+                      <span>25+ Years Experience</span>
+                    </div>
+                  </div>
+                </motion.div>
               </motion.div>
             </AnimatePresence>
 
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="flex gap-10 mt-12 pt-8 border-t border-border"
-            >
-              {[
-                { value: "25+", label: "Years Experience" },
-                { value: "3,000+", label: "Systems Deployed" },
-                { value: "99.9%", label: "Uptime Guarantee" },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <div className="text-2xl font-bold text-hero-headline">{stat.value}</div>
-                  <div className="text-xs text-hero-muted uppercase tracking-wider mt-1">{stat.label}</div>
-                </div>
-              ))}
-            </motion.div>
           </div>
 
-          {/* Right: Product Image */}
-          <div className="order-1 lg:order-2 flex flex-col items-center justify-center min-h-[400px] lg:min-h-[500px]">
-            <div className="relative w-full max-w-md">
-              {/* Frame */}
-              <div className="relative rounded-2xl p-8 border border-border overflow-hidden bg-white">
-                <AnimatePresence mode="wait" custom={direction}>
-                  <motion.div
-                    key={activeIndex}
-                    custom={direction}
-                    variants={imageVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                  >
-                    <motion.div
-                      animate={{ y: [0, -6, 0] }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      <img
-                        src={product.image}
-                        alt={product.label}
-                        width={800}
-                        height={900}
-                        loading="eager"
-                        fetchPriority="high"
-                        decoding="async"
-                        className="w-full"
-                      />
-                    </motion.div>
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Corner accents */}
-                <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-hero-accent/30 rounded-tr-2xl" />
-                <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-hero-accent/30 rounded-bl-2xl" />
-              </div>
-
-              <div className="absolute -inset-1 rounded-3xl -z-10 bg-[#f8fafc]" />
-            </div>
-
-            {/* Navigation dots + arrows */}
-            <div className="flex items-center gap-4 mt-6">
-              <button
-                onClick={() => goTo(-1)}
-                className="p-2 rounded-full border border-hero-muted/20 text-hero-muted hover:text-hero-accent hover:border-hero-accent/40 transition-colors"
+          {/* Right Visual Area */}
+          <div className="w-full lg:w-[50%] h-full flex items-center justify-center relative py-12 lg:py-0">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={activeIndex}
+                custom={direction}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                variants={imageVariants}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="relative z-10 w-full h-full flex items-center justify-center px-6 lg:px-0"
               >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
+                <img
+                  src={product.image}
+                  alt={product.label}
+                  className="max-h-[65vh] lg:max-h-[80vh] w-auto object-contain drop-shadow-2xl grayscale-[15%] hover:grayscale-0 transition-all duration-700"
+                />
+
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-radial from-hero-accent/5 to-transparent -z-10" />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Slider Controls */}
+            <div className="absolute bottom-10 right-0 left-0 lg:left-auto lg:right-10 z-30 flex items-center justify-center lg:justify-end gap-6">
               <div className="flex gap-2">
                 {products.map((_, i) => (
                   <button
@@ -206,26 +211,34 @@ const HeroSection = () => {
                       setDirection(i > activeIndex ? 1 : -1);
                       setActiveIndex(i);
                     }}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      i === activeIndex
-                        ? "bg-hero-accent w-6"
-                        : "bg-hero-muted/30 hover:bg-hero-muted/50"
-                    }`}
+                    className={`h-1 transition-all duration-500 rounded-full ${i === activeIndex ? "w-12 bg-hero-accent" : "w-4 bg-hero-accent/20 hover:bg-hero-accent/40"
+                      }`}
                   />
                 ))}
               </div>
-              <button
-                onClick={() => goTo(1)}
-                className="p-2 rounded-full border border-hero-muted/20 text-hero-muted hover:text-hero-accent hover:border-hero-accent/40 transition-colors"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => goTo(-1)}
+                  className="p-3 bg-white/80 backdrop-blur-sm border border-border rounded-full text-hero-muted hover:bg-hero-accent hover:text-white transition-all shadow-sm"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => goTo(1)}
+                  className="p-3 bg-white/80 backdrop-blur-sm border border-border rounded-full text-hero-muted hover:bg-hero-accent hover:text-white transition-all shadow-sm"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
+
+
+
 };
 
 export default HeroSection;

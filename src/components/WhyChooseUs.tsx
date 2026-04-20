@@ -12,10 +12,10 @@ const WhyChooseUs = () => (
     <div className="container mx-auto px-6 lg:px-12 py-10">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
         <div className="lg:max-w-xs">
-          <span className="label-eyebrow">Why Us</span>
-          <h2 className="text-xl md:text-2xl font-bold text-hero-headline mt-1 leading-tight">
+          <span className="eyebrow">Why Us</span>
+          <h3 className="h3 mt-1">
             Engineered for reliability
-          </h2>
+          </h3>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 lg:divide-x divide-border lg:flex-1">
@@ -28,8 +28,8 @@ const WhyChooseUs = () => (
               transition={{ duration: 0.35, delay: i * 0.06 }}
               className="px-4 py-3 lg:px-8 text-center lg:text-left"
             >
-              <div className="text-2xl lg:text-3xl font-bold text-hero-headline tracking-tight leading-none">{s.value}</div>
-              <div className="text-hero-muted text-[11px] uppercase tracking-wider mt-1.5">{s.label}</div>
+              <div className="text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight leading-none">{s.value}</div>
+              <div className="eyebrow mt-1.5">{s.label}</div>
             </motion.div>
           ))}
         </div>

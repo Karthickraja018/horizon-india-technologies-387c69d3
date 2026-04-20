@@ -13,15 +13,15 @@ const Footer = () => (
             <Link to="/" aria-label="Horizon India Technologies home">
               <BrandLogo size="md" />
             </Link>
-            <p className="text-hero-muted text-sm mt-4 leading-relaxed">
+            <p className="text-body-sm mt-4">
               Industrial Testing Equipment Supplier in Tamil Nadu. Sales, Service & Calibration of material testing, metrology, and quality control equipment.
             </p>
-            <p className="text-hero-muted text-xs mt-3">Proprietor: T V Shankar</p>
+            <p className="text-gray-500 text-xs mt-3">Proprietor: T V Shankar</p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-4">Quick Links</h4>
+            <h4 className="eyebrow !text-gray-900 mb-4">Quick Links</h4>
             <div className="space-y-2.5">
               {[
                 { to: "/", label: "Home" },
@@ -31,7 +31,7 @@ const Footer = () => (
                 { to: "/about", label: "About Us" },
                 { to: "/contact", label: "Contact" },
               ].map((l) => (
-                <Link key={l.to} to={l.to} className="block text-hero-muted text-sm hover:text-hero-accent transition-colors duration-200">
+                  <Link key={l.to} to={l.to} className="block text-body-sm hover:text-hero-accent transition-colors duration-200">
                   {l.label}
                 </Link>
               ))}
@@ -40,10 +40,10 @@ const Footer = () => (
 
           {/* Services */}
           <div>
-            <h4 className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-4">Services</h4>
+            <h4 className="eyebrow !text-gray-900 mb-4">Services</h4>
             <div className="space-y-2.5">
               {["Sales", "Services", "Calibration"].map((s) => (
-                <Link key={s} to="/services" className="block text-hero-muted text-sm hover:text-hero-accent transition-colors duration-200">
+                  <Link key={s} to="/services" className="block text-body-sm hover:text-hero-accent transition-colors duration-200">
                   {s}
                 </Link>
               ))}
@@ -52,8 +52,8 @@ const Footer = () => (
 
           {/* Contact */}
           <div>
-            <h4 className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-4">Contact Us</h4>
-            <div className="space-y-3 text-hero-muted text-sm">
+            <h4 className="eyebrow !text-gray-900 mb-4">Contact Us</h4>
+            <div className="space-y-3 text-body-sm">
               <a href="tel:+919751458300" className="flex items-start gap-2 hover:text-hero-accent transition-colors duration-200">
                 <Phone className="w-4 h-4 mt-0.5 text-hero-muted shrink-0" /> +91 97514 58300
               </a>
@@ -75,7 +75,7 @@ const Footer = () => (
     </div>
 
     <div className="border-t border-border py-6">
-      <div className="container mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-4 text-hero-muted text-xs">
+      <div className="container mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-500 text-xs">
         <p>© {new Date().getFullYear()} Horizon India Technologies. All rights reserved.</p>
         <p>Sales · Service · Calibration</p>
       </div>

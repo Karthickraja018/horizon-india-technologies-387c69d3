@@ -77,13 +77,17 @@ const ServicesSection = () => (
           <article
             key={service.id}
             id={service.id}
-            className="bg-white border border-[rgba(0,0,0,0.08)] rounded-[14px] p-5 transition-colors hover:border-[rgba(0,0,0,0.15)]"
+            className="bg-white border border-[rgba(0,0,0,0.08)] rounded-[14px] p-5 transition-colors hover:border-[rgba(0,0,0,0.15)] group"
           >
             <div className="inline-flex items-center justify-center w-10 h-10 rounded-[10px] bg-[#E1F5EE] text-hero-accent mb-4">
               <service.icon className="w-4 h-4" />
             </div>
-            <h3 className="text-[15px] font-medium text-hero-headline">{service.title}</h3>
-            <p className="text-[13px] text-hero-muted leading-[1.6] mt-2">{service.description}</p>
+            <h3 className="h3 mb-3 transition-colors group-hover:text-hero-accent">
+              {service.title}
+            </h3>
+            <p className="text-body-sm">
+              {service.description}
+            </p>
             <Link to={service.to} className="inline-flex mt-4 text-[12px] text-hero-accent font-medium hover:underline">
               {service.cta}
             </Link>

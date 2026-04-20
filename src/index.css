@@ -74,12 +74,17 @@
     @apply bg-background text-foreground antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply tracking-tight;
+  h1, .h1 {
+    @apply text-4xl md:text-5xl font-bold leading-tight text-gray-900 tracking-tight;
   }
-
+  h2, .h2 {
+    @apply text-3xl md:text-4xl font-semibold leading-tight text-gray-900 tracking-tight;
+  }
+  h3, .h3 {
+    @apply text-xl md:text-2xl font-semibold leading-tight text-gray-900 tracking-tight;
+  }
   p {
-    line-height: 1.65;
+    @apply text-base leading-relaxed text-gray-600;
   }
 
   html.theme-transition,
@@ -106,15 +111,15 @@
   }
 
   .section-header span {
-    @apply text-hero-muted font-semibold text-sm tracking-widest uppercase;
+    @apply eyebrow;
   }
 
   .section-header h2 {
-    @apply text-3xl md:text-4xl font-bold text-hero-headline mt-2;
+    @apply h2 mt-2;
   }
 
   .section-header p {
-    @apply text-hero-muted mt-4 max-w-2xl mx-auto text-base leading-relaxed;
+    @apply text-body mt-4 max-w-2xl mx-auto;
   }
 
   .surface-card {
@@ -128,8 +133,12 @@
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
   }
 
+  .eyebrow {
+    @apply text-xs uppercase tracking-wide font-medium text-gray-500;
+  }
+
   .label-eyebrow {
-    @apply text-[11px] font-semibold uppercase tracking-[0.18em] text-hero-muted;
+    @apply eyebrow;
   }
 
   .spec-row {
@@ -254,6 +263,16 @@
   .problem-item {
     @apply flex items-start gap-4 pb-5 border-b border-border last:border-0 last:pb-0;
   }
+
+  .text-body-lg {
+    @apply text-lg leading-relaxed text-gray-600;
+  }
+  .text-body {
+    @apply text-base leading-relaxed text-gray-600;
+  }
+  .text-body-sm {
+    @apply text-sm leading-relaxed text-gray-500;
+  }
 }
 
 @layer utilities {
@@ -269,5 +288,17 @@
   .light-sweep-interval {
     animation: light-sweep 2s ease-in-out;
     animation-iteration-count: 1;
+  }
+}
+
+@layer utilities {
+  .clip-path-hero {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+  
+  @media (min-width: 1024px) {
+    .clip-path-hero {
+      clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
+    }
   }
 }
