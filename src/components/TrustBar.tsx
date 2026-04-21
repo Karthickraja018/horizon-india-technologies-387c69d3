@@ -38,16 +38,16 @@ const TrustBar = () => {
           {duplicatedItems.map((item, i) => (
             <div
               key={i}
-              className="flex items-center gap-4 px-10 md:px-16 py-1 shrink-0 group/item transition-opacity duration-300 hover:opacity-100 opacity-80"
+              className="flex items-center gap-4 px-10 md:px-16 py-1 shrink-0 group/item transition-all duration-300 opacity-100"
             >
-              <item.icon className="w-5 h-5 md:w-6 md:h-6 text-primary transition-transform duration-300 group-hover/item:scale-110" />
-              <span className="eyebrow !text-gray-800 font-bold">
+              <item.icon className="w-5 h-5 md:w-6 md:h-6 text-slate-900 transition-transform duration-300 group-hover/item:scale-110" />
+              <span className="text-[11px] md:text-sm uppercase tracking-[0.1em] font-bold text-slate-800">
                 {item.label}
               </span>
               
               {/* Divider Symbol */}
               <div className="ml-10 md:ml-16 flex items-center justify-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary/20" />
+                <div className="w-1.5 h-1.5 rounded-full bg-slate-300" />
               </div>
             </div>
           ))}
