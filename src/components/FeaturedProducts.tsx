@@ -12,12 +12,12 @@ const FeaturedProducts = () => {
   const [isHovered, setIsHovered] = useState(false);
   const { openQuoteModal } = useQuoteModal();
 
-  // Auto-slide timing: 6s
+  // Auto-slide timing: 4s
   useEffect(() => {
     if (isHovered) return;
     const timer = setInterval(() => {
       setActiveIndex((i) => (i + 1) % featuredProducts.length);
-    }, 6000);
+    }, 4000);
     return () => clearInterval(timer);
   }, [activeIndex, isHovered]);
 
@@ -47,17 +47,17 @@ const FeaturedProducts = () => {
         }}
       />
 
-      <div 
+      <div
         className="relative z-10 container mx-auto px-6 lg:px-12 flex items-center min-h-[80vh]"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Changed to a 12-column grid for the uneven split */}
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center w-full py-20">
-          
+
           {/* Left: Text & Specs (Takes up 5 out of 12 columns - roughly 40%) */}
           <div className="order-2 lg:order-1 lg:col-span-5 min-h-[420px] flex flex-col justify-center">
-            
+
             <div className="mb-8">
               <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Top Picks</span>
               <h2 className="text-2xl font-medium text-slate-700 mt-1">Featured Products</h2>
@@ -95,7 +95,7 @@ const FeaturedProducts = () => {
                 <div className="mb-10 flex flex-col gap-2 max-w-md">
                   {Object.entries(product.specifications).slice(0, 3).map(([key, val], idx) => (
                     <div key={idx} className="text-sm md:text-base text-slate-700">
-                      <span className="font-bold text-slate-900 mr-2">{key}:</span> 
+                      <span className="font-bold text-slate-900 mr-2">{key}:</span>
                       <span className="text-slate-600">{val}</span>
                     </div>
                   ))}
@@ -104,17 +104,17 @@ const FeaturedProducts = () => {
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
                   <button
                     type="button"
-                    onClick={() => openQuoteModal({ 
+                    onClick={() => openQuoteModal({
                       productName: product.name,
                       model: product.model,
-                      category: product.category 
+                      category: product.category
                     })}
                     className="btn-primary px-8 py-3.5 font-semibold rounded shadow transition-opacity hover:opacity-90 w-full sm:w-auto text-center flex items-center justify-center whitespace-nowrap"
                   >
                     Request a Quote
                   </button>
-                  <Link 
-                    to={`/products/${product.categorySlug}/${product.slug}`} 
+                  <Link
+                    to={`/products/${product.categorySlug}/${product.slug}`}
                     className="bg-white border border-slate-300 text-slate-700 hover:border-slate-400 hover:bg-slate-50 px-8 py-3.5 font-semibold rounded transition-colors w-full sm:w-auto text-center flex items-center justify-center whitespace-nowrap"
                   >
                     Talk to an Engineer
@@ -122,7 +122,7 @@ const FeaturedProducts = () => {
                 </div>
 
                 <p className="text-sm text-slate-500 font-medium flex items-center gap-2">
-                  <span className="text-green-500 font-bold text-lg leading-none">✔</span> 
+                  <span className="text-green-500 font-bold text-lg leading-none">✔</span>
                   Used in 300+ labs • NABL-compliant • 25+ yrs experience
                 </p>
               </motion.div>
@@ -132,9 +132,9 @@ const FeaturedProducts = () => {
           {/* Right: Product Image & Nav (Takes up 7 out of 12 columns - roughly 60%) */}
           <div className="order-1 lg:order-2 lg:col-span-7 flex flex-col items-center justify-center min-h-[400px] lg:min-h-[600px] w-full">
             <div className="relative w-full group h-full flex flex-col justify-center">
-              
+
               <div className="relative rounded-2xl p-8 lg:p-16 overflow-hidden bg-white flex-grow flex items-center justify-center cursor-pointer w-full aspect-square md:aspect-video lg:aspect-auto lg:h-[500px]">
-                
+
                 {/* Product Name On Image */}
                 <div className="absolute top-6 left-6 lg:top-8 lg:left-8 z-20 pointer-events-none">
                   <AnimatePresence mode="wait">
@@ -154,7 +154,7 @@ const FeaturedProducts = () => {
 
                 {/* Left Arrow Navigation */}
                 <div className="absolute inset-y-0 left-4 flex items-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button 
+                  <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -169,7 +169,7 @@ const FeaturedProducts = () => {
 
                 {/* Right Arrow Navigation */}
                 <div className="absolute inset-y-0 right-4 flex items-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button 
+                  <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -231,11 +231,10 @@ const FeaturedProducts = () => {
                   <button
                     key={i}
                     onClick={() => setActiveIndex(i)}
-                    className={`h-2 transition-all duration-500 rounded-full ${
-                      i === activeIndex
+                    className={`h-2 transition-all duration-500 rounded-full ${i === activeIndex
                         ? "w-10 bg-hero-accent"
                         : "w-2 bg-gray-300 hover:bg-gray-400"
-                    }`}
+                      }`}
                     aria-label={`Go to slide ${i + 1}`}
                   />
                 ))}
