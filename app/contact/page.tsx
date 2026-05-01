@@ -1,8 +1,22 @@
+"use client";
+
 import { useState } from "react";
 import { MessageCircle, Send, Phone, Mail, MapPin } from "lucide-react";
+import type { Metadata } from "next";
+
+// Note: metadata export must be in a server component.
+// For contact, the form is interactive so we use "use client".
+// Title/description handled in layout or a parent server page wrapper if needed.
 
 const ContactPage = () => {
-  const [form, setForm] = useState({ name: "", company: "", phone: "", email: "", message: "", preferDemo: false });
+  const [form, setForm] = useState({
+    name: "",
+    company: "",
+    phone: "",
+    email: "",
+    message: "",
+    preferDemo: false,
+  });
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -15,9 +29,12 @@ const ContactPage = () => {
       <div className="container mx-auto px-6 lg:px-12 py-16">
         <div className="text-center mb-16">
           <span className="label-eyebrow">Get In Touch</span>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hero-headline mt-3 mb-4">Contact Us</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-hero-headline mt-3 mb-4">
+            Contact Us
+          </h1>
           <p className="text-hero-muted max-w-2xl mx-auto text-lg">
-            Have a requirement? Fill the form below or reach us directly — our engineers respond within 24 hours.
+            Have a requirement? Fill the form below or reach us directly — our engineers respond
+            within 24 hours.
           </p>
         </div>
 
@@ -43,7 +60,9 @@ const ContactPage = () => {
                       { name: "email" as const, label: "Email", type: "email", required: true, placeholder: "Email Address" },
                     ].map((field) => (
                       <div key={field.name} className="space-y-1.5">
-                        <label className="block text-hero-muted text-xs uppercase tracking-wider font-bold">{field.label} *</label>
+                        <label className="block text-hero-muted text-xs uppercase tracking-wider font-bold">
+                          {field.label} *
+                        </label>
                         <input
                           type={field.type}
                           required={field.required}
@@ -56,7 +75,9 @@ const ContactPage = () => {
                     ))}
                   </div>
                   <div className="space-y-1.5">
-                    <label className="block text-hero-muted text-xs uppercase tracking-wider font-bold">Message</label>
+                    <label className="block text-hero-muted text-xs uppercase tracking-wider font-bold">
+                      Message
+                    </label>
                     <textarea
                       rows={4}
                       placeholder="Tell us about your requirements..."
@@ -73,9 +94,14 @@ const ContactPage = () => {
                         onChange={(e) => setForm({ ...form, preferDemo: e.target.checked })}
                         className="w-4 h-4 rounded border-border text-hero-accent focus:ring-hero-accent transition-colors cursor-pointer"
                       />
-                      <span className="group-hover:text-hero-accent transition-colors">I prefer a product demo along with quotation.</span>
+                      <span className="group-hover:text-hero-accent transition-colors">
+                        I prefer a product demo along with quotation.
+                      </span>
                     </label>
-                    <button type="submit" className="btn-primary px-10 py-3.5 shadow-sm hover:shadow-md transition-all active:scale-[0.98]">
+                    <button
+                      type="submit"
+                      className="btn-primary px-10 py-3.5 shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
+                    >
                       Submit Enquiry
                     </button>
                   </div>
@@ -90,13 +116,19 @@ const ContactPage = () => {
               <span className="label-eyebrow">Direct Contact</span>
               <h3 className="text-hero-headline font-semibold text-lg mt-2 mb-4">Reach Us</h3>
               <div className="space-y-4 text-sm">
-                <a href="tel:+919751458300" className="flex items-center gap-3 text-hero-foreground hover:text-hero-accent transition-colors group">
+                <a
+                  href="tel:+919751458300"
+                  className="flex items-center gap-3 text-hero-foreground hover:text-hero-accent transition-colors group"
+                >
                   <div className="w-8 h-8 rounded-full bg-hero-accent/10 flex items-center justify-center group-hover:bg-hero-accent group-hover:text-white transition-all">
                     <Phone className="w-4 h-4" />
                   </div>
                   <span className="font-medium">+91 97514 58300</span>
                 </a>
-                <a href="mailto:horizonindiatechnologies@gmail.com" className="flex items-center gap-3 text-hero-foreground hover:text-hero-accent transition-colors break-all group">
+                <a
+                  href="mailto:horizonindiatechnologies@gmail.com"
+                  className="flex items-center gap-3 text-hero-foreground hover:text-hero-accent transition-colors break-all group"
+                >
                   <div className="w-8 h-8 rounded-full bg-hero-accent/10 flex items-center justify-center group-hover:bg-hero-accent group-hover:text-white transition-all">
                     <Mail className="w-4 h-4" />
                   </div>
@@ -112,7 +144,10 @@ const ContactPage = () => {
                 >
                   <MessageCircle className="w-4 h-4" /> WhatsApp
                 </a>
-                <a href="tel:+919751458300" className="btn-outline text-sm py-2.5 px-0 flex items-center justify-center gap-2">
+                <a
+                  href="tel:+919751458300"
+                  className="btn-outline text-sm py-2.5 px-0 flex items-center justify-center gap-2"
+                >
                   <Phone className="w-4 h-4" /> Call
                 </a>
               </div>
@@ -127,7 +162,8 @@ const ContactPage = () => {
                   <span className="label-eyebrow">Head Office</span>
                   <h3 className="text-hero-headline font-semibold text-lg mt-1 mb-2">Karur</h3>
                   <p className="text-hero-muted text-sm leading-relaxed">
-                    3/126, Mettu Street, Mettumahadhanapuram, Mahadhanapuram North, Karur – 639105, Tamil Nadu
+                    3/126, Mettu Street, Mettumahadhanapuram, Mahadhanapuram North, Karur – 639105,
+                    Tamil Nadu
                   </p>
                 </div>
               </div>
@@ -150,7 +186,9 @@ const ContactPage = () => {
 
             <div className="surface-card p-6 lg:p-8">
               <span className="label-eyebrow">Hours</span>
-              <h3 className="text-hero-headline font-semibold text-lg mt-2 mb-3">Business Hours</h3>
+              <h3 className="text-hero-headline font-semibold text-lg mt-2 mb-3">
+                Business Hours
+              </h3>
               <div className="text-hero-muted text-sm space-y-2">
                 <div className="flex justify-between items-center py-1 border-b border-border/50">
                   <span>Monday – Saturday</span>

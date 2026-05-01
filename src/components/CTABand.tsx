@@ -1,3 +1,5 @@
+"use client";
+
 import { MessageCircle, Phone } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useQuoteModal } from "@/context/QuoteModalContext";

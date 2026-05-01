@@ -1,6 +1,9 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import Image from "next/image";
 import { products } from "@/data/products";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useQuoteModal } from "@/context/QuoteModalContext";
@@ -114,7 +117,7 @@ const FeaturedProducts = () => {
                     Request a Quote
                   </button>
                   <Link
-                    to={`/products/${product.categorySlug}/${product.slug}`}
+                    href={`/products/${product.categorySlug}/${product.slug}`}
                     className="bg-white border border-slate-300 text-slate-700 hover:border-slate-400 hover:bg-slate-50 px-8 py-3.5 font-semibold rounded transition-colors w-full sm:w-auto text-center flex items-center justify-center whitespace-nowrap"
                   >
                     Talk to an Engineer
@@ -192,7 +195,7 @@ const FeaturedProducts = () => {
                     transition={{ duration: 0.6, ease: "easeInOut", delay: 0.1 }}
                     className="w-full h-full flex items-center justify-center lg:p-8"
                   >
-                    <img
+                    <Image
                       src={product.image}
                       alt={product.name}
                       width={1000}

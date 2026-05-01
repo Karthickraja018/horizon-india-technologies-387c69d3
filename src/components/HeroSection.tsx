@@ -1,6 +1,9 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import Image from "next/image";
 import { useQuoteModal } from "@/context/QuoteModalContext";
 import industrialLabHero from "@/assets/industrial-lab-hero.png";
 
@@ -28,10 +31,12 @@ const HeroSection = () => {
         variants={imageVariants}
         className="absolute inset-y-0 right-0 w-full lg:w-[75%] h-full z-0 opacity-20 lg:opacity-100"
       >
-        <img
+        <Image
           src={industrialLabHero}
           alt="Industrial Material Testing Lab"
+          fill
           className="w-full h-full object-cover"
+          priority
         />
         {/* Desktop Gradient Fade: Moving fade closer to text to reveal more image */}
         <div className="hidden lg:block absolute inset-y-0 -left-1 w-full bg-gradient-to-r from-white via-white via-[15%] to-transparent z-10" />
@@ -69,7 +74,7 @@ const HeroSection = () => {
                   Request a Quote
                 </button>
                 <Link
-                  to="/products"
+                  href="/products"
                   className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-white/90 backdrop-blur-sm border-2 border-hero-accent/20 text-hero-foreground font-bold text-lg hover:bg-white hover:border-hero-accent transition-all duration-300 shadow-lg shadow-black/5"
                 >
                   Talk to an Engineer

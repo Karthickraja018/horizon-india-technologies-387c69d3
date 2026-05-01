@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Wrench, ShieldCheck, Monitor, Building2, Package, Settings } from "lucide-react";
 
 type ServiceItem = {
@@ -88,7 +88,7 @@ const ServicesSection = () => (
             <p className="text-body-sm">
               {service.description}
             </p>
-            <Link to={service.to} className="inline-flex mt-4 text-[12px] text-hero-accent font-medium hover:underline">
+            <Link href={service.to} className="inline-flex mt-4 text-[12px] text-hero-accent font-medium hover:underline">
               {service.cta}
             </Link>
           </article>
@@ -97,7 +97,7 @@ const ServicesSection = () => (
 
       <div className="mt-6 pt-5 border-t border-[rgba(0,0,0,0.06)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <p className="text-[13px] text-hero-muted">All services available across Tamil Nadu · Pan-India supply</p>
-        <Link to="/services" className="inline-flex items-center justify-center rounded-md border border-border px-4 py-2 text-sm text-hero-foreground hover:border-hero-accent hover:text-hero-accent transition-colors">
+        <Link href="/services" className="inline-flex items-center justify-center rounded-md border border-border px-4 py-2 text-sm text-hero-foreground hover:border-hero-accent hover:text-hero-accent transition-colors">
           View all services →
         </Link>
       </div>

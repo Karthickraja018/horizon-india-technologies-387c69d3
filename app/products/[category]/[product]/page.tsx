@@ -1,18 +1,36 @@
-import { Link, useParams } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { useParams } from "next/navigation";
 import { getProduct, getCategoryBySlug, products } from "@/data/products";
 import { MessageCircle, Phone, Mail, CheckCircle2, Download } from "lucide-react";
-import NotFound from "./NotFound";
 import SpecsTable from "@/components/SpecsTable";
 import InlineCtaBlock from "@/components/InlineCtaBlock";
 import { useQuoteModal } from "@/context/QuoteModalContext";
 
-const ProductPage = () => {
-  const { category, product: productSlug } = useParams<{ category: string; product: string }>();
-  const cat = getCategoryBySlug(category || "");
-  const product = getProduct(category || "", productSlug || "");
+export default function ProductPage() {
+  const params = useParams<{ category: string; product: string }>();
+  const category = params?.category ?? "";
+  const productSlug = params?.product ?? "";
+
+  const cat = getCategoryBySlug(category);
+  const product = getProduct(category, productSlug);
   const { openQuoteModal } = useQuoteModal();
 
-  if (!cat || !product) return <NotFound />;
+  if (!cat || !product) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="text-center">
+          <h1 className="mb-4 text-4xl font-bold">404</h1>
+          <p className="mb-4 text-xl text-muted-foreground">Product not found</p>
+          <Link href="/products" className="text-primary underline hover:text-primary/90">
+            Back to Products
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const relatedProducts = products
     .filter((item) => item.categorySlug === product.categorySlug && item.id !== product.id)
@@ -30,11 +48,13 @@ const ProductPage = () => {
     <div className="bg-background min-h-screen">
       <div className="container mx-auto px-6 lg:px-12 py-16">
         <div className="mb-6 text-sm text-hero-muted">
-          <Link to="/" className="hover:text-hero-accent transition-colors">Home</Link>
+          <Link href="/" className="hover:text-hero-accent transition-colors">Home</Link>
           <span className="mx-2">/</span>
-          <Link to="/products" className="hover:text-hero-accent transition-colors">Products</Link>
+          <Link href="/products" className="hover:text-hero-accent transition-colors">Products</Link>
           <span className="mx-2">/</span>
-          <Link to={`/products/${cat.slug}`} className="hover:text-hero-accent transition-colors">{cat.name}</Link>
+          <Link href={`/products/${cat.slug}`} className="hover:text-hero-accent transition-colors">
+            {cat.name}
+          </Link>
           <span className="mx-2">/</span>
           <span className="text-hero-foreground">{product.name}</span>
         </div>
@@ -43,20 +63,31 @@ const ProductPage = () => {
           {/* Image */}
           <div className="lg:col-span-5">
             <div className="surface-card p-8 flex items-center justify-center aspect-square">
-              <img src={product.image} alt={product.name} className="w-full h-full object-contain" loading="lazy" width={560} height={560} />
+              <Image
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-contain"
+                loading="lazy"
+                width={560}
+                height={560}
+              />
             </div>
           </div>
 
           {/* Details */}
           <div className="lg:col-span-7">
             <span className="label-eyebrow">{product.category}</span>
-            <h1 className="text-3xl md:text-4xl font-bold text-hero-headline mt-2 mb-2 leading-tight">{product.name}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-hero-headline mt-2 mb-2 leading-tight">
+              {product.name}
+            </h1>
             <p className="text-hero-muted text-sm font-mono mb-6">MODEL: {product.model}</p>
             <p className="text-hero-foreground leading-relaxed mb-8">{product.description}</p>
 
             {/* Features */}
             <div className="mb-8">
-              <h2 className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-4">Key Features</h2>
+              <h2 className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-4">
+                Key Features
+              </h2>
               <ul className="grid sm:grid-cols-2 gap-2.5">
                 {product.features.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-hero-foreground text-sm">
@@ -69,7 +100,9 @@ const ProductPage = () => {
 
             {/* CTAs */}
             <div className="surface-card p-5 mb-2">
-              <p className="text-hero-muted text-xs uppercase tracking-wider mb-3">Request a Quotation</p>
+              <p className="text-hero-muted text-xs uppercase tracking-wider mb-3">
+                Request a Quotation
+              </p>
               <div className="flex flex-wrap gap-3">
                 <button
                   type="button"
@@ -84,7 +117,10 @@ const ProductPage = () => {
                 >
                   <MessageCircle className="w-5 h-5" /> Request Quote
                 </button>
-                <a href="mailto:horizonindiatechnologies@gmail.com" className="btn-outline animate-button-scale">
+                <a
+                  href="mailto:horizonindiatechnologies@gmail.com"
+                  className="btn-outline animate-button-scale"
+                >
                   <Mail className="w-5 h-5" /> Email Us
                 </a>
                 <a href="tel:+919751458300" className="btn-ghost animate-button-scale">
@@ -118,9 +154,7 @@ const ProductPage = () => {
           <h2 className="text-2xl font-bold text-hero-headline mt-2 mb-4">Standards</h2>
           <div className="flex flex-wrap gap-2">
             {standards.map((standard) => (
-              <span key={standard} className="tag-chip">
-                {standard}
-              </span>
+              <span key={standard} className="tag-chip">{standard}</span>
             ))}
           </div>
         </div>
@@ -128,7 +162,9 @@ const ProductPage = () => {
         <div className="mt-10 surface-card p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <p className="label-eyebrow mb-1">Documentation</p>
-            <p className="text-hero-foreground text-sm">Product brochure download is being prepared for this model.</p>
+            <p className="text-hero-foreground text-sm">
+              Product brochure download is being prepared for this model.
+            </p>
           </div>
           <button
             type="button"
@@ -145,11 +181,24 @@ const ProductPage = () => {
             <h2 className="text-2xl font-bold text-hero-headline mt-2 mb-6">Related Products</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {relatedProducts.map((item) => (
-                <Link key={item.id} to={`/products/${item.categorySlug}/${item.slug}`} className="surface-card animate-card-lift p-4">
+                <Link
+                  key={item.id}
+                  href={`/products/${item.categorySlug}/${item.slug}`}
+                  className="surface-card animate-card-lift p-4"
+                >
                   <div className="aspect-[4/3] border border-border rounded-md flex items-center justify-center p-4 bg-background">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-contain" loading="lazy" width={320} height={240} />
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-contain"
+                      loading="lazy"
+                      width={320}
+                      height={240}
+                    />
                   </div>
-                  <p className="text-xs uppercase tracking-wider text-hero-muted mt-3">{item.category}</p>
+                  <p className="text-xs uppercase tracking-wider text-hero-muted mt-3">
+                    {item.category}
+                  </p>
                   <h3 className="text-hero-headline text-sm font-semibold mt-1">{item.name}</h3>
                   <p className="text-hero-muted text-xs font-mono mt-1">{item.model}</p>
                 </Link>
@@ -199,6 +248,4 @@ const ProductPage = () => {
       </div>
     </div>
   );
-};
-
-export default ProductPage;
+}

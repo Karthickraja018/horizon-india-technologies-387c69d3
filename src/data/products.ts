@@ -1,3 +1,4 @@
+import type { StaticImport } from "next/dist/shared/lib/get-img-props";
 import rockwellHardnessTester from "@/assets/products/rockwell-hardness-tester.png";
 import brinellHardnessTester from "@/assets/products/brinell-hardness-tester.png";
 import vickersMicroHardnessTester from "@/assets/products/vickers-micro-hardness-tester.png";
@@ -19,7 +20,7 @@ export interface Product {
   category: string;
   categorySlug: string;
   slug: string;
-  image: string;
+  image: string | StaticImport;
   description: string;
   features: string[];
   specifications: Record<string, string>;

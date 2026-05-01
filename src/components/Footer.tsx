@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import BrandLogo from "./BrandLogo";
@@ -10,11 +12,12 @@ const Footer = () => (
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Company */}
           <div>
-            <Link to="/" aria-label="Horizon India Technologies home">
+            <Link href="/" aria-label="Horizon India Technologies home">
               <BrandLogo size="md" />
             </Link>
             <p className="text-body-sm mt-4">
-              Industrial Testing Equipment Supplier in Tamil Nadu. Sales, Service & Calibration of material testing, metrology, and quality control equipment.
+              Industrial Testing Equipment Supplier in Tamil Nadu. Sales, Service & Calibration of
+              material testing, metrology, and quality control equipment.
             </p>
             <p className="text-gray-500 text-xs mt-3">Proprietor: T V Shankar</p>
           </div>
@@ -31,7 +34,11 @@ const Footer = () => (
                 { to: "/about", label: "About Us" },
                 { to: "/contact", label: "Contact" },
               ].map((l) => (
-                  <Link key={l.to} to={l.to} className="block text-body-sm hover:text-hero-accent transition-colors duration-200">
+                <Link
+                  key={l.to}
+                  href={l.to}
+                  className="block text-body-sm hover:text-hero-accent transition-colors duration-200"
+                >
                   {l.label}
                 </Link>
               ))}
@@ -43,7 +50,11 @@ const Footer = () => (
             <h4 className="eyebrow !text-gray-900 mb-4">Services</h4>
             <div className="space-y-2.5">
               {["Sales", "Services", "Calibration"].map((s) => (
-                  <Link key={s} to="/services" className="block text-body-sm hover:text-hero-accent transition-colors duration-200">
+                <Link
+                  key={s}
+                  href="/services"
+                  className="block text-body-sm hover:text-hero-accent transition-colors duration-200"
+                >
                   {s}
                 </Link>
               ))}
@@ -54,15 +65,24 @@ const Footer = () => (
           <div>
             <h4 className="eyebrow !text-gray-900 mb-4">Contact Us</h4>
             <div className="space-y-3 text-body-sm">
-              <a href="tel:+919751458300" className="flex items-start gap-2 hover:text-hero-accent transition-colors duration-200">
+              <a
+                href="tel:+919751458300"
+                className="flex items-start gap-2 hover:text-hero-accent transition-colors duration-200"
+              >
                 <Phone className="w-4 h-4 mt-0.5 text-hero-muted shrink-0" /> +91 97514 58300
               </a>
-              <a href="mailto:horizonindiatechnologies@gmail.com" className="flex items-start gap-2 hover:text-hero-accent transition-colors duration-200">
-                <Mail className="w-4 h-4 mt-0.5 text-hero-muted shrink-0" /> horizonindiatechnologies@gmail.com
+              <a
+                href="mailto:horizonindiatechnologies@gmail.com"
+                className="flex items-start gap-2 hover:text-hero-accent transition-colors duration-200"
+              >
+                <Mail className="w-4 h-4 mt-0.5 text-hero-muted shrink-0" />{" "}
+                horizonindiatechnologies@gmail.com
               </a>
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 mt-0.5 text-hero-muted shrink-0" />
-                <span>3/126, Mettu Street, Mettumahadhanapuram, Karur – 639105, Tamil Nadu</span>
+                <span>
+                  3/126, Mettu Street, Mettumahadhanapuram, Karur – 639105, Tamil Nadu
+                </span>
               </div>
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 mt-0.5 text-hero-muted shrink-0" />

@@ -1,3 +1,6 @@
+"use client";
+
+import Image from "next/image";
 import logo from "@/assets/logo.png";
 import wordmark from "@/assets/image.png";
 import { cn } from "@/lib/utils";
@@ -29,8 +32,20 @@ const BrandLogo = ({ size = "md", className }: BrandLogoProps) => {
 
   return (
     <span className={cn("inline-flex items-center gap-2.5 select-none", className)}>
-      <img src={logo} alt="Horizon India Technologies logo" className={selectedSize.logo} loading="eager" />
-      <img src={wordmark} alt="Horizon India Technologies" className={selectedSize.wordmark} loading="eager" />
+      <Image
+        src={logo}
+        alt="Horizon India Technologies logo"
+        className={selectedSize.logo}
+        loading="eager"
+        style={{ height: "auto" }}
+      />
+      <Image
+        src={wordmark}
+        alt="Horizon India Technologies"
+        className={selectedSize.wordmark}
+        loading="eager"
+        style={{ height: "auto" }}
+      />
     </span>
   );
 };

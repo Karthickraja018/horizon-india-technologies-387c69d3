@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { ChevronDown, Menu, ShieldCheck, X } from "lucide-react";
 import { categories } from "@/data/products";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
@@ -50,7 +52,7 @@ const StickyHeader = () => {
         className={`container mx-auto px-6 lg:px-12 flex items-center justify-between transition-all duration-300 ${isCompact ? "h-14" : "h-16"
           }`}
       >
-        <Link to="/" aria-label="Horizon India Technologies home">
+        <Link href="/" aria-label="Horizon India Technologies home">
           <BrandLogo size="sm" />
         </Link>
 
@@ -79,7 +81,7 @@ const StickyHeader = () => {
             onMouseEnter={() => setProductsOpen(true)}
             onMouseLeave={() => setProductsOpen(false)}
           >
-            <Link to="/products" className="flex items-center gap-1 text-hero-foreground hover:text-hero-accent transition-colors duration-200">
+            <Link href="/products" className="flex items-center gap-1 text-hero-foreground hover:text-hero-accent transition-colors duration-200">
               All Products <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${productsOpen ? "rotate-180" : ""}`} />
             </Link>
             <div
@@ -89,7 +91,7 @@ const StickyHeader = () => {
               {categories.map((cat) => (
                 <Link
                   key={cat.slug}
-                  to={`/products/${cat.slug}`}
+                  href={`/products/${cat.slug}`}
                   className="block px-4 py-2 text-hero-foreground hover:text-hero-accent hover:bg-[#f9fafb] transition-colors duration-200 text-sm"
                 >
                   {cat.name}
@@ -98,13 +100,13 @@ const StickyHeader = () => {
             </div>
           </div>
 
-          <Link to="/about" className="text-hero-foreground hover:text-hero-accent transition-colors duration-200">
+          <Link href="/about" className="text-hero-foreground hover:text-hero-accent transition-colors duration-200">
             About
           </Link>
-          <Link to="/services/calibration-services-chennai" className="text-hero-foreground hover:text-hero-accent transition-colors duration-200">
+          <Link href="/services/calibration-services-chennai" className="text-hero-foreground hover:text-hero-accent transition-colors duration-200">
             Calibration Services
           </Link>
-          <Link to="/contact" className="text-hero-foreground hover:text-hero-accent transition-colors duration-200">
+          <Link href="/contact" className="text-hero-foreground hover:text-hero-accent transition-colors duration-200">
             Contact
           </Link>
         </nav>
@@ -144,16 +146,16 @@ const StickyHeader = () => {
             </button>
           ))}
 
-          <Link to="/products" className="block py-2 text-hero-foreground" onClick={() => setMobileOpen(false)}>
+          <Link href="/products" className="block py-2 text-hero-foreground" onClick={() => setMobileOpen(false)}>
             All Products
           </Link>
-          <Link to="/about" className="block py-2 text-hero-foreground" onClick={() => setMobileOpen(false)}>
+          <Link href="/about" className="block py-2 text-hero-foreground" onClick={() => setMobileOpen(false)}>
             About
           </Link>
-          <Link to="/services/calibration-services-chennai" className="block py-2 text-hero-foreground" onClick={() => setMobileOpen(false)}>
+          <Link href="/services/calibration-services-chennai" className="block py-2 text-hero-foreground" onClick={() => setMobileOpen(false)}>
             Calibration Services
           </Link>
-          <Link to="/contact" className="block py-2 text-hero-foreground" onClick={() => setMobileOpen(false)}>
+          <Link href="/contact" className="block py-2 text-hero-foreground" onClick={() => setMobileOpen(false)}>
             Contact
           </Link>
 

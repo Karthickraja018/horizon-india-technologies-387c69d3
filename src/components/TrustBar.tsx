@@ -1,3 +1,5 @@
+"use client";
+
 import { Award, Building2, Clock3, MapPin, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 

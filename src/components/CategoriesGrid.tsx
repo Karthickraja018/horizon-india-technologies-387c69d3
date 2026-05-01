@@ -1,5 +1,8 @@
+"use client";
+
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import hardnessImg from "@/assets/products/rockwell-hardness-tester.png";
@@ -42,7 +45,7 @@ const CategoriesGrid = () => {
               <p className="text-body-sm mt-2 max-w-xl">Material testing, metrology, and quality control equipment for every industry.</p>
             </div>
             <div className="flex flex-col sm:flex-row items-end sm:items-center gap-6 w-full sm:w-auto">
-              <Link to="/products" className="text-hero-accent text-sm font-semibold inline-flex items-center gap-1.5 hover:gap-2.5 transition-all order-2 sm:order-1 self-start sm:self-auto">
+              <Link href="/products" className="text-hero-accent text-sm font-semibold inline-flex items-center gap-1.5 hover:gap-2.5 transition-all order-2 sm:order-1 self-start sm:self-auto">
                 View all categories <ArrowRight className="w-4 h-4" />
               </Link>
               <div className="flex gap-2 order-1 sm:order-2 self-end sm:self-auto">
@@ -75,15 +78,16 @@ const CategoriesGrid = () => {
                 {featuredCategories.map((cat) => (
                   <Link
                     key={cat.slug}
-                    to={`/products/${cat.slug}`}
+                    href={`/products/${cat.slug}`}
                     className="group surface-card animate-card-lift overflow-hidden flex flex-col w-[260px] sm:w-[280px] shrink-0 snap-start"
                   >
-                    <div className="aspect-[4/3] bg-background border-b border-border flex items-center justify-center p-5 image-hover">
-                      <img
+                    <div className="aspect-[4/3] bg-background border-b border-border flex items-center justify-center p-5 image-hover relative">
+                      <Image
                         src={cat.image}
                         alt={cat.name}
+                        fill
+                        className="object-contain p-5"
                         loading="lazy"
-                        className="w-full h-full object-contain"
                       />
                     </div>
                     <div className="p-4 flex flex-col flex-1">
@@ -100,7 +104,7 @@ const CategoriesGrid = () => {
                 ))}
 
                 <Link
-                  to="/products"
+                  href="/products"
                   className="group surface-card animate-card-lift border-dashed flex flex-col items-center justify-center text-center w-[260px] sm:w-[280px] shrink-0 snap-start p-6"
                 >
                   <span className="eyebrow mb-2">Full Catalogue</span>

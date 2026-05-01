@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuoteModal } from "@/context/QuoteModalContext";
 
 interface InlineCtaBlockProps {
