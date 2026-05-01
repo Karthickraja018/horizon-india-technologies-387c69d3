@@ -8,11 +8,11 @@
   :root {
     --bgPrimary: #ffffff;
     --bgSecondary: #ffffff;
-    --textPrimary: #1a1f24;
-    --textSecondary: #4f5b67;
-    --accentPrimary: #2a8c5a;
-    --accentSecondary: #50c87e;
-    --darkPrimary: #0f1c14;
+    --textPrimary: #1a2a3a;
+    --textSecondary: #4b6072;
+    --accentPrimary: #2e86de;
+    --accentSecondary: #5b8ab5;
+    --darkPrimary: #0a1628;
     --border: 220 13% 91%;
 
     --background: 0 0% 100%;
@@ -24,7 +24,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 210 10% 14.5%;
 
-    --primary: 160 65% 16%;
+    --primary: 214 59% 10%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 40% 98%;
@@ -33,7 +33,7 @@
     --muted: 210 35% 96%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 160 60% 35%;
+    --accent: 210 73% 53%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -41,36 +41,40 @@
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 160 60% 35%;
+    --ring: 210 73% 53%;
 
     --radius: 0.5rem;
 
     --hero-bg: 0 0% 100%;
     --hero-foreground: 210 10% 14.5%;
     --hero-headline: 210 10% 14.5%;
-    --hero-accent: 160 60% 35%;
-    --hero-accent-hover: 160 65% 31%;
-    --hero-muted: 160 20% 36%;
+    --hero-accent: 210 73% 53%;
+    --hero-accent-hover: 210 73% 46%;
+    --hero-muted: 211 22% 37%;
     --hero-frame: 210 40% 98%;
     --hero-frame-border: 220 13% 91%;
-    --overlay: 160 65% 17%;
-    --whatsapp: 160 60% 35%;
-    --whatsapp-hover: 160 65% 31%;
+    --overlay: 214 59% 10%;
+    --whatsapp: 210 73% 53%;
+    --whatsapp-hover: 210 73% 46%;
 
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 160 20% 16%;
-    --sidebar-primary: 160 65% 16%;
+    --sidebar-foreground: 213 29% 14%;
+    --sidebar-primary: 214 59% 10%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 210 40% 98%;
-    --sidebar-accent-foreground: 160 20% 16%;
+    --sidebar-accent-foreground: 213 29% 14%;
     --sidebar-border: 155 30% 87%;
-    --sidebar-ring: 160 60% 35%;
+    --sidebar-ring: 210 73% 53%;
   }
 }
 
 @layer base {
   * {
     @apply border-border;
+  }
+  html {
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
   }
   body {
     @apply bg-background text-foreground antialiased;
@@ -101,16 +105,16 @@
 
 @layer components {
   .section-base {
-    @apply bg-background py-20;
+    @apply bg-background py-16 md:py-20;
   }
 
   .section-alt {
-    @apply py-20;
+    @apply py-16 md:py-20;
     background-color: #f9fafb;
   }
 
   .section-header {
-    @apply text-center mb-14;
+    @apply text-left mb-12 md:mb-14;
   }
 
   .section-header span {

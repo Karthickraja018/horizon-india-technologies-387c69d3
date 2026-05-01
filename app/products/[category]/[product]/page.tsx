@@ -3,11 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { getProduct, getCategoryBySlug, products } from "@/data/products";
+import { getProduct, getCategoryBySlug, products } from "@/constants/data";
 import { MessageCircle, Phone, Mail, CheckCircle2, Download } from "lucide-react";
-import SpecsTable from "@/components/SpecsTable";
-import InlineCtaBlock from "@/components/InlineCtaBlock";
-import { useQuoteModal } from "@/context/QuoteModalContext";
+import SpecsTable from "@/components/products/SpecsTable";
+import InlineCtaBlock from "@/components/forms/InlineCtaBlock";
+import { useQuoteModal } from "@/providers/QuoteModalContext";
 
 export default function ProductPage() {
   const params = useParams<{ category: string; product: string }>();
@@ -77,7 +77,7 @@ export default function ProductPage() {
           {/* Details */}
           <div className="lg:col-span-7">
             <span className="label-eyebrow">{product.category}</span>
-            <h1 className="text-3xl md:text-4xl font-bold text-hero-headline mt-2 mb-2 leading-tight">
+            <h1 className="h1 text-hero-headline mt-2 mb-2">
               {product.name}
             </h1>
             <p className="text-hero-muted text-sm font-mono mb-6">MODEL: {product.model}</p>

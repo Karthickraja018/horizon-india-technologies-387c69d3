@@ -1,4 +1,4 @@
-export type ThemeName = "precisionGreen" | "slateAmber" | "indigoGold" | "blueLight";
+export type ThemeName = "blueLight";
 
 export type ThemePalette = {
   bgPrimary: string;
@@ -18,36 +18,6 @@ type ThemeMeta = {
 };
 
 export const themeConfig: Record<ThemeName, ThemePalette> = {
-  precisionGreen: {
-    bgPrimary: "#FFFFFF",
-    bgSecondary: "#FFFFFF",
-    textPrimary: "#1A1F24",
-    textSecondary: "#4F5B67",
-    accentPrimary: "#2A8C5A",
-    accentSecondary: "#50C87E",
-    darkPrimary: "#0F1C14",
-    border: "#E5E7EB",
-  },
-  slateAmber: {
-    bgPrimary: "#FFFFFF",
-    bgSecondary: "#FFFFFF",
-    textPrimary: "#1F2933",
-    textSecondary: "#8A9BAC",
-    accentPrimary: "#E07B2A",
-    accentSecondary: "#F5C89A",
-    darkPrimary: "#1C2B3A",
-    border: "#E5E7EB",
-  },
-  indigoGold: {
-    bgPrimary: "#FFFFFF",
-    bgSecondary: "#FFFFFF",
-    textPrimary: "#1E2142",
-    textSecondary: "#6B68A0",
-    accentPrimary: "#C9960A",
-    accentSecondary: "#E5D47A",
-    darkPrimary: "#1A1560",
-    border: "#E5E7EB",
-  },
   blueLight: {
     bgPrimary: "#FFFFFF",
     bgSecondary: "#FFFFFF",
@@ -61,13 +31,10 @@ export const themeConfig: Record<ThemeName, ThemePalette> = {
 };
 
 export const themes: ThemeMeta[] = [
-  { key: "precisionGreen", label: "Precision Green", palette: themeConfig.precisionGreen },
-  { key: "slateAmber", label: "Slate & Amber", palette: themeConfig.slateAmber },
-  { key: "indigoGold", label: "Indigo & Gold", palette: themeConfig.indigoGold },
   { key: "blueLight", label: "Blue Light", palette: themeConfig.blueLight },
 ];
 
-export const defaultTheme: ThemeName = "precisionGreen";
+export const defaultTheme: ThemeName = "blueLight";
 
 const clamp = (value: number, min = 0, max = 100): number => Math.min(max, Math.max(min, value));
 

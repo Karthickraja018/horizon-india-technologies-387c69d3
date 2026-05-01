@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { products } from "@/data/products";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useQuoteModal } from "@/context/QuoteModalContext";
+import { products } from "@/constants/data";
+import { ArrowRight, ChevronLeft, ChevronRight, Activity, Cpu } from "lucide-react";
+import { useQuoteModal } from "@/providers/QuoteModalContext";
 
 const featuredProducts = products.slice(0, 4);
 

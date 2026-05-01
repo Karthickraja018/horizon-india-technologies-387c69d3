@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { categories } from "@/data/products";
+import { categories } from "@/constants/data";
 import { Gauge, ArrowUpDown, FlaskConical, Ruler, ScanSearch, Hammer, Building2, Microscope, Scissors, Projector, ArrowRight } from "lucide-react";
 import React from "react";
 
@@ -25,8 +25,8 @@ export default function ProductsPage() {
         </div>
 
         <span className="label-eyebrow">Catalogue</span>
-        <h1 className="text-3xl md:text-4xl font-bold text-hero-headline mt-2 mb-3">Our Products</h1>
-        <p className="text-hero-muted max-w-2xl mb-12">
+        <h1 className="h1 text-hero-headline mt-2 mb-3">Our Products</h1>
+        <p className="text-hero-muted max-w-2xl mb-10 md:mb-12">
           Browse our complete range of material testing, metrology, and quality control equipment.
         </p>
 

@@ -14,16 +14,16 @@ type BrandLogoProps = {
 
 const sizeClasses: Record<BrandLogoSize, { logo: string; wordmark: string }> = {
   sm: {
-    logo: "h-8 w-auto",
-    wordmark: "h-5 w-auto",
+    logo: "h-5 w-auto",
+    wordmark: "h-[14px] w-auto",
   },
   md: {
-    logo: "h-9 w-auto",
-    wordmark: "h-6 w-auto",
+    logo: "h-6 w-auto",
+    wordmark: "h-4 w-auto",
   },
   lg: {
-    logo: "h-10 w-auto",
-    wordmark: "h-7 w-auto",
+    logo: "h-7 w-auto",
+    wordmark: "h-[18px] w-auto",
   },
 };
 
@@ -31,20 +31,18 @@ const BrandLogo = ({ size = "md", className }: BrandLogoProps) => {
   const selectedSize = sizeClasses[size];
 
   return (
-    <span className={cn("inline-flex items-center gap-2.5 select-none", className)}>
+    <span className={cn("inline-flex items-center gap-1.5 select-none", className)}>
       <Image
         src={logo}
         alt="Horizon India Technologies logo"
         className={selectedSize.logo}
         loading="eager"
-        style={{ height: "auto" }}
       />
       <Image
         src={wordmark}
         alt="Horizon India Technologies"
         className={selectedSize.wordmark}
         loading="eager"
-        style={{ height: "auto" }}
       />
     </span>
   );

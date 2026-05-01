@@ -1,4 +1,5 @@
 import type { StaticImport } from "next/dist/shared/lib/get-img-props";
+import type { Product, Category } from "@/types";
 import rockwellHardnessTester from "@/assets/products/rockwell-hardness-tester.png";
 import brinellHardnessTester from "@/assets/products/brinell-hardness-tester.png";
 import vickersMicroHardnessTester from "@/assets/products/vickers-micro-hardness-tester.png";
@@ -12,28 +13,6 @@ import compressionTestingMachine from "@/assets/products/compression-testing-mac
 import metallurgicalMicroscope from "@/assets/products/metallurgical-microscope.png";
 import abrasiveCutter from "@/assets/products/abrasive-cutter.png";
 import profileProjector from "@/assets/products/profile-projector.png";
-
-export interface Product {
-  id: string;
-  name: string;
-  model: string;
-  category: string;
-  categorySlug: string;
-  slug: string;
-  image: string | StaticImport;
-  description: string;
-  features: string[];
-  specifications: Record<string, string>;
-  applications: string[];
-}
-
-export interface Category {
-  slug: string;
-  name: string;
-  description: string;
-  icon: string;
-  productCount: number;
-}
 
 export const categories: Category[] = [
   { slug: "hardness-testing", name: "Hardness Testing", description: "Rockwell, Brinell, Vickers and Micro-hardness testers for metals, plastics and composites.", icon: "Gauge", productCount: 8 },

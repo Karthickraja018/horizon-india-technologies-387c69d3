@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Palette } from "lucide-react";
-import { useTheme } from "@/context/ThemeContext";
+import { useTheme } from "@/providers/ThemeContext";
 
 const FloatingThemeButton = () => {
   const { theme, setTheme, options } = useTheme();

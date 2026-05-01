@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { categories } from "@/data/products";
-import { useQuoteModal } from "@/context/QuoteModalContext";
+import { categories } from "@/constants/data";
+import { useQuoteModal } from "@/providers/QuoteModalContext";
 
 interface QuoteFormState {
   category: string;

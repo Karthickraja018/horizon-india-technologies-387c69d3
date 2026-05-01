@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
+import AnimatedSection from "@/components/common/AnimatedSection";
 import hardnessImg from "@/assets/products/rockwell-hardness-tester.png";
 import utmImg from "@/assets/products/electromechanical-utm.png";
 import impactImg from "@/assets/products/charpy-impact-tester.png";

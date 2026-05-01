@@ -1,8 +1,8 @@
 "use client";
 
 import { MapPin, Award, Users, Building2 } from "lucide-react";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import CTABand from "@/components/CTABand";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
+import CTABand from "@/components/home/CTABand";
 
 
 const credentials = [

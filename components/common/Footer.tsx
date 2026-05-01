@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
-import BrandLogo from "./BrandLogo";
+import AnimatedSection from "@/components/common/AnimatedSection";
+import BrandLogo from "@/components/common/BrandLogo";
 
 const Footer = () => (
   <footer className="bg-background border-t border-border">
-    <div className="container mx-auto px-6 lg:px-12 py-16">
+    <div className="container mx-auto px-6 lg:px-12 py-10">
       <AnimatedSection>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Company */}

@@ -1,8 +1,8 @@
 "use client";
 
 import { MessageCircle, Phone } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
-import { useQuoteModal } from "@/context/QuoteModalContext";
+import AnimatedSection from "@/components/common/AnimatedSection";
+import { useQuoteModal } from "@/providers/QuoteModalContext";
 
 const CTABand = () => {
   const { openQuoteModal } = useQuoteModal();

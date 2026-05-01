@@ -1,5 +1,5 @@
 import { AlertTriangle, Activity, FileWarning, CheckCircle2 } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
+import AnimatedSection from "@/components/common/AnimatedSection";
 
 const problems = [
   {

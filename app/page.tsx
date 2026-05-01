@@ -1,9 +1,9 @@
-import HeroSection from "@/components/HeroSection";
-import TrustBar from "@/components/TrustBar";
-import CategoriesGrid from "@/components/CategoriesGrid";
-import FeaturedProducts from "@/components/FeaturedProducts";
-import ServicesSection from "@/components/ServicesSection";
-import CTABand from "@/components/CTABand";
+import HeroSection from "@/components/home/HeroSection";
+import TrustBar from "@/components/home/TrustBar";
+import CategoriesGrid from "@/components/home/CategoriesGrid";
+import FeaturedProducts from "@/components/home/FeaturedProducts";
+import ServicesSection from "@/components/home/ServicesSection";
+import CTABand from "@/components/home/CTABand";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

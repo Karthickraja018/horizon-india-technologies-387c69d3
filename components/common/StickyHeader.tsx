@@ -3,10 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, ShieldCheck, X } from "lucide-react";
-import { categories } from "@/data/products";
+import { categories } from "@/constants/data";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
-import { useQuoteModal } from "@/context/QuoteModalContext";
-import BrandLogo from "@/components/BrandLogo";
+import { useQuoteModal } from "@/providers/QuoteModalContext";
+import BrandLogo from "@/components/common/BrandLogo";
 
 const sectionLinks = [
   { id: "home", label: "Home" },

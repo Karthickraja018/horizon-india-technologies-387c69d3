@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
-import Layout from "@/components/Layout";
+import Layout from "@/components/common/Layout";
 
 export const metadata: Metadata = {
   title: "Horizon India Technologies | Industrial Testing Equipment",

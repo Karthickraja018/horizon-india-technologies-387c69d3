@@ -16,11 +16,11 @@ const WhatsAppButton = ({ productName }: WhatsAppButtonProps) => {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 bg-whatsapp text-accent-foreground p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+      className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 hover:bg-[#1EBE57]"
       aria-label="Chat on WhatsApp"
     >
       <MessageCircle className="w-6 h-6" />
-      <span className="absolute inset-0 rounded-full bg-whatsapp animate-ping opacity-30" />
+      <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-30" />
     </a>
   );
 };

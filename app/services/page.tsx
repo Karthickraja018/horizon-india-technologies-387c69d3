@@ -1,5 +1,5 @@
-import ServicesSection from "@/components/ServicesSection";
-import CTABand from "@/components/CTABand";
+import ServicesSection from "@/components/home/ServicesSection";
+import CTABand from "@/components/home/CTABand";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
