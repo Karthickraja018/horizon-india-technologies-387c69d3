@@ -4,7 +4,25 @@ import { getProductBySlug, getCategories, getProducts } from "@/lib/api";
 import { MessageCircle, Phone, Mail, CheckCircle2, Download } from "lucide-react";
 import SpecsTable from "@/components/products/SpecsTable";
 import InlineCtaBlock from "@/components/forms/InlineCtaBlock";
+import type { Metadata } from "next";
+import VariantSelector from "@/components/products/VariantSelector";
+import AccessoriesList from "@/components/products/AccessoriesList";
 import QuoteButton from "@/components/products/QuoteButton";
+
+export async function generateMetadata({ params }: { params: { product: string } }): Promise<Metadata> {
+  const product = await getProductBySlug(params.product);
+  if (!product) return {};
+  return {
+    title: product.seo?.title || `${product.name} | Horizon India Technologies`,
+    description: product.seo?.description || product.shortDescription || product.description,
+    keywords: product.seo?.keywords,
+    openGraph: {
+      title: product.seo?.title || product.name,
+      description: product.seo?.description || product.shortDescription || product.description,
+      images: product.seo?.ogImage ? [{ url: product.seo.ogImage }] : [],
+    },
+  };
+}
 
 export default async function ProductPage({ params }: { params: { category: string; product: string } }) {
   const categorySlug = params.category;
@@ -38,9 +56,11 @@ export default async function ProductPage({ params }: { params: { category: stri
     .filter(([key, value]) => /standard|astm|iso/i.test(key) || /astm|iso/i.test(value))
     .map(([, value]) => value);
 
-  const standards = standardsFromSpecs.length
-    ? standardsFromSpecs
-    : ["ASTM compliant configuration", "ISO aligned testing workflow"];
+  const standards = product.standardsSupported?.length 
+    ? product.standardsSupported 
+    : standardsFromSpecs.length
+      ? standardsFromSpecs
+      : ["ASTM compliant configuration", "ISO aligned testing workflow"];
 
   return (
     <div className="bg-background min-h-screen">
@@ -61,14 +81,18 @@ export default async function ProductPage({ params }: { params: { category: stri
           {/* Image */}
           <div className="lg:col-span-5">
             <div className="surface-card p-8 flex items-center justify-center aspect-square">
-              <Image
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-contain"
-                loading="lazy"
-                width={560}
-                height={560}
-              />
+              {product.image ? (
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-contain"
+                  loading="lazy"
+                  width={560}
+                  height={560}
+                />
+              ) : (
+                <div className="text-hero-muted text-sm flex items-center justify-center h-full w-full bg-background border border-border rounded">No Image Available</div>
+              )}
             </div>
           </div>
 
@@ -79,6 +103,11 @@ export default async function ProductPage({ params }: { params: { category: stri
               {product.name}
             </h1>
             <p className="text-hero-muted text-sm font-mono mb-6">MODEL: {product.model}</p>
+            {product.shortDescription && (
+              <p className="text-xl text-hero-foreground font-medium leading-relaxed mb-6">
+                {product.shortDescription}
+              </p>
+            )}
             <p className="text-hero-foreground leading-relaxed mb-8">{product.description}</p>
 
             {/* Features */}
@@ -95,6 +124,10 @@ export default async function ProductPage({ params }: { params: { category: stri
                 ))}
               </ul>
             </div>
+
+            {product.variants && product.variants.length > 0 && (
+              <VariantSelector variants={product.variants} />
+            )}
 
             {/* CTAs */}
             <div className="surface-card p-5 mb-2">
@@ -130,6 +163,11 @@ export default async function ProductPage({ params }: { params: { category: stri
           <h2 className="text-2xl font-bold text-hero-headline mt-2 mb-6">Specifications</h2>
           <SpecsTable specifications={product.specifications} />
         </div>
+
+        {/* Accessories */}
+        {product.accessories && product.accessories.length > 0 && (
+          <AccessoriesList accessories={product.accessories} />
+        )}
 
         {/* Applications */}
         <div className="mt-12">
@@ -180,14 +218,18 @@ export default async function ProductPage({ params }: { params: { category: stri
                   className="surface-card animate-card-lift p-4"
                 >
                   <div className="aspect-[4/3] border border-border rounded-md flex items-center justify-center p-4 bg-background">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-contain"
-                      loading="lazy"
-                      width={320}
-                      height={240}
-                    />
+                    {item.image ? (
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-contain"
+                        loading="lazy"
+                        width={320}
+                        height={240}
+                      />
+                    ) : (
+                      <span className="text-xs text-hero-muted">No Image</span>
+                    )}
                   </div>
                   <p className="text-xs uppercase tracking-wider text-hero-muted mt-3">
                     {item.category}

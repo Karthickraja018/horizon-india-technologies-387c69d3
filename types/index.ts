@@ -9,9 +9,38 @@ export interface Product {
   slug: string;
   image: string | StaticImport;
   description: string;
+  shortDescription?: string;
+  brand?: string;
+  series?: string;
   features: string[];
   specifications: Record<string, string>;
   applications: string[];
+  standardsSupported?: string[];
+  variants?: ProductVariant[];
+  accessories?: Accessory[];
+  seo?: {
+    title?: string;
+    description?: string;
+    keywords?: string;
+    ogImage?: string;
+  };
+}
+
+export interface ProductVariant {
+  id: string;
+  modelName: string;
+  type?: string;
+  majorLoads?: string;
+  minorLoads?: string;
+  resolution?: string;
+}
+
+export interface Accessory {
+  id: string;
+  name: string;
+  category: 'standard' | 'optional';
+  description?: string;
+  image?: string;
 }
 
 export interface Category {

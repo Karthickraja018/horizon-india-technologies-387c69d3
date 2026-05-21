@@ -34,13 +34,38 @@ export function mapProduct(payloadProduct: PayloadProduct): Product {
     categorySlug: categorySlug,
     slug: payloadProduct.slug,
     image: getMediaUrl(payloadProduct.heroImage),
+    shortDescription: payloadProduct.shortDescription || '',
+    brand: payloadProduct.brand || '',
+    series: payloadProduct.series || '',
     description: payloadProduct.description || '',
-    features: payloadProduct.keyFeatures?.map((kf) => kf.feature) || [],
-    specifications: payloadProduct.specTable?.reduce((acc, curr) => {
+    features: payloadProduct.keyFeatures?.map((kf: any) => kf.feature) || [],
+    specifications: payloadProduct.specTable?.reduce((acc: any, curr: any) => {
       acc[curr.label] = curr.value;
       return acc;
     }, {} as Record<string, string>) || {},
     applications: payloadProduct.applications ? payloadProduct.applications.split('\n').filter(Boolean) : [],
+    standardsSupported: payloadProduct.standardsSupported?.map((s: any) => s.standard) || [],
+    variants: (payloadProduct.variants as any[])?.map((v: any) => ({
+      id: String(v.id),
+      modelName: v.modelName || '',
+      type: v.type || '',
+      majorLoads: v.majorLoads || '',
+      minorLoads: v.minorLoads || '',
+      resolution: v.resolution || '',
+    })) || [],
+    accessories: (payloadProduct.accessories as any[])?.map((a: any) => ({
+      id: String(a.id),
+      name: a.name || '',
+      category: a.category || 'standard',
+      description: a.description || '',
+      image: getMediaUrl(a.image),
+    })) || [],
+    seo: {
+      title: payloadProduct.metaTitle || '',
+      description: payloadProduct.metaDescription || '',
+      keywords: payloadProduct.metaKeywords || '',
+      ogImage: getMediaUrl(payloadProduct.ogImage),
+    },
   };
 }
 
@@ -58,7 +83,7 @@ export async function getCategories(): Promise<Category[]> {
 
 export async function getProducts(categorySlug?: string): Promise<Product[]> {
   try {
-    const res = await fetch(`${API_URL}/api/products?depth=1&limit=100`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API_URL}/api/products?depth=2&limit=100`, { next: { revalidate: 3600 } });
     if (!res.ok) return [];
     const data = await res.json();
     let mapped = data.docs.map(mapProduct);
@@ -74,7 +99,7 @@ export async function getProducts(categorySlug?: string): Promise<Product[]> {
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
-    const res = await fetch(`${API_URL}/api/products?where[slug][equals]=${slug}&depth=1`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API_URL}/api/products?where[slug][equals]=${slug}&depth=2`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     const data = await res.json();
     if (data.docs.length === 0) return null;
