@@ -2,8 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { categories } from "@/constants/data";
+import { categories as fallbackCategories } from "@/constants/data";
 import { useQuoteModal } from "@/providers/QuoteModalContext";
+import type { Category } from "@/types";
 
 interface QuoteFormState {
   category: string;
@@ -33,7 +34,11 @@ const initialState: QuoteFormState = {
   email: "",
 };
 
-const QuoteFormModal = () => {
+interface QuoteFormModalProps {
+  categories?: Category[];
+}
+
+const QuoteFormModal = ({ categories = fallbackCategories }: QuoteFormModalProps) => {
   const { isOpen, closeQuoteModal, prefill } = useQuoteModal();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<QuoteFormState>(initialState);

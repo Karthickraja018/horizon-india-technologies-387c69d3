@@ -1,22 +1,18 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import { getProduct, getCategoryBySlug, products } from "@/constants/data";
+import { getProductBySlug, getCategories, getProducts } from "@/lib/api";
 import { MessageCircle, Phone, Mail, CheckCircle2, Download } from "lucide-react";
 import SpecsTable from "@/components/products/SpecsTable";
 import InlineCtaBlock from "@/components/forms/InlineCtaBlock";
-import { useQuoteModal } from "@/providers/QuoteModalContext";
+import QuoteButton from "@/components/products/QuoteButton";
 
-export default function ProductPage() {
-  const params = useParams<{ category: string; product: string }>();
-  const category = params?.category ?? "";
-  const productSlug = params?.product ?? "";
+export default async function ProductPage({ params }: { params: { category: string; product: string } }) {
+  const categorySlug = params.category;
+  const productSlug = params.product;
 
-  const cat = getCategoryBySlug(category);
-  const product = getProduct(category, productSlug);
-  const { openQuoteModal } = useQuoteModal();
+  const categories = await getCategories();
+  const cat = categories.find(c => c.slug === categorySlug);
+  const product = await getProductBySlug(productSlug);
 
   if (!cat || !product) {
     return (
@@ -32,8 +28,10 @@ export default function ProductPage() {
     );
   }
 
-  const relatedProducts = products
-    .filter((item) => item.categorySlug === product.categorySlug && item.id !== product.id)
+  // Fetch related products from same category
+  const allProds = await getProducts(categorySlug);
+  const relatedProducts = allProds
+    .filter((item) => item.id !== product.id)
     .slice(0, 3);
 
   const standardsFromSpecs = Object.entries(product.specifications)
@@ -104,19 +102,14 @@ export default function ProductPage() {
                 Request a Quotation
               </p>
               <div className="flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  onClick={() =>
-                    openQuoteModal({
-                      productName: product.name,
-                      model: product.model,
-                      category: product.category,
-                    })
-                  }
-                  className="btn-primary animate-button-scale"
+                <QuoteButton
+                  productName={product.name}
+                  model={product.model}
+                  category={product.category}
+                  className="btn-primary flex items-center gap-2 animate-button-scale"
                 >
                   <MessageCircle className="w-5 h-5" /> Request Quote
-                </button>
+                </QuoteButton>
                 <a
                   href="mailto:horizonindiatechnologies@gmail.com"
                   className="btn-outline animate-button-scale"
@@ -217,34 +210,20 @@ export default function ProductPage() {
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={() =>
-          openQuoteModal({
-            productName: product.name,
-            model: product.model,
-            category: product.category,
-          })
-        }
+      <QuoteButton
+        productName={product.name}
+        model={product.model}
+        category={product.category}
         className="fixed right-6 bottom-24 z-40 btn-primary text-sm px-4 py-2.5 animate-button-scale hidden md:inline-flex"
-      >
-        Request Quote
-      </button>
+      />
 
       <div className="md:hidden fixed bottom-4 left-4 right-4 z-40">
-        <button
-          type="button"
-          onClick={() =>
-            openQuoteModal({
-              productName: product.name,
-              model: product.model,
-              category: product.category,
-            })
-          }
+        <QuoteButton
+          productName={product.name}
+          model={product.model}
+          category={product.category}
           className="w-full btn-primary py-3"
-        >
-          Request Quote
-        </button>
+        />
       </div>
     </div>
   );

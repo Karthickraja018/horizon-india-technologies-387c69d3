@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { categories } from "@/constants/data";
 import { Gauge, ArrowUpDown, FlaskConical, Ruler, ScanSearch, Hammer, Building2, Microscope, Scissors, Projector, ArrowRight } from "lucide-react";
 import React from "react";
+import { getCategories } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Products | Horizon India Technologies",
@@ -14,7 +14,9 @@ const iconMap: Record<string, React.ElementType> = {
   Gauge, ArrowUpDown, FlaskConical, Ruler, ScanSearch, Hammer, Building2, Microscope, Scissors, Projector,
 };
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const categories = await getCategories();
+  
   return (
     <div className="bg-background min-h-screen">
       <div className="container mx-auto px-6 lg:px-12 py-16">

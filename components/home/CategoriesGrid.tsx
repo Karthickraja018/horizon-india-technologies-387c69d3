@@ -12,16 +12,23 @@ import ndtImg from "@/assets/products/ultrasonic-flaw-detector.png";
 import metrologyImg from "@/assets/products/digital-height-gauge.png";
 import microscopeImg from "@/assets/products/metallurgical-microscope.png";
 
-const featuredCategories = [
-  { slug: "hardness-testing", name: "Hardness Testing", description: "Rockwell, Brinell & Vickers testers for metals and composites.", image: hardnessImg, productCount: 8 },
-  { slug: "universal-testing-machines", name: "Universal Testing Machines", description: "Servo-hydraulic & electromechanical UTMs for tensile and compression.", image: utmImg, productCount: 6 },
-  { slug: "impact-testing", name: "Impact Testing", description: "Charpy & Izod impact testers with digital readouts.", image: impactImg, productCount: 4 },
-  { slug: "ndt-equipment", name: "NDT Equipment", description: "Ultrasonic flaw detectors and inspection systems.", image: ndtImg, productCount: 6 },
-  { slug: "metrology", name: "Metrology", description: "Precision measuring instruments and height gauges.", image: metrologyImg, productCount: 7 },
-  { slug: "microscopes", name: "Microscopes", description: "Metallurgical, stereo and digital microscopes.", image: microscopeImg, productCount: 5 },
+import type { Category } from "@/types";
+
+const fallbackCategories: Category[] = [
+  { slug: "hardness-testing", name: "Hardness Testing", description: "Rockwell, Brinell & Vickers testers for metals and composites.", icon: "Package", image: hardnessImg, productCount: 8 },
+  { slug: "universal-testing-machines", name: "Universal Testing Machines", description: "Servo-hydraulic & electromechanical UTMs for tensile and compression.", icon: "Package", image: utmImg, productCount: 6 },
+  { slug: "impact-testing", name: "Impact Testing", description: "Charpy & Izod impact testers with digital readouts.", icon: "Package", image: impactImg, productCount: 4 },
+  { slug: "ndt-equipment", name: "NDT Equipment", description: "Ultrasonic flaw detectors and inspection systems.", icon: "Package", image: ndtImg, productCount: 6 },
+  { slug: "metrology", name: "Metrology", description: "Precision measuring instruments and height gauges.", icon: "Package", image: metrologyImg, productCount: 7 },
+  { slug: "microscopes", name: "Microscopes", description: "Metallurgical, stereo and digital microscopes.", icon: "Package", image: microscopeImg, productCount: 5 },
 ];
 
-const CategoriesGrid = () => {
+interface CategoriesGridProps {
+  categories?: Category[];
+}
+
+const CategoriesGrid = ({ categories = fallbackCategories }: CategoriesGridProps) => {
+  const displayCategories = categories.length > 0 ? categories : fallbackCategories;
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
@@ -75,7 +82,7 @@ const CategoriesGrid = () => {
               className="-mx-6 lg:-mx-12 px-6 lg:px-12 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
               <div className="flex gap-4 min-w-max">
-                {featuredCategories.map((cat) => (
+                {displayCategories.map((cat) => (
                   <Link
                     key={cat.slug}
                     href={`/products/${cat.slug}`}

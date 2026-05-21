@@ -1,31 +1,16 @@
-"use client";
-
-import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import { getCategoryBySlug, getProductsByCategory } from "@/constants/data";
-import ProductCardSkeleton from "@/components/products/ProductCardSkeleton";
+import { getCategories, getProducts } from "@/lib/api";
 import InlineCtaBlock from "@/components/forms/InlineCtaBlock";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { getQuickSpecs } from "@/lib/utils";
-import { useQuoteModal } from "@/providers/QuoteModalContext";
+import QuoteButton from "@/components/products/QuoteButton";
 
-export default function CategoryPage() {
-  const params = useParams<{ category: string }>();
-  const category = params?.category ?? "";
-  const cat = getCategoryBySlug(category);
-  const [loading, setLoading] = useState(true);
-  const { openQuoteModal } = useQuoteModal();
-
-  const prods = useMemo(() => getProductsByCategory(category), [category]);
-
-  useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 350);
-    return () => clearTimeout(timer);
-  }, [category]);
-
+export default async function CategoryPage({ params }: { params: { category: string } }) {
+  const categorySlug = params.category;
+  const categories = await getCategories();
+  const cat = categories.find(c => c.slug === categorySlug);
+  
   if (!cat) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
@@ -39,6 +24,8 @@ export default function CategoryPage() {
       </div>
     );
   }
+
+  const prods = await getProducts(categorySlug);
 
   return (
     <div className="bg-background min-h-screen">
@@ -55,13 +42,7 @@ export default function CategoryPage() {
         <h1 className="h1 text-hero-headline mt-2 mb-3">{cat.name}</h1>
         <p className="text-hero-muted max-w-2xl mb-10 md:mb-12">{cat.description}</p>
 
-        {loading ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <ProductCardSkeleton key={index} />
-            ))}
-          </div>
-        ) : prods.length === 0 ? (
+        {prods.length === 0 ? (
           <p className="text-hero-muted">
             Products coming soon.{" "}
             <Link href="/contact" className="text-hero-accent hover:underline">Contact us</Link> for
@@ -132,19 +113,14 @@ export default function CategoryPage() {
                         >
                           Details
                         </Link>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            openQuoteModal({
-                              productName: product.name,
-                              model: product.model,
-                              category: product.category,
-                            })
-                          }
+                        <QuoteButton
+                          productName={product.name}
+                          model={product.model}
+                          category={product.category}
                           className="btn-primary text-[11px] py-2 px-2 animate-button-scale"
                         >
                           Get Quote
-                        </button>
+                        </QuoteButton>
                       </div>
                     </div>
                   </div>

@@ -7,7 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
 
 import BrandLogo from "@/components/common/BrandLogo";
-import { categories } from "@/constants/data";
+import { categories as fallbackCategories } from "@/constants/data";
 import { useQuoteModal } from "@/providers/QuoteModalContext";
 
 const SCROLL_THRESHOLD_PX = 80;
@@ -43,7 +43,7 @@ function useFloatingNav(thresholdPx = SCROLL_THRESHOLD_PX) {
   return isFloating;
 }
 
-export default function Navbar() {
+export default function Navbar({ categories = fallbackCategories }) {
   const pathname = usePathname();
   const { openQuoteModal } = useQuoteModal();
   const shouldReduceMotion = useReducedMotion();

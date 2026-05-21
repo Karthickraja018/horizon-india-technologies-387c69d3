@@ -4,13 +4,19 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { products } from "@/constants/data";
+import { products as fallbackProducts } from "@/constants/data";
 import { ArrowRight, ChevronLeft, ChevronRight, Activity, Cpu } from "lucide-react";
 import { useQuoteModal } from "@/providers/QuoteModalContext";
+import type { Product } from "@/types";
 
-const featuredProducts = products.slice(0, 4);
+interface FeaturedProductsProps {
+  products?: Product[];
+}
 
-const FeaturedProducts = () => {
+const FeaturedProducts = ({ products = fallbackProducts }: FeaturedProductsProps) => {
+  const currentProducts = products.length > 0 ? products : fallbackProducts;
+  const featuredProducts = currentProducts.slice(0, 4);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const { openQuoteModal } = useQuoteModal();

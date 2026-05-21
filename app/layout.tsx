@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
 import Layout from "@/components/common/Layout";
+import { getCategories } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Horizon India Technologies | Industrial Testing Equipment",
@@ -11,16 +12,18 @@ export const metadata: Metadata = {
     "industrial testing equipment, material testing, metrology, calibration, Tamil Nadu, Chennai, Karur, Coimbatore, NABL",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const categories = await getCategories();
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <Providers>
-          <Layout>{children}</Layout>
+          <Layout categories={categories.length > 0 ? categories : undefined}>{children}</Layout>
         </Providers>
       </body>
     </html>
