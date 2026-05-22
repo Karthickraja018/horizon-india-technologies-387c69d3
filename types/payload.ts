@@ -27,13 +27,21 @@ export interface PayloadProduct {
   slug: string;
   heroImage?: (number | null) | PayloadMedia;
   galleryImages?: { media: number | PayloadMedia; id?: string | null }[] | null;
+  shortDescription?: string | null;
   description?: string | null;
+  brand?: string | null;
+  series?: string | null;
   applications?: string | null;
   keyFeatures?: { feature: string; id?: string | null }[] | null;
+  standardsSupported?: { standard: string; id?: string | null }[] | null;
   specTable?: { label: string; value: string; id?: string | null }[] | null;
+  variants?: any[] | null;
+  accessories?: any[] | null;
   pdf?: (number | null) | PayloadMedia;
   metaTitle?: string | null;
   metaDescription?: string | null;
+  metaKeywords?: string | null;
+  ogImage?: (number | null) | PayloadMedia;
   updatedAt: string;
   createdAt: string;
 }
