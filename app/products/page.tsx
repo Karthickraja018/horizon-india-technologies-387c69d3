@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Gauge, ArrowUpDown, FlaskConical, Ruler, ScanSearch, Hammer, Building2, Microscope, Scissors, Projector, ArrowRight } from "lucide-react";
+import { Gauge, ArrowUpDown, FlaskConical, Ruler, ScanSearch, Hammer, Building2, Microscope, Scissors, Projector, Package, ArrowRight } from "lucide-react";
 import React from "react";
 import { getCategories } from "@/lib/api";
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 const iconMap: Record<string, React.ElementType> = {
-  Gauge, ArrowUpDown, FlaskConical, Ruler, ScanSearch, Hammer, Building2, Microscope, Scissors, Projector,
+  Gauge, ArrowUpDown, FlaskConical, Ruler, ScanSearch, Hammer, Building2, Microscope, Scissors, Projector, Package,
 };
 
 export default async function ProductsPage() {

@@ -6,18 +6,32 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 function getMediaUrl(media: any): string {
   if (!media) return '';
   if (typeof media === 'string') return media;
-  if (typeof media === 'number') return ''; // Unpopulated
-  return media.url || '';
+  if (typeof media === 'number') return ''; // Unpopulated — not yet populated at this depth
+  // Cloudinary: prefer cloudinaryUrl, fall back to url
+  return media.cloudinaryUrl || media.url || '';
 }
 
-export function mapCategory(payloadCategory: PayloadCategory): Category {
+const SLUG_TO_ICON_NAME: Record<string, string> = {
+  "hardness-testing": "Gauge",
+  "universal-testing-machines": "ArrowUpDown",
+  "sand-testing": "FlaskConical",
+  "metrology": "Ruler",
+  "ndt-equipment": "ScanSearch",
+  "impact-testing": "Hammer",
+  "civil-lab": "Building2",
+  "microscopes": "Microscope",
+  "cutting-tools": "Scissors",
+  "projectors": "Projector",
+};
+
+export function mapCategory(payloadCategory: PayloadCategory, productCount = 0): Category {
   return {
     slug: payloadCategory.slug,
     name: payloadCategory.name,
     description: payloadCategory.description || '',
-    icon: 'Package', // fallback icon since payload doesn't have it
+    icon: SLUG_TO_ICON_NAME[payloadCategory.slug] || 'Package',
     image: getMediaUrl(payloadCategory.heroImage),
-    productCount: 0, // Fallback
+    productCount,
   };
 }
 
@@ -38,6 +52,7 @@ export function mapProduct(payloadProduct: PayloadProduct): Product {
     brand: payloadProduct.brand || '',
     series: payloadProduct.series || '',
     description: payloadProduct.description || '',
+    isFeatured: !!(payloadProduct as any).isFeatured,
     features: payloadProduct.keyFeatures?.map((kf: any) => kf.feature) || [],
     specifications: payloadProduct.specTable?.reduce((acc: any, curr: any) => {
       acc[curr.label] = curr.value;
@@ -69,12 +84,38 @@ export function mapProduct(payloadProduct: PayloadProduct): Product {
   };
 }
 
+/**
+ * Returns all categories that have at least one product, with accurate productCount.
+ * Empty categories are excluded from the result.
+ */
 export async function getCategories(): Promise<Category[]> {
   try {
-    const res = await fetch(`${API_URL}/api/categories?depth=1&limit=100`, { next: { revalidate: 3600 } });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.docs.map(mapCategory);
+    // Fetch categories and all products in parallel
+    const [catRes, prodRes] = await Promise.all([
+      fetch(`${API_URL}/api/categories?depth=1&limit=100`, { next: { revalidate: 3600 } }),
+      fetch(`${API_URL}/api/products?depth=1&limit=500`, { next: { revalidate: 3600 } }),
+    ]);
+    if (!catRes.ok) return [];
+
+    const catData = await catRes.json();
+    const categories: PayloadCategory[] = catData.docs;
+
+    // Build a count map: categoryId -> count
+    const countMap: Record<number, number> = {};
+    if (prodRes.ok) {
+      const prodData = await prodRes.json();
+      for (const p of prodData.docs) {
+        const catId = typeof p.category === 'object' && p.category !== null 
+          ? p.category.id 
+          : p.category;
+        if (catId != null) countMap[catId] = (countMap[catId] || 0) + 1;
+      }
+    }
+
+    // Map and filter out categories with 0 products
+    return categories
+      .map((cat) => mapCategory(cat, countMap[cat.id] || 0))
+      .filter((cat) => cat.productCount > 0);
   } catch (error) {
     console.error('Error fetching categories:', error);
     return [];
@@ -86,13 +127,39 @@ export async function getProducts(categorySlug?: string): Promise<Product[]> {
     const res = await fetch(`${API_URL}/api/products?depth=2&limit=100`, { next: { revalidate: 3600 } });
     if (!res.ok) return [];
     const data = await res.json();
-    let mapped = data.docs.map(mapProduct);
+    let mapped: Product[] = data.docs.map(mapProduct);
     if (categorySlug) {
-      mapped = mapped.filter((p: Product) => p.categorySlug === categorySlug);
+      mapped = mapped.filter((p) => p.categorySlug === categorySlug);
     }
     return mapped;
   } catch (error) {
     console.error('Error fetching products:', error);
+    return [];
+  }
+}
+
+/**
+ * Returns products marked isFeatured=true, up to the given limit.
+ * Falls back to the first `limit` products if none are featured.
+ */
+export async function getFeaturedProducts(limit = 6): Promise<Product[]> {
+  try {
+    // Try to fetch only featured products first
+    const res = await fetch(
+      `${API_URL}/api/products?where[isFeatured][equals]=true&depth=2&limit=${limit}`,
+      { next: { revalidate: 3600 } },
+    );
+    if (res.ok) {
+      const data = await res.json();
+      if (data.docs.length > 0) return data.docs.map(mapProduct);
+    }
+    // Fallback: return first `limit` products
+    const fallbackRes = await fetch(`${API_URL}/api/products?depth=2&limit=${limit}`, { next: { revalidate: 3600 } });
+    if (!fallbackRes.ok) return [];
+    const fallbackData = await fallbackRes.json();
+    return fallbackData.docs.map(mapProduct);
+  } catch (error) {
+    console.error('Error fetching featured products:', error);
     return [];
   }
 }

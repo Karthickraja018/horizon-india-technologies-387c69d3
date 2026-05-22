@@ -6,7 +6,7 @@ import ServicesSection from "@/components/home/ServicesSection";
 import CTABand from "@/components/home/CTABand";
 import type { Metadata } from "next";
 
-import { getProducts, getCategories } from "@/lib/api";
+import { getFeaturedProducts, getCategories } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Horizon India Technologies | Industrial Testing Equipment Supplier Tamil Nadu",
@@ -15,14 +15,16 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const products = await getProducts();
-  const categories = await getCategories();
+  const [featuredProducts, categories] = await Promise.all([
+    getFeaturedProducts(6),
+    getCategories(),
+  ]);
 
   return (
     <>
       <HeroSection />
       <TrustBar />
-      <FeaturedProducts products={products.length > 0 ? products : undefined} />
+      <FeaturedProducts products={featuredProducts.length > 0 ? featuredProducts : undefined} />
       <CategoriesGrid categories={categories.length > 0 ? categories : undefined} />
       <ServicesSection />
       <CTABand />

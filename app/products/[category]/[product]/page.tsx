@@ -29,10 +29,9 @@ export default async function ProductPage({ params }: { params: { category: stri
   const productSlug = params.product;
 
   const categories = await getCategories();
-  const cat = categories.find(c => c.slug === categorySlug);
   const product = await getProductBySlug(productSlug);
 
-  if (!cat || !product) {
+  if (!product) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
@@ -45,6 +44,16 @@ export default async function ProductPage({ params }: { params: { category: stri
       </div>
     );
   }
+
+  // Try to find the category from the live list; fall back to the product's own category data
+  const cat = categories.find((c) => c.slug === categorySlug) || {
+    slug: categorySlug,
+    name: product.category || categorySlug,
+    description: '',
+    icon: 'Package',
+    image: '',
+    productCount: 0,
+  };
 
   // Fetch related products from same category
   const allProds = await getProducts(categorySlug);

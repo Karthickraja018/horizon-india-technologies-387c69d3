@@ -12,6 +12,7 @@ export interface Product {
   shortDescription?: string;
   brand?: string;
   series?: string;
+  isFeatured?: boolean;
   features: string[];
   specifications: Record<string, string>;
   applications: string[];

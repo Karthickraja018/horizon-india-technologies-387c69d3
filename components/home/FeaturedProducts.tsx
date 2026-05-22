@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { products as fallbackProducts } from "@/constants/data";
-import { ArrowRight, ChevronLeft, ChevronRight, Activity, Cpu } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Package } from "lucide-react";
 import { useQuoteModal } from "@/providers/QuoteModalContext";
 import type { Product } from "@/types";
 
@@ -13,9 +12,9 @@ interface FeaturedProductsProps {
   products?: Product[];
 }
 
-const FeaturedProducts = ({ products = fallbackProducts }: FeaturedProductsProps) => {
-  const currentProducts = products.length > 0 ? products : fallbackProducts;
-  const featuredProducts = currentProducts.slice(0, 4);
+const FeaturedProducts = ({ products = [] }: FeaturedProductsProps) => {
+  const featuredProducts = products.slice(0, 6);
+  if (featuredProducts.length === 0) return null;
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -97,12 +96,12 @@ const FeaturedProducts = ({ products = fallbackProducts }: FeaturedProductsProps
                 </div>
 
                 <p className="text-slate-600 text-base leading-relaxed mb-8 max-w-md">
-                  {product.description}
+                  {product.shortDescription || product.description}
                 </p>
 
                 {/* Quick Specs - 3 Items Max */}
                 <div className="mb-10 flex flex-col gap-2 max-w-md">
-                  {Object.entries(product.specifications).slice(0, 3).map(([key, val], idx) => (
+                  {Object.entries(product.specifications || {}).slice(0, 3).map(([key, val], idx) => (
                     <div key={idx} className="text-sm md:text-base text-slate-700">
                       <span className="font-bold text-slate-900 mr-2">{key}:</span>
                       <span className="text-slate-600">{val}</span>
@@ -201,14 +200,30 @@ const FeaturedProducts = ({ products = fallbackProducts }: FeaturedProductsProps
                     transition={{ duration: 0.6, ease: "easeInOut", delay: 0.1 }}
                     className="w-full h-full flex items-center justify-center lg:p-8"
                   >
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={1000}
-                      height={1000}
-                      loading="eager"
-                      className="w-full h-full object-contain max-h-[400px] lg:max-h-[450px] transition-transform duration-1000 group-hover:scale-105"
-                    />
+                    {product.image && typeof product.image === 'string' && product.image.startsWith('http') ? (
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        width={1000}
+                        height={1000}
+                        loading="eager"
+                        className="w-full h-full object-contain max-h-[400px] lg:max-h-[450px] transition-transform duration-1000 group-hover:scale-105"
+                      />
+                    ) : product.image && typeof product.image !== 'string' ? (
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        width={1000}
+                        height={1000}
+                        loading="eager"
+                        className="w-full h-full object-contain max-h-[400px] lg:max-h-[450px] transition-transform duration-1000 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center gap-4 text-slate-300">
+                        <Package className="w-24 h-24 opacity-30" />
+                        <span className="text-sm text-slate-400 font-medium">{product.name}</span>
+                      </div>
+                    )}
                   </motion.div>
                 </AnimatePresence>
 
@@ -223,7 +238,7 @@ const FeaturedProducts = ({ products = fallbackProducts }: FeaturedProductsProps
                       transition={{ duration: 0.6, ease: "easeInOut", delay: 0.2 }}
                       className="flex items-center text-[10px] lg:text-xs font-bold uppercase tracking-[0.15em] text-slate-500 bg-white/80 backdrop-blur-sm px-4 py-2.5 rounded shadow-sm border border-slate-100"
                     >
-                      {product.applications.slice(0, 3).map((app, i, arr) => (
+                      {(Array.isArray(product.applications) ? product.applications : []).slice(0, 3).map((app, i, arr) => (
                         <span key={i} className="flex items-center">
                           {app}
                           {i < arr.length - 1 && <span className="mx-3 text-slate-300">•</span>}
