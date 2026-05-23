@@ -34,6 +34,7 @@ export interface ProductVariant {
   majorLoads?: string;
   minorLoads?: string;
   resolution?: string;
+  specifications?: Record<string, string>;
 }
 
 export interface Accessory {

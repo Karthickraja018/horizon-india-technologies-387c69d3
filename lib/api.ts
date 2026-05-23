@@ -8,7 +8,11 @@ function getMediaUrl(media: any): string {
   if (typeof media === 'string') return media;
   if (typeof media === 'number') return ''; // Unpopulated — not yet populated at this depth
   // Cloudinary: prefer cloudinaryUrl, fall back to url
-  return media.cloudinaryUrl || media.url || '';
+  const url = media.cloudinaryUrl || media.url || '';
+  if (url.startsWith('/')) {
+    return `${API_URL}${url}`;
+  }
+  return url;
 }
 
 const SLUG_TO_ICON_NAME: Record<string, string> = {
@@ -67,6 +71,10 @@ export function mapProduct(payloadProduct: PayloadProduct): Product {
       majorLoads: v.majorLoads || '',
       minorLoads: v.minorLoads || '',
       resolution: v.resolution || '',
+      specifications: v.specTable?.reduce((acc: any, curr: any) => {
+        acc[curr.label] = curr.value;
+        return acc;
+      }, {} as Record<string, string>) || {},
     })) || [],
     accessories: (payloadProduct.accessories as any[])?.map((a: any) => ({
       id: String(a.id),
@@ -92,8 +100,8 @@ export async function getCategories(): Promise<Category[]> {
   try {
     // Fetch categories and all products in parallel
     const [catRes, prodRes] = await Promise.all([
-      fetch(`${API_URL}/api/categories?depth=1&limit=100`, { next: { revalidate: 3600 } }),
-      fetch(`${API_URL}/api/products?depth=1&limit=500`, { next: { revalidate: 3600 } }),
+      fetch(`${API_URL}/api/categories?depth=1&limit=100`, { next: { revalidate: 60 } }),
+      fetch(`${API_URL}/api/products?depth=1&limit=500`, { next: { revalidate: 60 } }),
     ]);
     if (!catRes.ok) return [];
 
@@ -124,7 +132,7 @@ export async function getCategories(): Promise<Category[]> {
 
 export async function getProducts(categorySlug?: string): Promise<Product[]> {
   try {
-    const res = await fetch(`${API_URL}/api/products?depth=2&limit=100`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API_URL}/api/products?depth=2&limit=100`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const data = await res.json();
     let mapped: Product[] = data.docs.map(mapProduct);
@@ -147,14 +155,14 @@ export async function getFeaturedProducts(limit = 6): Promise<Product[]> {
     // Try to fetch only featured products first
     const res = await fetch(
       `${API_URL}/api/products?where[isFeatured][equals]=true&depth=2&limit=${limit}`,
-      { next: { revalidate: 3600 } },
+      { next: { revalidate: 60 } },
     );
     if (res.ok) {
       const data = await res.json();
       if (data.docs.length > 0) return data.docs.map(mapProduct);
     }
     // Fallback: return first `limit` products
-    const fallbackRes = await fetch(`${API_URL}/api/products?depth=2&limit=${limit}`, { next: { revalidate: 3600 } });
+    const fallbackRes = await fetch(`${API_URL}/api/products?depth=2&limit=${limit}`, { next: { revalidate: 60 } });
     if (!fallbackRes.ok) return [];
     const fallbackData = await fallbackRes.json();
     return fallbackData.docs.map(mapProduct);
@@ -166,7 +174,7 @@ export async function getFeaturedProducts(limit = 6): Promise<Product[]> {
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
-    const res = await fetch(`${API_URL}/api/products?where[slug][equals]=${slug}&depth=2`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API_URL}/api/products?where[slug][equals]=${slug}&depth=2`, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     const data = await res.json();
     if (data.docs.length === 0) return null;
@@ -179,7 +187,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 
 export async function getServices(): Promise<PayloadService[]> {
   try {
-    const res = await fetch(`${API_URL}/api/services?depth=1&limit=100`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API_URL}/api/services?depth=1&limit=100`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const data = await res.json();
     return data.docs;

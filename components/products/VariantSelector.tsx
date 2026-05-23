@@ -1,18 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { ProductVariant } from "@/types";
 
 interface VariantSelectorProps {
   variants: ProductVariant[];
+  selectedModel: string;
 }
 
-export default function VariantSelector({ variants }: VariantSelectorProps) {
-  const [selectedId, setSelectedId] = useState<string>(variants[0]?.id || "");
+export default function VariantSelector({ variants, selectedModel }: VariantSelectorProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   if (!variants || variants.length === 0) return null;
 
-  const selectedVariant = variants.find(v => v.id === selectedId) || variants[0];
+  const activeModel = selectedModel || variants[0]?.modelName || "";
+  const selectedVariant = variants.find(v => v.modelName === activeModel) || variants[0];
 
   return (
     <div className="mt-8 mb-6">
@@ -20,19 +24,27 @@ export default function VariantSelector({ variants }: VariantSelectorProps) {
         Available Models
       </h3>
       <div className="flex flex-wrap gap-2 mb-4">
-        {variants.map(variant => (
-          <button
-            key={variant.id}
-            onClick={() => setSelectedId(variant.id)}
-            className={`px-4 py-2 text-sm rounded-md border transition-colors ${
-              selectedId === variant.id
-                ? 'bg-hero-accent border-hero-accent text-white'
-                : 'bg-background border-border text-hero-foreground hover:border-hero-accent/50'
-            }`}
-          >
-            {variant.modelName}
-          </button>
-        ))}
+        {variants.map(variant => {
+          const params = new URLSearchParams(searchParams.toString());
+          params.set("model", variant.modelName);
+          const href = `${pathname}?${params.toString()}`;
+          const isActive = activeModel === variant.modelName;
+
+          return (
+            <Link
+              key={variant.id}
+              href={href}
+              scroll={false}
+              className={`px-4 py-2 text-sm rounded-md border transition-all duration-200 font-medium ${
+                isActive
+                  ? 'bg-hero-accent border-hero-accent text-white shadow-sm'
+                  : 'bg-background border-border text-hero-foreground hover:border-hero-accent/50'
+              }`}
+            >
+              {variant.modelName}
+            </Link>
+          );
+        })}
       </div>
       
       <div className="surface-card p-4 rounded-md">

@@ -9,22 +9,38 @@ import VariantSelector from "@/components/products/VariantSelector";
 import AccessoriesList from "@/components/products/AccessoriesList";
 import QuoteButton from "@/components/products/QuoteButton";
 
-export async function generateMetadata({ params }: { params: { product: string } }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: { product: string };
+  searchParams?: { model?: string };
+}): Promise<Metadata> {
   const product = await getProductBySlug(params.product);
   if (!product) return {};
+  const currentModel = searchParams?.model;
+  const selectedVariant = product.variants?.find((v) => v.modelName === currentModel);
+  const titleSuffix = selectedVariant ? ` - ${selectedVariant.modelName}` : "";
+  const title = product.seo?.title || `${product.name}${titleSuffix} | Horizon India Technologies`;
   return {
-    title: product.seo?.title || `${product.name} | Horizon India Technologies`,
+    title,
     description: product.seo?.description || product.shortDescription || product.description,
     keywords: product.seo?.keywords,
     openGraph: {
-      title: product.seo?.title || product.name,
+      title,
       description: product.seo?.description || product.shortDescription || product.description,
       images: product.seo?.ogImage ? [{ url: product.seo.ogImage }] : [],
     },
   };
 }
 
-export default async function ProductPage({ params }: { params: { category: string; product: string } }) {
+export default async function ProductPage({
+  params,
+  searchParams,
+}: {
+  params: { category: string; product: string };
+  searchParams?: { model?: string };
+}) {
   const categorySlug = params.category;
   const productSlug = params.product;
 
@@ -55,13 +71,23 @@ export default async function ProductPage({ params }: { params: { category: stri
     productCount: 0,
   };
 
+  // Determine currently active variant (model) from searchParams
+  const currentModel = searchParams?.model || product.variants?.[0]?.modelName || "";
+  const selectedVariant = product.variants?.find((v) => v.modelName === currentModel) || product.variants?.[0];
+
+  // Merge specifications: base specifications first, then override/add variant-specific ones
+  const combinedSpecifications = {
+    ...product.specifications,
+    ...(selectedVariant?.specifications || {}),
+  };
+
   // Fetch related products from same category
   const allProds = await getProducts(categorySlug);
   const relatedProducts = allProds
     .filter((item) => item.id !== product.id)
     .slice(0, 3);
 
-  const standardsFromSpecs = Object.entries(product.specifications)
+  const standardsFromSpecs = Object.entries(combinedSpecifications)
     .filter(([key, value]) => /standard|astm|iso/i.test(key) || /astm|iso/i.test(value))
     .map(([, value]) => value);
 
@@ -111,7 +137,7 @@ export default async function ProductPage({ params }: { params: { category: stri
             <h1 className="h1 text-hero-headline mt-2 mb-2">
               {product.name}
             </h1>
-            <p className="text-hero-muted text-sm font-mono mb-6">MODEL: {product.model}</p>
+            <p className="text-hero-muted text-sm font-mono mb-6">MODEL: {selectedVariant ? selectedVariant.modelName : product.model}</p>
             {product.shortDescription && (
               <p className="text-xl text-hero-foreground font-medium leading-relaxed mb-6">
                 {product.shortDescription}
@@ -135,7 +161,7 @@ export default async function ProductPage({ params }: { params: { category: stri
             </div>
 
             {product.variants && product.variants.length > 0 && (
-              <VariantSelector variants={product.variants} />
+              <VariantSelector variants={product.variants} selectedModel={currentModel} />
             )}
 
             {/* CTAs */}
@@ -146,7 +172,7 @@ export default async function ProductPage({ params }: { params: { category: stri
               <div className="flex flex-wrap gap-3">
                 <QuoteButton
                   productName={product.name}
-                  model={product.model}
+                  model={selectedVariant ? selectedVariant.modelName : product.model}
                   category={product.category}
                   className="btn-primary flex items-center gap-2 animate-button-scale"
                 >
@@ -170,7 +196,7 @@ export default async function ProductPage({ params }: { params: { category: stri
         <div className="mt-16">
           <span className="label-eyebrow">Technical Data</span>
           <h2 className="text-2xl font-bold text-hero-headline mt-2 mb-6">Specifications</h2>
-          <SpecsTable specifications={product.specifications} />
+          <SpecsTable specifications={combinedSpecifications} />
         </div>
 
         {/* Accessories */}
@@ -263,7 +289,7 @@ export default async function ProductPage({ params }: { params: { category: stri
 
       <QuoteButton
         productName={product.name}
-        model={product.model}
+        model={selectedVariant ? selectedVariant.modelName : product.model}
         category={product.category}
         className="fixed right-6 bottom-24 z-40 btn-primary text-sm px-4 py-2.5 animate-button-scale hidden md:inline-flex"
       />
@@ -271,7 +297,7 @@ export default async function ProductPage({ params }: { params: { category: stri
       <div className="md:hidden fixed bottom-4 left-4 right-4 z-40">
         <QuoteButton
           productName={product.name}
-          model={product.model}
+          model={selectedVariant ? selectedVariant.modelName : product.model}
           category={product.category}
           className="w-full btn-primary py-3"
         />
