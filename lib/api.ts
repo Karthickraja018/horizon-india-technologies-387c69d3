@@ -52,6 +52,7 @@ export function mapProduct(payloadProduct: PayloadProduct): Product {
     categorySlug: categorySlug,
     slug: payloadProduct.slug,
     image: getMediaUrl(payloadProduct.heroImage),
+    galleryImages: payloadProduct.galleryImages || [],
     shortDescription: payloadProduct.shortDescription || '',
     brand: payloadProduct.brand || '',
     series: payloadProduct.series || '',
@@ -75,6 +76,12 @@ export function mapProduct(payloadProduct: PayloadProduct): Product {
         acc[curr.label] = curr.value;
         return acc;
       }, {} as Record<string, string>) || {},
+      shortDescription: v.shortDescription || '',
+      features: v.features || [],
+      standards: v.standards || [],
+      images: v.images || [],
+      accessories: v.accessories || [],
+      downloadablePDF: v.downloadablePDF || null,
     })) || [],
     accessories: (payloadProduct.accessories as any[])?.map((a: any) => ({
       id: String(a.id),

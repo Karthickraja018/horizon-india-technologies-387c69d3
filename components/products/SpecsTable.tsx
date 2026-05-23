@@ -9,7 +9,7 @@ interface SpecsTableProps {
 const SpecsTable = ({ specifications }: SpecsTableProps) => {
   const [expanded, setExpanded] = useState(false);
   const allSpecs = useMemo(() => Object.entries(specifications), [specifications]);
-  const initialCount = 3;
+  const initialCount = 5;
   const visibleSpecs = expanded ? allSpecs : allSpecs.slice(0, initialCount);
   const hiddenCount = Math.max(allSpecs.length - initialCount, 0);
 

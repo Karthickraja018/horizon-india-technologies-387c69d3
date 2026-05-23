@@ -2,24 +2,23 @@ import Link from "next/link";
 import Image from "next/image";
 import { getProductBySlug, getCategories, getProducts } from "@/lib/api";
 import { MessageCircle, Phone, Mail, CheckCircle2, Download } from "lucide-react";
-import SpecsTable from "@/components/products/SpecsTable";
 import InlineCtaBlock from "@/components/forms/InlineCtaBlock";
 import type { Metadata } from "next";
-import VariantSelector from "@/components/products/VariantSelector";
-import AccessoriesList from "@/components/products/AccessoriesList";
 import QuoteButton from "@/components/products/QuoteButton";
+import ProductFamilyClient from "@/components/products/ProductFamilyClient";
+import ComparisonTable from "@/components/products/ComparisonTable";
 
 export async function generateMetadata({
   params,
   searchParams,
 }: {
   params: { product: string };
-  searchParams?: { model?: string };
+  searchParams?: { variant?: string };
 }): Promise<Metadata> {
   const product = await getProductBySlug(params.product);
   if (!product) return {};
-  const currentModel = searchParams?.model;
-  const selectedVariant = product.variants?.find((v) => v.modelName === currentModel);
+  const currentVariant = searchParams?.variant;
+  const selectedVariant = product.variants?.find((v: any) => v.modelName === currentVariant || v.id === currentVariant);
   const titleSuffix = selectedVariant ? ` - ${selectedVariant.modelName}` : "";
   const title = product.seo?.title || `${product.name}${titleSuffix} | Horizon India Technologies`;
   return {
@@ -39,7 +38,7 @@ export default async function ProductPage({
   searchParams,
 }: {
   params: { category: string; product: string };
-  searchParams?: { model?: string };
+  searchParams?: { variant?: string };
 }) {
   const categorySlug = params.category;
   const productSlug = params.product;
@@ -61,7 +60,6 @@ export default async function ProductPage({
     );
   }
 
-  // Try to find the category from the live list; fall back to the product's own category data
   const cat = categories.find((c) => c.slug === categorySlug) || {
     slug: categorySlug,
     name: product.category || categorySlug,
@@ -71,34 +69,35 @@ export default async function ProductPage({
     productCount: 0,
   };
 
-  // Determine currently active variant (model) from searchParams
-  const currentModel = searchParams?.model || product.variants?.[0]?.modelName || "";
-  const selectedVariant = product.variants?.find((v) => v.modelName === currentModel) || product.variants?.[0];
-
-  // Merge specifications: base specifications first, then override/add variant-specific ones
-  const combinedSpecifications = {
-    ...product.specifications,
-    ...(selectedVariant?.specifications || {}),
-  };
-
-  // Fetch related products from same category
   const allProds = await getProducts(categorySlug);
   const relatedProducts = allProds
     .filter((item) => item.id !== product.id)
     .slice(0, 3);
 
-  const standardsFromSpecs = Object.entries(combinedSpecifications)
-    .filter(([key, value]) => /standard|astm|iso/i.test(key) || /astm|iso/i.test(value))
-    .map(([, value]) => value);
-
-  const standards = product.standardsSupported?.length 
-    ? product.standardsSupported 
-    : standardsFromSpecs.length
-      ? standardsFromSpecs
-      : ["ASTM compliant configuration", "ISO aligned testing workflow"];
+  // Generate structured data for ProductGroup
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ProductGroup",
+    "name": product.name,
+    "description": product.shortDescription || product.description,
+    "brand": {
+      "@type": "Brand",
+      "name": product.brand || "FIE"
+    },
+    "hasVariant": product.variants?.map((v: any) => ({
+      "@type": "Product",
+      "name": v.modelName,
+      "model": v.modelName,
+      "description": v.shortDescription || product.shortDescription,
+    })) || []
+  };
 
   return (
     <div className="bg-background min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <div className="container mx-auto px-6 lg:px-12 py-16">
         <div className="mb-6 text-sm text-hero-muted">
           <Link href="/" className="hover:text-hero-accent transition-colors">Home</Link>
@@ -112,137 +111,14 @@ export default async function ProductPage({
           <span className="text-hero-foreground">{product.name}</span>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
-          {/* Image */}
-          <div className="lg:col-span-5">
-            <div className="surface-card p-8 flex items-center justify-center aspect-square">
-              {product.image ? (
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-contain"
-                  loading="lazy"
-                  width={560}
-                  height={560}
-                />
-              ) : (
-                <div className="text-hero-muted text-sm flex items-center justify-center h-full w-full bg-background border border-border rounded">No Image Available</div>
-              )}
-            </div>
-          </div>
+        <ProductFamilyClient product={product} />
 
-          {/* Details */}
-          <div className="lg:col-span-7">
-            <span className="label-eyebrow">{product.category}</span>
-            <h1 className="h1 text-hero-headline mt-2 mb-2">
-              {product.name}
-            </h1>
-            <p className="text-hero-muted text-sm font-mono mb-6">MODEL: {selectedVariant ? selectedVariant.modelName : product.model}</p>
-            {product.shortDescription && (
-              <p className="text-xl text-hero-foreground font-medium leading-relaxed mb-6">
-                {product.shortDescription}
-              </p>
-            )}
-            <p className="text-hero-foreground leading-relaxed mb-8">{product.description}</p>
-
-            {/* Features */}
-            <div className="mb-8">
-              <h2 className="text-hero-headline font-semibold text-sm uppercase tracking-wider mb-4">
-                Key Features
-              </h2>
-              <ul className="grid sm:grid-cols-2 gap-2.5">
-                {product.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-hero-foreground text-sm">
-                    <CheckCircle2 className="w-4 h-4 mt-0.5 text-hero-accent shrink-0" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {product.variants && product.variants.length > 0 && (
-              <VariantSelector variants={product.variants} selectedModel={currentModel} />
-            )}
-
-            {/* CTAs */}
-            <div className="surface-card p-5 mb-2">
-              <p className="text-hero-muted text-xs uppercase tracking-wider mb-3">
-                Request a Quotation
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <QuoteButton
-                  productName={product.name}
-                  model={selectedVariant ? selectedVariant.modelName : product.model}
-                  category={product.category}
-                  className="btn-primary flex items-center gap-2 animate-button-scale"
-                >
-                  <MessageCircle className="w-5 h-5" /> Request Quote
-                </QuoteButton>
-                <a
-                  href="mailto:horizonindiatechnologies@gmail.com"
-                  className="btn-outline animate-button-scale"
-                >
-                  <Mail className="w-5 h-5" /> Email Us
-                </a>
-                <a href="tel:+919751458300" className="btn-ghost animate-button-scale">
-                  <Phone className="w-4 h-4" /> +91 97514 58300
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Specifications Table */}
-        <div className="mt-16">
-          <span className="label-eyebrow">Technical Data</span>
-          <h2 className="text-2xl font-bold text-hero-headline mt-2 mb-6">Specifications</h2>
-          <SpecsTable specifications={combinedSpecifications} />
-        </div>
-
-        {/* Accessories */}
-        {product.accessories && product.accessories.length > 0 && (
-          <AccessoriesList accessories={product.accessories} />
+        {product.variants && product.variants.length > 1 && (
+          <ComparisonTable variants={product.variants} />
         )}
 
-        {/* Applications */}
-        <div className="mt-12">
-          <span className="label-eyebrow">Use Cases</span>
-          <h2 className="text-2xl font-bold text-hero-headline mt-2 mb-4">Applications</h2>
-          <ul className="grid sm:grid-cols-2 gap-2.5 max-w-3xl">
-            {product.applications.map((app) => (
-              <li key={app} className="tag-chip">{app}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="mt-12">
-          <span className="label-eyebrow">Compliance</span>
-          <h2 className="text-2xl font-bold text-hero-headline mt-2 mb-4">Standards</h2>
-          <div className="flex flex-wrap gap-2">
-            {standards.map((standard) => (
-              <span key={standard} className="tag-chip">{standard}</span>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-10 surface-card p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <p className="label-eyebrow mb-1">Documentation</p>
-            <p className="text-hero-foreground text-sm">
-              Product brochure download is being prepared for this model.
-            </p>
-          </div>
-          <button
-            type="button"
-            disabled
-            className="inline-flex items-center justify-center gap-2 rounded-md border border-border px-4 py-2.5 text-sm font-semibold text-hero-muted cursor-not-allowed"
-          >
-            <Download className="w-4 h-4" /> Download Brochure (Coming Soon)
-          </button>
-        </div>
-
         {relatedProducts.length > 0 && (
-          <div className="mt-14">
+          <div className="mt-20">
             <span className="label-eyebrow">More Options</span>
             <h2 className="text-2xl font-bold text-hero-headline mt-2 mb-6">Related Products</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -255,7 +131,7 @@ export default async function ProductPage({
                   <div className="aspect-[4/3] border border-border rounded-md flex items-center justify-center p-4 bg-background">
                     {item.image ? (
                       <Image
-                        src={item.image}
+                        src={item.image as string}
                         alt={item.name}
                         className="w-full h-full object-contain"
                         loading="lazy"
@@ -277,7 +153,7 @@ export default async function ProductPage({
           </div>
         )}
 
-        <div className="mt-12">
+        <div className="mt-16">
           <InlineCtaBlock
             title="Need assistance with test method selection?"
             description="Share your sample type, throughput, and standard target. We will recommend the right machine and accessories."
@@ -289,7 +165,7 @@ export default async function ProductPage({
 
       <QuoteButton
         productName={product.name}
-        model={selectedVariant ? selectedVariant.modelName : product.model}
+        model={product.model || product.name}
         category={product.category}
         className="fixed right-6 bottom-24 z-40 btn-primary text-sm px-4 py-2.5 animate-button-scale hidden md:inline-flex"
       />
@@ -297,7 +173,7 @@ export default async function ProductPage({
       <div className="md:hidden fixed bottom-4 left-4 right-4 z-40">
         <QuoteButton
           productName={product.name}
-          model={selectedVariant ? selectedVariant.modelName : product.model}
+          model={product.model || product.name}
           category={product.category}
           className="w-full btn-primary py-3"
         />

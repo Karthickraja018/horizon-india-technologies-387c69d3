@@ -8,6 +8,7 @@ export interface Product {
   categorySlug: string;
   slug: string;
   image: string | StaticImport;
+  galleryImages?: { media: number | any; id?: string | null }[] | null;
   description: string;
   shortDescription?: string;
   brand?: string;
