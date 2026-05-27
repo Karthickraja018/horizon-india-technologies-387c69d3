@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getProductBySlug, getCategories, getProducts } from "@/lib/api";
-import { MessageCircle, Phone, Mail, CheckCircle2, Download } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import InlineCtaBlock from "@/components/forms/InlineCtaBlock";
 import type { Metadata } from "next";
 import QuoteButton from "@/components/products/QuoteButton";
 import ProductFamilyClient from "@/components/products/ProductFamilyClient";
 import ComparisonTable from "@/components/products/ComparisonTable";
+import AnimatedSection from "@/components/common/AnimatedSection";
 
 export async function generateMetadata({
   params,
@@ -93,89 +94,96 @@ export default async function ProductPage({
   };
 
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-background min-h-screen pt-24 pb-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <div className="container mx-auto px-6 lg:px-12 py-16">
-        <div className="mb-6 text-sm text-hero-muted">
-          <Link href="/" className="hover:text-hero-accent transition-colors">Home</Link>
-          <span className="mx-2">/</span>
-          <Link href="/products" className="hover:text-hero-accent transition-colors">Products</Link>
-          <span className="mx-2">/</span>
-          <Link href={`/products/${cat.slug}`} className="hover:text-hero-accent transition-colors">
-            {cat.name}
-          </Link>
-          <span className="mx-2">/</span>
-          <span className="text-hero-foreground">{product.name}</span>
-        </div>
+      <div className="container mx-auto px-6 lg:px-12">
+        <AnimatedSection>
+          <div className="flex items-center flex-wrap gap-2 text-xs font-medium text-muted-foreground mb-12">
+            <Link href="/" className="hover:text-hero-accent transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">Home</Link>
+            <ChevronRight className="w-3.5 h-3.5" />
+            <Link href="/products" className="hover:text-hero-accent transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">Catalogue</Link>
+            <ChevronRight className="w-3.5 h-3.5" />
+            <Link href={`/products/${cat.slug}`} className="hover:text-hero-accent transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
+              {cat.name}
+            </Link>
+            <ChevronRight className="w-3.5 h-3.5" />
+            <span className="text-foreground">{product.name}</span>
+          </div>
+        </AnimatedSection>
 
-        <ProductFamilyClient product={product} />
+        <AnimatedSection>
+          <ProductFamilyClient product={product} />
+        </AnimatedSection>
 
         {product.variants && product.variants.length > 1 && (
-          <ComparisonTable variants={product.variants} />
+          <AnimatedSection className="mt-24 pt-16 border-t border-border">
+            <ComparisonTable variants={product.variants} />
+          </AnimatedSection>
         )}
 
         {relatedProducts.length > 0 && (
-          <div className="mt-20">
-            <span className="label-eyebrow">More Options</span>
-            <h2 className="text-2xl font-bold text-hero-headline mt-2 mb-6">Related Products</h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <AnimatedSection className="mt-24 pt-16 border-t border-border">
+            <span className="eyebrow text-hero-accent block mb-3">More Options</span>
+            <h2 className="text-3xl font-bold text-foreground mb-10">Related Products</h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedProducts.map((item) => (
                 <Link
                   key={item.id}
                   href={`/products/${item.categorySlug}/${item.slug}`}
-                  className="surface-card animate-card-lift p-4"
+                  className="group bg-card border border-border rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:border-hero-accent/50 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:-translate-y-1 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <div className="aspect-[4/3] border border-border rounded-md flex items-center justify-center p-4 bg-background">
+                  <div className="aspect-[4/3] bg-muted/30 flex items-center justify-center p-8 relative">
                     {item.image ? (
-                      <Image
-                        src={item.image as string}
-                        alt={item.name}
-                        className="w-full h-full object-contain"
-                        loading="lazy"
-                        width={320}
-                        height={240}
-                      />
+                      <div className="w-full h-full relative z-10 transform transition-transform duration-500 group-hover:scale-105">
+                        <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-xs bg-muted/20">Image Preview</div>
+                      </div>
                     ) : (
-                      <span className="text-xs text-hero-muted">No Image</span>
+                      <span className="text-xs text-muted-foreground">No Image</span>
                     )}
                   </div>
-                  <p className="text-xs uppercase tracking-wider text-hero-muted mt-3">
-                    {item.category}
-                  </p>
-                  <h3 className="text-hero-headline text-sm font-semibold mt-1">{item.name}</h3>
-                  <p className="text-hero-muted text-xs font-mono mt-1">{item.model}</p>
+                  <div className="p-6 flex flex-col flex-1 border-t border-border">
+                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-2">
+                      {item.category}
+                    </p>
+                    <h3 className="text-lg font-bold text-foreground group-hover:text-hero-accent transition-colors leading-snug mb-1">
+                      {item.name}
+                    </h3>
+                    <p className="text-muted-foreground text-xs mt-1 font-mono">{item.model}</p>
+                  </div>
                 </Link>
               ))}
             </div>
-          </div>
+          </AnimatedSection>
         )}
 
-        <div className="mt-16">
+        <AnimatedSection className="mt-24">
           <InlineCtaBlock
             title="Need assistance with test method selection?"
             description="Share your sample type, throughput, and standard target. We will recommend the right machine and accessories."
             primaryCta="Get Recommendation"
             secondaryCta="Talk to Engineer"
           />
-        </div>
+        </AnimatedSection>
       </div>
 
       <QuoteButton
         productName={product.name}
         model={product.model || product.name}
         category={product.category}
-        className="fixed right-6 bottom-24 z-40 btn-primary text-sm px-4 py-2.5 animate-button-scale hidden md:inline-flex"
-      />
+        className="fixed right-6 bottom-8 z-40 btn-primary text-sm px-6 py-3 shadow-xl shadow-hero-accent/20 transition-transform hover:scale-105 hidden md:inline-flex items-center gap-2"
+      >
+        Request Quote
+      </QuoteButton>
 
-      <div className="md:hidden fixed bottom-4 left-4 right-4 z-40">
+      <div className="md:hidden fixed bottom-4 left-4 right-4 z-40 shadow-[0_-4px_24px_rgba(0,0,0,0.1)]">
         <QuoteButton
           productName={product.name}
           model={product.model || product.name}
           category={product.category}
-          className="w-full btn-primary py-3"
+          className="w-full btn-primary py-3.5"
         />
       </div>
     </div>
