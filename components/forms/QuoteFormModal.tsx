@@ -42,6 +42,19 @@ const QuoteFormModal = ({ categories = fallbackCategories }: QuoteFormModalProps
   const { isOpen, closeQuoteModal, prefill } = useQuoteModal();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<QuoteFormState>(initialState);
+  const [showOtherApplication, setShowOtherApplication] = useState(false);
+  const [otherApplication, setOtherApplication] = useState("");
+
+  const industryOptions = [
+    "Automotive",
+    "Aerospace & Defense",
+    "Manufacturing & Assembly",
+    "Foundry & Casting",
+    "Research & Education",
+    "Material Testing",
+    "Heavy Machinery & Oil/Gas",
+    "Other"
+  ];
 
   useEffect(() => {
     if (!isOpen) return;
@@ -72,15 +85,17 @@ const QuoteFormModal = ({ categories = fallbackCategories }: QuoteFormModalProps
 
   const canContinue =
     (step === 1 && Boolean(form.category)) ||
-    (step === 2 && Boolean(form.application.trim())) ||
+    (step === 2 && Boolean(form.application) && (!showOtherApplication || Boolean(otherApplication.trim()))) ||
     (step === 3 && Boolean(form.name.trim() && form.company.trim() && form.phone.trim() && form.email.trim()));
 
   const submit = () => {
+    const finalApplication = showOtherApplication ? otherApplication : form.application;
+
     const message = [
       "Hi, I need a quotation.",
       `Category: ${form.category}`,
       `Requirement: ${form.productRequirement || "Not specified"}`,
-      `Application: ${form.application}`,
+      `Application: ${finalApplication}`,
       `Preferences: ${form.requirements.length ? form.requirements.join(", ") : "Not specified"}`,
       `Quantity: ${form.quantity || "Not specified"}`,
       `Notes: ${form.notes || "None"}`,
@@ -93,7 +108,7 @@ const QuoteFormModal = ({ categories = fallbackCategories }: QuoteFormModalProps
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => (open ? undefined : closeQuoteModal())}>
-      <DialogContent className="max-w-xl border-border shadow-[0_20px_25px_rgba(15,23,42,0.1),0_8px_10px_rgba(15,23,42,0.06)] !top-auto !bottom-0 !translate-y-0 !rounded-b-none !rounded-t-2xl sm:!top-[50%] sm:!bottom-auto sm:!translate-y-[-50%] sm:!rounded-b-lg w-full max-h-[90vh] overflow-y-auto slide-in-up">
+      <DialogContent className="max-w-xl border-border shadow-[0_20px_25px_rgba(15,23,42,0.1),0_8px_10px_rgba(15,23,42,0.06)] !top-auto !bottom-0 !translate-y-0 !rounded-b-none !rounded-t-2xl sm:!top-[50%] sm:!bottom-auto sm:!translate-y-[-50%] sm:!rounded-b-lg w-full max-h-[90vh] overflow-y-auto slide-in-up z-[60]">
         <DialogHeader>
           <DialogTitle className="text-hero-headline">Get a Fast Quote</DialogTitle>
           <DialogDescription>Step {step} of 3. Tell us your requirement and our engineers will respond quickly.</DialogDescription>
@@ -146,13 +161,31 @@ const QuoteFormModal = ({ categories = fallbackCategories }: QuoteFormModalProps
             <div className="space-y-4">
               <div>
                 <label className="block text-xs uppercase tracking-wider font-semibold text-hero-muted mb-1.5">Application / Industry *</label>
-                <input
-                  type="text"
+                <select
                   value={form.application}
-                  onChange={(e) => setForm((prev) => ({ ...prev, application: e.target.value }))}
-                  placeholder="Example: Automotive fasteners testing"
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setForm((prev) => ({ ...prev, application: val }));
+                    setShowOtherApplication(val === "Other");
+                  }}
                   className="w-full rounded-md border border-border px-3 py-2.5 bg-background text-sm"
-                />
+                >
+                  <option value="">Select an industry</option>
+                  {industryOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+                {showOtherApplication && (
+                  <input
+                    type="text"
+                    value={otherApplication}
+                    onChange={(e) => setOtherApplication(e.target.value)}
+                    placeholder="Please specify your industry"
+                    className="w-full rounded-md border border-border px-3 py-2.5 bg-background text-sm mt-3"
+                  />
+                )}
               </div>
 
               <div>

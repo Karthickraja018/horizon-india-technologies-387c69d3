@@ -38,7 +38,7 @@ const CategoriesGrid = ({ categories = [] }: CategoriesGridProps) => {
   const totalProducts = categories.reduce((sum, c) => sum + c.productCount, 0);
 
   return (
-    <section className="bg-background py-24 border-y border-border overflow-hidden">
+    <section className="bg-background py-16 lg:py-24 border-y border-border overflow-hidden">
       <div className="container mx-auto px-6 lg:px-12">
         <AnimatedSection>
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mb-12">

@@ -36,9 +36,17 @@ export default function ProductFamilyClient({ product }: { product: any }) {
     ? selectedVariant.features.map((f: any) => f.feature) 
     : product.keyFeatures?.map((f: any) => f.feature) || product.features || [];
 
-  const standards = selectedVariant.standards?.length > 0
+  const rawStandards = selectedVariant.standards?.length > 0
     ? selectedVariant.standards.map((s: any) => s.standard)
     : product.standardsSupported?.map((s: any) => s.standard) || [];
+  const standards = rawStandards.filter((s: string) => s && s.trim() !== "");
+
+  const rawApplications = Array.isArray(product.applications) 
+    ? product.applications 
+    : typeof product.applications === 'string' 
+      ? product.applications.split('\n') 
+      : [];
+  const applications = rawApplications.filter((app: string) => app && app.trim() !== "");
 
   const accessories = selectedVariant.accessories?.length > 0 ? selectedVariant.accessories : product.accessories || [];
   const pdfUrl = selectedVariant.downloadablePDF?.url || product.pdf?.url;
@@ -98,7 +106,7 @@ export default function ProductFamilyClient({ product }: { product: any }) {
 
           {/* Variant Selector */}
           {product.variants && product.variants.length > 1 && (
-            <div className="mb-10 sticky top-[88px] z-30 bg-background/95 backdrop-blur-md border border-border p-4 md:p-6 rounded-xl shadow-sm md:shadow-none mx-[-16px] px-[16px] md:mx-0 md:bg-muted/30">
+            <div className="mb-10 bg-background/95 backdrop-blur-md border border-border p-4 md:p-6 rounded-xl shadow-sm md:shadow-none mx-[-16px] px-[16px] md:mx-0 md:bg-muted/30">
               <h3 className="text-xs font-bold uppercase tracking-widest text-foreground mb-3 md:mb-4">Configuration</h3>
               {product.variantSelectorType === 'tabs' ? (
                 <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
@@ -188,31 +196,41 @@ export default function ProductFamilyClient({ product }: { product: any }) {
       )}
 
       {/* Applications & Standards */}
-      <div className="grid md:grid-cols-2 gap-16 mt-24 pt-16 border-t border-border">
-        {product.applications && (
-          <div>
-            <span className="eyebrow text-hero-accent mb-3 block">Use Cases</span>
-            <h2 className="text-2xl font-bold text-foreground mb-6">Applications</h2>
-            <ul className="flex flex-wrap gap-3">
-              {(Array.isArray(product.applications) ? product.applications : typeof product.applications === 'string' ? product.applications.split('\\n') : []).map((app: string, i: number) => (
-                <li key={i} className="px-4 py-2 bg-muted/50 text-foreground border border-border rounded-full text-sm font-medium">{app}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        
-        {standards.length > 0 && (
-          <div>
-            <span className="eyebrow text-hero-accent mb-3 block">Compliance</span>
-            <h2 className="text-2xl font-bold text-foreground mb-6">Standards</h2>
-            <div className="flex flex-wrap gap-3">
-              {standards.map((standard: string, i: number) => (
-                <span key={i} className="px-4 py-2 bg-muted/50 text-foreground border border-border rounded-full text-sm font-medium">{standard}</span>
-              ))}
+      {(applications.length > 0 || standards.length > 0) && (
+        <div className="grid md:grid-cols-2 gap-12 lg:gap-16 mt-24 pt-16 border-t border-border">
+          {applications.length > 0 && (
+            <div className="flex flex-col">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-hero-accent mb-3 block">Use Cases</span>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground mb-8">Applications</h2>
+              <ul className="flex flex-col gap-3">
+                {applications.map((app: string, i: number) => (
+                  <li key={i} className="group flex items-start gap-4 p-4 bg-muted/20 border border-border/50 rounded-xl hover:border-hero-accent/50 transition-colors">
+                    <div className="w-6 h-6 rounded-full bg-hero-accent/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-hero-accent/20 transition-colors">
+                      <div className="w-2 h-2 rounded-full bg-hero-accent" />
+                    </div>
+                    <span className="text-sm font-semibold text-foreground leading-relaxed">{app.trim()}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+          
+          {standards.length > 0 && (
+            <div className="flex flex-col">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-hero-accent mb-3 block">Compliance</span>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground mb-8">Standards Supported</h2>
+              <div className="flex flex-wrap gap-3">
+                {standards.map((standard: string, i: number) => (
+                  <div key={i} className="inline-flex items-center gap-2 px-4 py-2.5 bg-card border border-border rounded-lg shadow-sm hover:border-hero-accent/50 transition-colors">
+                    <CheckCircle2 className="w-4 h-4 text-[#25D366]" />
+                    <span className="text-sm font-bold text-foreground">{standard.trim()}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Documentation Download */}
       <div className="mt-24 bg-card border border-border rounded-xl p-8 lg:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">

@@ -14,7 +14,7 @@ export default async function CategoryPage({ params }: { params: { category: str
   const prods = await getProducts(categorySlug);
 
   return (
-    <div className="bg-background min-h-screen pt-24 pb-16">
+    <div className="bg-background min-h-screen pb-16">
       <CategoryClient category={cat} products={prods} />
     </div>
   );

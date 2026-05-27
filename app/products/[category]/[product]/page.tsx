@@ -94,7 +94,7 @@ export default async function ProductPage({
   };
 
   return (
-    <div className="bg-background min-h-screen pt-24 pb-16">
+    <div className="bg-background min-h-screen pt-8 md:pt-16 pb-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
@@ -175,23 +175,6 @@ export default async function ProductPage({
         </AnimatedSection>
       </div>
 
-      <QuoteButton
-        productName={product.name}
-        model={product.model || product.name}
-        category={product.category}
-        className="fixed right-6 bottom-8 z-40 btn-primary text-sm px-6 py-3 shadow-xl shadow-hero-accent/20 transition-transform hover:scale-105 hidden md:inline-flex items-center gap-2"
-      >
-        Request Quote
-      </QuoteButton>
-
-      <div className="md:hidden fixed bottom-4 left-4 right-4 z-40 shadow-[0_-4px_24px_rgba(0,0,0,0.1)]">
-        <QuoteButton
-          productName={product.name}
-          model={product.model || product.name}
-          category={product.category}
-          className="w-full btn-primary py-3.5"
-        />
-      </div>
     </div>
   );
 }

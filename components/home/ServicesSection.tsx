@@ -56,20 +56,15 @@ const services: ServiceItem[] = [
 ];
 
 const ServicesSection = () => (
-  <section className="py-24 bg-muted/30 border-y border-border">
+  <section className="py-16 lg:py-24 bg-muted/30 border-y border-border">
     <div className="container mx-auto px-6 lg:px-12">
       <AnimatedSection className="mb-16">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <span className="eyebrow text-hero-accent block mb-3">What We Offer</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Built for Industrial Buyers</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Beyond equipment supply — we support your entire testing and quality workflow from procurement to lifetime calibration.
-            </p>
-          </div>
-          <Link href="/services" className="btn-outline px-6 py-3 rounded-lg text-sm bg-background inline-flex items-center gap-2 group shrink-0">
-            View All Services <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+        <div className="max-w-2xl">
+          <span className="eyebrow text-hero-accent block mb-3">What We Offer</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Built for Industrial Buyers</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            Beyond equipment supply — we support your entire testing and quality workflow from procurement to lifetime calibration.
+          </p>
         </div>
       </AnimatedSection>
 

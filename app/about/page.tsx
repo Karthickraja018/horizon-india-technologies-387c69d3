@@ -20,7 +20,7 @@ const credentials = [
 
 export default function AboutPage() {
   return (
-    <div className="bg-background min-h-screen pt-24 pb-16">
+    <div className="bg-background min-h-screen pt-8 md:pt-16 pb-12 lg:pb-16">
       <div className="container mx-auto px-6 lg:px-12">
         {/* Breadcrumb */}
         <AnimatedSection>
@@ -111,15 +111,16 @@ export default function AboutPage() {
         
         {/* Industries Served */}
         <AnimatedSection className="mb-24 pt-16 border-t border-border">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
             <span className="eyebrow text-hero-accent block mb-3">Industries</span>
             <h2 className="text-3xl font-bold text-foreground">Sectors We Empower</h2>
           </div>
-          <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 max-w-5xl mx-auto">
             {["Aerospace & Defense", "Automotive Manufacturing", "Foundries & Forgings", "Civil Construction", "Plastics & Polymers", "Educational Institutes", "R&D Laboratories", "Heavy Engineering"].map((industry, i) => (
-              <span key={i} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border bg-card text-sm font-medium text-foreground hover:border-hero-accent/50 transition-colors">
-                <CheckCircle2 className="w-4 h-4 text-hero-accent" /> {industry}
-              </span>
+              <div key={i} className="flex items-start gap-3 p-4 rounded-xl border border-border bg-card hover:border-hero-accent/30 transition-colors shadow-sm">
+                <CheckCircle2 className="w-5 h-5 text-hero-accent shrink-0 mt-0.5" />
+                <span className="text-sm font-semibold text-foreground">{industry}</span>
+              </div>
             ))}
           </div>
         </AnimatedSection>

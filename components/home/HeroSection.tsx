@@ -12,7 +12,7 @@ const HeroSection = () => {
   const { openQuoteModal } = useQuoteModal();
 
   return (
-    <section className="relative w-full min-h-[70vh] md:min-h-[85vh] flex items-center justify-center pt-24 pb-16 overflow-hidden">
+    <section className="relative w-full min-h-[70vh] md:min-h-[85vh] flex items-center justify-center pt-20 md:pt-24 pb-12 md:pb-16 overflow-hidden">
       {/* Blended Background Image */}
       <motion.div 
         initial={{ opacity: 0, scale: 1.05 }}
@@ -36,24 +36,24 @@ const HeroSection = () => {
         <div className="max-w-2xl">
           <AnimatedSection>
             <span className="eyebrow text-hero-accent block mb-4">NABL Accredited Laboratory</span>
-            <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold tracking-tight text-foreground leading-[1.1] mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold tracking-tight text-foreground leading-[1.1] mb-4 md:mb-6">
               Tamil Nadu's Trusted Material Testing <span className="text-hero-accent">Equipment Supplier.</span>
             </h1>
-            <p className="text-lg md:text-xl text-foreground/80 font-medium leading-relaxed mb-10 max-w-xl">
+            <p className="text-base sm:text-lg md:text-xl text-foreground/80 font-medium leading-relaxed mb-8 md:mb-10 max-w-xl">
               Providing accurate, certified testing services and metrology instruments for metals, plastics, and critical industrial applications across South India.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 mb-10 md:mb-12 w-full">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-8 md:mb-12 w-full">
               <button
                 type="button"
                 onClick={() => openQuoteModal({ productName: "Material Testing Services" })}
-                className="btn-primary w-full sm:w-auto px-8 py-4 text-sm font-bold shadow-lg shadow-hero-accent/20 transition-transform hover:-translate-y-0.5 rounded-lg btn-mobile-press flex justify-center"
+                className="btn-primary w-full sm:w-auto px-8 py-3.5 md:py-4 text-sm font-bold shadow-lg shadow-hero-accent/20 transition-transform hover:-translate-y-0.5 rounded-lg btn-mobile-press flex justify-center"
               >
                 Request a Quote
               </button>
               <Link
                 href="/products"
-                className="btn-outline w-full sm:w-auto px-8 py-4 text-sm font-bold bg-background/50 backdrop-blur-md flex items-center justify-center gap-2 group rounded-lg btn-mobile-press"
+                className="btn-outline w-full sm:w-auto px-8 py-3.5 md:py-4 text-sm font-bold bg-background/50 backdrop-blur-md flex items-center justify-center gap-2 group rounded-lg btn-mobile-press"
               >
                 Explore Catalogue
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -61,7 +61,7 @@ const HeroSection = () => {
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-8 border-t border-border/40">
+            <div className="flex flex-wrap items-center gap-x-4 md:gap-x-6 gap-y-2 md:gap-y-3 pt-6 md:pt-8 border-t border-border/40">
               {["NABL Accredited", "ISO/IEC 17025", "25+ Years Exp."].map((text, i) => (
                 <div key={i} className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-foreground">
                   <CheckCircle2 className="w-4 h-4 text-hero-accent" />

@@ -22,7 +22,7 @@ export default async function ProductsPage() {
   const totalProducts = categories.reduce((sum, cat) => sum + (cat.productCount || 0), 0);
   
   return (
-    <div className="bg-background min-h-screen pt-24 pb-16">
+    <div className="bg-background min-h-screen pt-8 md:pt-16 pb-16">
       <div className="container mx-auto px-6 lg:px-12">
         
         {/* Breadcrumb */}

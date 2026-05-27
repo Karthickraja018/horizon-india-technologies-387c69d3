@@ -38,7 +38,7 @@ const FeaturedProducts = ({ products = [] }: FeaturedProductsProps) => {
   };
 
   return (
-    <section className="bg-muted/30 border-y border-border py-24 overflow-hidden relative">
+    <section className="bg-muted/30 border-y border-border py-16 lg:py-24 overflow-hidden relative">
       <div className="container mx-auto px-6 lg:px-12 relative z-10"
            onMouseEnter={() => setIsHovered(true)}
            onMouseLeave={() => setIsHovered(false)}>
@@ -48,10 +48,10 @@ const FeaturedProducts = ({ products = [] }: FeaturedProductsProps) => {
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">Featured Products</h2>
         </AnimatedSection>
 
-        <div className="bg-card border border-border rounded-2xl shadow-sm overflow-hidden flex flex-col lg:flex-row">
+        <div className="bg-card border border-border rounded-2xl shadow-sm overflow-hidden flex flex-col-reverse lg:flex-row">
           
           {/* Left Text Side */}
-          <div className="lg:w-5/12 p-8 lg:p-12 flex flex-col justify-center bg-card border-b lg:border-b-0 lg:border-r border-border relative z-20">
+          <div className="lg:w-5/12 p-6 lg:p-12 flex flex-col justify-center bg-card border-t lg:border-t-0 lg:border-r border-border relative z-20">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}

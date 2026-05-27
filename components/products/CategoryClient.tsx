@@ -42,7 +42,7 @@ export default function CategoryClient({ category, products }: { category: any, 
   });
 
   return (
-    <div className="container mx-auto px-6 lg:px-12 py-16">
+    <div className="container mx-auto px-6 lg:px-12 pt-8 pb-16 md:py-16">
       {/* Breadcrumbs */}
       <AnimatedSection>
         <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground mb-8">

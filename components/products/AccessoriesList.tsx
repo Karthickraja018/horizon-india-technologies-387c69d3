@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CheckCircle2, PlusCircle } from "lucide-react";
 import { Accessory } from "@/types";
 
 interface AccessoriesListProps {
@@ -12,25 +12,23 @@ export default function AccessoriesList({ accessories }: AccessoriesListProps) {
   const optional = accessories.filter(a => a.category === 'optional');
 
   return (
-    <div className="mt-12">
-      <span className="label-eyebrow">Enhancements</span>
-      <h2 className="text-2xl font-bold text-hero-headline mt-2 mb-6">Accessories</h2>
+    <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-4">
+        <span className="text-[11px] font-bold uppercase tracking-widest text-hero-accent">Enhancements</span>
+        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">Accessories & Add-ons</h2>
+      </div>
       
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
         {standard.length > 0 && (
-          <div>
-            <h3 className="text-hero-foreground font-semibold mb-4 border-b border-border pb-2">Standard Accessories</h3>
-            <ul className="space-y-3">
+          <div className="flex flex-col gap-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground border-b border-border pb-4">Standard Included</h3>
+            <ul className="flex flex-col gap-3">
               {standard.map(acc => (
-                <li key={acc.id} className="flex gap-4 items-start p-3 surface-card rounded-md">
-                  {acc.image && (
-                    <div className="w-16 h-16 shrink-0 bg-background rounded border border-border flex items-center justify-center p-1">
-                      <Image src={acc.image} alt={acc.name} width={60} height={60} className="object-contain" />
-                    </div>
-                  )}
-                  <div className={!acc.image ? "py-1" : ""}>
-                    <p className="text-sm font-medium text-hero-foreground">{acc.name}</p>
-                    {acc.description && <p className="text-xs text-hero-muted mt-1">{acc.description}</p>}
+                <li key={acc.id} className="group flex gap-4 items-start p-5 bg-muted/20 border border-border/50 rounded-xl hover:border-hero-accent/50 hover:bg-muted/40 transition-colors">
+                  <CheckCircle2 className="w-5 h-5 text-hero-accent shrink-0 mt-0.5" />
+                  <div className="flex flex-col gap-1.5">
+                    <p className="text-base font-bold text-foreground leading-snug">{acc.name}</p>
+                    {acc.description && <p className="text-sm text-muted-foreground leading-relaxed">{acc.description}</p>}
                   </div>
                 </li>
               ))}
@@ -39,19 +37,15 @@ export default function AccessoriesList({ accessories }: AccessoriesListProps) {
         )}
 
         {optional.length > 0 && (
-          <div>
-            <h3 className="text-hero-foreground font-semibold mb-4 border-b border-border pb-2">Optional Accessories</h3>
-            <ul className="space-y-3">
+          <div className="flex flex-col gap-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground border-b border-border pb-4">Optional Upgrades</h3>
+            <ul className="flex flex-col gap-3">
               {optional.map(acc => (
-                <li key={acc.id} className="flex gap-4 items-start p-3 surface-card rounded-md">
-                  {acc.image && (
-                    <div className="w-16 h-16 shrink-0 bg-background rounded border border-border flex items-center justify-center p-1">
-                      <Image src={acc.image} alt={acc.name} width={60} height={60} className="object-contain" />
-                    </div>
-                  )}
-                  <div className={!acc.image ? "py-1" : ""}>
-                    <p className="text-sm font-medium text-hero-foreground">{acc.name}</p>
-                    {acc.description && <p className="text-xs text-hero-muted mt-1">{acc.description}</p>}
+                <li key={acc.id} className="group flex gap-4 items-start p-5 bg-card border border-border rounded-xl hover:border-hero-accent/50 hover:shadow-md transition-all">
+                  <PlusCircle className="w-5 h-5 text-muted-foreground group-hover:text-hero-accent transition-colors shrink-0 mt-0.5" />
+                  <div className="flex flex-col gap-1.5">
+                    <p className="text-base font-bold text-foreground leading-snug group-hover:text-hero-accent transition-colors">{acc.name}</p>
+                    {acc.description && <p className="text-sm text-muted-foreground leading-relaxed">{acc.description}</p>}
                   </div>
                 </li>
               ))}
