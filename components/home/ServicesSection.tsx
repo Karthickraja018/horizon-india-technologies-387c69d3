@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Wrench, ShieldCheck, Monitor, Building2, Package, Settings } from "lucide-react";
+import { Wrench, ShieldCheck, Monitor, Building2, Package, Settings, ArrowRight } from "lucide-react";
+import AnimatedSection from "@/components/common/AnimatedSection";
 
 type ServiceItem = {
   icon: React.ElementType;
@@ -7,100 +8,95 @@ type ServiceItem = {
   title: string;
   description: string;
   to: string;
-  cta: string;
 };
 
 const services: ServiceItem[] = [
   {
     id: "supply",
     icon: Settings,
-    title: "Equipment supply",
-    description: "Authorised dealer for hardness testers, UTMs, metallographic and NDT equipment from leading global brands.",
+    title: "Equipment Supply",
+    description: "Authorised dealer for hardness testers, UTMs, and NDT equipment from global brands.",
     to: "/products",
-    cta: "Browse products →",
   },
   {
     id: "calibration",
     icon: ShieldCheck,
-    title: "NABL calibration",
-    description: "Accredited calibration with NABL certificates accepted for ISO 9001 and IATF 16949 audit compliance.",
-    to: "/services#calibration",
-    cta: "View calibration services →",
+    title: "NABL Calibration",
+    description: "Accredited calibration with certificates accepted for ISO 9001 and IATF 16949 compliance.",
+    to: "/services/calibration-services-chennai",
   },
   {
     id: "amc",
     icon: Wrench,
-    title: "AMC & servicing",
+    title: "AMC & Servicing",
     description: "Annual maintenance contracts and priority on-site breakdown support across Tamil Nadu.",
-    to: "/services#amc",
-    cta: "Learn more →",
+    to: "/services",
   },
   {
     id: "training",
     icon: Monitor,
-    title: "Demo & training",
-    description: "On-site equipment demonstrations and operator training at your facility or our Chennai showroom.",
-    to: "/services#training",
-    cta: "Book a demo →",
+    title: "Demo & Training",
+    description: "On-site equipment demonstrations and operator training at your facility.",
+    to: "/contact",
   },
   {
     id: "labsetup",
     icon: Building2,
-    title: "Lab setup consulting",
-    description: "Turnkey testing lab setup — equipment selection, layout, installation and commissioning for new labs.",
-    to: "/services#labsetup",
-    cta: "Learn more →",
+    title: "Lab Setup Consulting",
+    description: "Turnkey testing lab setup — equipment selection, layout, and commissioning.",
+    to: "/services",
   },
   {
     id: "spares",
     icon: Package,
-    title: "Spare parts supply",
-    description: "Genuine spare parts — indenters, anvils, load cells, grips, and consumables dispatched same day.",
-    to: "/services#spares",
-    cta: "Request parts →",
+    title: "Spare Parts Supply",
+    description: "Genuine spare parts — indenters, anvils, load cells, and consumables dispatched same day.",
+    to: "/contact",
   },
 ];
 
 const ServicesSection = () => (
-  <section id="services" className="py-12 lg:py-20 bg-[#f8f8f6] border-t border-[rgba(0,0,0,0.05)]">
+  <section className="py-24 bg-muted/30 border-y border-border">
     <div className="container mx-auto px-6 lg:px-12">
-      <div className="text-center lg:text-left">
-        <p className="text-[12px] text-hero-accent uppercase tracking-[0.05em] font-medium">What we offer</p>
-        <h2 className="text-[22px] lg:text-[30px] font-medium text-hero-headline mt-2">Services built for industrial buyers</h2>
-        <p className="text-base text-hero-muted mt-3 max-w-[520px] mx-auto lg:mx-0">
-          Beyond equipment supply — we support your entire testing and quality workflow.
-        </p>
-      </div>
-
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {services.map((service) => (
-          <article
-            key={service.id}
-            id={service.id}
-            className="bg-white border border-[rgba(0,0,0,0.08)] rounded-[14px] p-5 transition-colors hover:border-[rgba(0,0,0,0.15)] group"
-          >
-            <div className="inline-flex items-center justify-center w-10 h-10 rounded-[10px] bg-[#E1F5EE] text-hero-accent mb-4">
-              <service.icon className="w-4 h-4" />
-            </div>
-            <h3 className="h3 mb-3 transition-colors group-hover:text-hero-accent">
-              {service.title}
-            </h3>
-            <p className="text-body-sm">
-              {service.description}
+      <AnimatedSection className="mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="max-w-2xl">
+            <span className="eyebrow text-hero-accent block mb-3">What We Offer</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Built for Industrial Buyers</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Beyond equipment supply — we support your entire testing and quality workflow from procurement to lifetime calibration.
             </p>
-            <Link href={service.to} className="inline-flex mt-4 text-[12px] text-hero-accent font-medium hover:underline">
-              {service.cta}
-            </Link>
-          </article>
-        ))}
-      </div>
+          </div>
+          <Link href="/services" className="btn-outline px-6 py-3 rounded-lg text-sm bg-background inline-flex items-center gap-2 group shrink-0">
+            View All Services <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </AnimatedSection>
 
-      <div className="mt-6 pt-5 border-t border-[rgba(0,0,0,0.06)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <p className="text-[13px] text-hero-muted">All services available across Tamil Nadu · Pan-India supply</p>
-        <Link href="/services" className="inline-flex items-center justify-center rounded-md border border-border px-4 py-2 text-sm text-hero-foreground hover:border-hero-accent hover:text-hero-accent transition-colors">
-          View all services →
-        </Link>
-      </div>
+      <AnimatedSection>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service) => (
+            <Link
+              key={service.id}
+              href={service.to}
+              className="group bg-card border border-border rounded-xl p-8 hover:border-hero-accent/50 hover:shadow-lg transition-all duration-300 flex flex-col"
+            >
+              <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center mb-6 group-hover:bg-hero-accent group-hover:text-white text-muted-foreground transition-colors">
+                <service.icon className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-hero-accent transition-colors">
+                {service.title}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">
+                {service.description}
+              </p>
+              <div className="flex justify-end mt-auto pt-4 border-t border-border">
+                <ArrowRight className="w-5 h-5 text-muted-foreground/30 group-hover:text-hero-accent group-hover:translate-x-1 transition-all" />
+              </div>
+            </Link>
+          ))}
+        </div>
+      </AnimatedSection>
     </div>
   </section>
 );

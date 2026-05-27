@@ -2,13 +2,10 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight, ChevronLeft, ChevronRight, Gauge, ArrowUpDown, FlaskConical, Ruler, ScanSearch, Hammer, Building2, Microscope, Scissors, Projector, Package } from "lucide-react";
 import AnimatedSection from "@/components/common/AnimatedSection";
-
 import type { Category } from "@/types";
 
-// Icon mapping by category slug for icon-only fallback
 const SLUG_ICON_MAP: Record<string, React.ElementType> = {
   "hardness-testing": Gauge,
   "universal-testing-machines": ArrowUpDown,
@@ -22,18 +19,6 @@ const SLUG_ICON_MAP: Record<string, React.ElementType> = {
   "projectors": Projector,
 };
 
-// Gradient palette per category slug for the icon tile background
-const SLUG_GRADIENT_MAP: Record<string, string> = {
-  "hardness-testing": "from-blue-50 to-blue-100",
-  "universal-testing-machines": "from-slate-50 to-slate-100",
-  "sand-testing": "from-amber-50 to-amber-100",
-  "metrology": "from-violet-50 to-violet-100",
-  "ndt-equipment": "from-cyan-50 to-cyan-100",
-  "impact-testing": "from-red-50 to-red-100",
-  "civil-lab": "from-emerald-50 to-emerald-100",
-  "microscopes": "from-indigo-50 to-indigo-100",
-};
-
 interface CategoriesGridProps {
   categories?: Category[];
 }
@@ -44,45 +29,41 @@ const CategoriesGrid = ({ categories = [] }: CategoriesGridProps) => {
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
-        left: direction === "left" ? -300 : 300,
+        left: direction === "left" ? -320 : 320,
         behavior: "smooth",
       });
     }
   };
 
-  // Total product count across shown categories
   const totalProducts = categories.reduce((sum, c) => sum + c.productCount, 0);
 
   return (
-    <section className="section-base">
+    <section className="bg-background py-24 border-y border-border overflow-hidden">
       <div className="container mx-auto px-6 lg:px-12">
         <AnimatedSection>
-          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mb-10">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mb-12">
             <div>
-              <span className="eyebrow">Our Range</span>
-              <h2 className="h2 mt-2">Product Categories</h2>
-              <p className="text-body-sm mt-2 max-w-xl">
-                Material testing, metrology, and quality control equipment for every industry.
-              </p>
+              <span className="eyebrow text-hero-accent block mb-3">Our Range</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">Product Categories</h2>
             </div>
-            <div className="flex flex-col sm:flex-row items-end sm:items-center gap-6 w-full sm:w-auto">
+            <div className="flex items-center gap-4">
               <Link
                 href="/products"
-                className="text-hero-accent text-sm font-semibold inline-flex items-center gap-1.5 hover:gap-2.5 transition-all order-2 sm:order-1 self-start sm:self-auto"
+                className="hidden sm:inline-flex items-center gap-2 text-sm font-bold text-hero-accent hover:text-hero-accent/80 transition-colors mr-4"
               >
-                View all categories <ArrowRight className="w-4 h-4" />
+                View all <ArrowRight className="w-4 h-4" />
               </Link>
-              <div className="flex gap-2 order-1 sm:order-2 self-end sm:self-auto">
+              <div className="flex gap-2">
                 <button
                   onClick={() => scroll("left")}
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-slate-50 transition-colors text-slate-600 shadow-sm hover:shadow"
+                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-muted hover:border-foreground/20 transition-all shadow-sm"
                   aria-label="Scroll Left"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => scroll("right")}
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-slate-50 transition-colors text-slate-600 shadow-sm hover:shadow"
+                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-muted hover:border-foreground/20 transition-all shadow-sm"
                   aria-label="Scroll Right"
                 >
                   <ChevronRight className="w-5 h-5" />
@@ -93,48 +74,38 @@ const CategoriesGrid = ({ categories = [] }: CategoriesGridProps) => {
         </AnimatedSection>
 
         <AnimatedSection>
-          <div className="relative group">
+          <div className="relative">
             <div
               ref={scrollContainerRef}
-              className="-mx-6 lg:-mx-12 px-6 lg:px-12 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              className="-mx-6 lg:-mx-12 px-6 lg:px-12 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-8 pt-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
-              <div className="flex gap-4 min-w-max">
+              <div className="flex gap-6 min-w-max">
                 {categories.map((cat) => {
                   const Icon = SLUG_ICON_MAP[cat.slug] || Package;
-                  const gradient = SLUG_GRADIENT_MAP[cat.slug] || "from-slate-50 to-slate-100";
 
                   return (
                     <Link
                       key={cat.slug}
                       href={`/products/${cat.slug}`}
-                      className="group surface-card animate-card-lift overflow-hidden flex flex-col w-[260px] sm:w-[280px] shrink-0 snap-start"
+                      className="group bg-card border border-border rounded-xl w-[280px] shrink-0 snap-start flex flex-col overflow-hidden hover:border-hero-accent/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
                     >
-                      {/* Icon tile */}
-                      <div className={`aspect-[4/3] border-b border-border flex items-center justify-center overflow-hidden relative bg-gradient-to-br ${gradient}`}>
-                        <div className="flex flex-col items-center justify-center gap-3 p-6 w-full h-full">
-                          <div className="w-14 h-14 rounded-xl bg-white/70 border border-white shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                            <Icon className="w-7 h-7 text-hero-accent" />
-                          </div>
-                          <span className="text-xs font-semibold text-hero-muted uppercase tracking-wider text-center leading-tight">
-                            {cat.name}
-                          </span>
-                        </div>
+                      <div className="aspect-[4/3] bg-muted/30 border-b border-border flex items-center justify-center relative overflow-hidden">
+                        <div className="absolute inset-0 bg-hero-accent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <Icon className="w-16 h-16 text-muted-foreground/50 group-hover:text-hero-accent group-hover:scale-110 transition-all duration-500 relative z-10" />
                       </div>
-
-                      {/* Text */}
-                      <div className="p-4 flex flex-col flex-1">
-                        <h3 className="text-gray-900 font-semibold text-base mb-1 group-hover:text-hero-accent transition-colors">
+                      <div className="p-6 flex flex-col flex-1">
+                        <h3 className="font-bold text-lg text-foreground mb-2 group-hover:text-hero-accent transition-colors">
                           {cat.name}
                         </h3>
-                        <p className="text-body-sm line-clamp-2 flex-1">
-                          {cat.description || `${cat.productCount} product${cat.productCount !== 1 ? 's' : ''} available`}
+                        <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-1">
+                          {cat.description || `Explore our high-precision ${cat.name.toLowerCase()} for industrial QA.`}
                         </p>
-                        <div className="mt-3 pt-3 border-t border-border flex items-center justify-between">
-                          <span className="text-gray-500 text-[10px] uppercase tracking-wider">
-                            {cat.productCount} model{cat.productCount !== 1 ? 's' : ''}
+                        <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
+                          <span className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
+                            {cat.productCount} Models
                           </span>
-                          <span className="text-hero-accent text-xs font-semibold inline-flex items-center gap-1 group-hover:gap-1.5 transition-all">
-                            View <ArrowRight className="w-3.5 h-3.5" />
+                          <span className="w-8 h-8 rounded-full bg-muted flex items-center justify-center group-hover:bg-hero-accent group-hover:text-white transition-colors">
+                            <ArrowRight className="w-4 h-4" />
                           </span>
                         </div>
                       </div>
@@ -142,28 +113,38 @@ const CategoriesGrid = ({ categories = [] }: CategoriesGridProps) => {
                   );
                 })}
 
-                {/* "View all" end card */}
+                {/* End Card */}
                 {categories.length > 0 && (
                   <Link
                     href="/products"
-                    className="group surface-card animate-card-lift border-dashed flex flex-col items-center justify-center text-center w-[260px] sm:w-[280px] shrink-0 snap-start p-6"
+                    className="group bg-muted/10 border-2 border-dashed border-border rounded-xl w-[280px] shrink-0 snap-start flex flex-col items-center justify-center text-center p-8 hover:bg-muted/30 hover:border-hero-accent/50 transition-all duration-300"
                   >
-                    <span className="eyebrow mb-2">Full Catalogue</span>
-                    <p className="text-gray-900 font-semibold text-base mb-1 group-hover:text-hero-accent transition-colors">
-                      Explore all categories
+                    <div className="w-16 h-16 rounded-full bg-card border border-border flex items-center justify-center mb-6 group-hover:border-hero-accent group-hover:text-hero-accent transition-colors">
+                      <ArrowRight className="w-6 h-6" />
+                    </div>
+                    <span className="eyebrow block mb-2">Full Catalogue</span>
+                    <h3 className="font-bold text-lg text-foreground mb-2 group-hover:text-hero-accent transition-colors">
+                      View All Categories
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {totalProducts}+ models across {categories.length} categories
                     </p>
-                    <p className="text-body-sm">
-                      {categories.length} categories · {totalProducts}+ models
-                    </p>
-                    <span className="text-hero-accent text-xs font-semibold inline-flex items-center gap-1 mt-3 group-hover:gap-1.5 transition-all">
-                      Browse all <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
                   </Link>
                 )}
               </div>
             </div>
+            
+            {/* Fade Edges for Desktop */}
+            <div className="hidden lg:block absolute inset-y-0 -left-6 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+            <div className="hidden lg:block absolute inset-y-0 -right-6 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
           </div>
         </AnimatedSection>
+        
+        <div className="mt-6 text-center sm:hidden">
+           <Link href="/products" className="btn-outline w-full justify-center text-sm py-3 rounded-lg">
+             View All Categories
+           </Link>
+        </div>
       </div>
     </section>
   );

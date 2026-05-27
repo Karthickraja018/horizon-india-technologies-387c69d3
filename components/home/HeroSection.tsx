@@ -1,107 +1,75 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useQuoteModal } from "@/providers/QuoteModalContext";
-import industrialLabHero from "@/assets/industrial-lab-hero.png";
+import industrialLabHero from "@/assets/hero_industrial_lab.png";
+import AnimatedSection from "@/components/common/AnimatedSection";
 
 const HeroSection = () => {
   const { openQuoteModal } = useQuoteModal();
 
-  const textVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
-
-  const imageVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-  };
-
   return (
-    <section
-      id="home"
-      className="relative w-full min-h-[78vh] lg:min-h-[680px] bg-background overflow-hidden"
-    >
-      {/* Background Image Container with Fade Effect */}
+    <section className="relative w-full min-h-[85vh] flex items-center justify-center pt-24 pb-16 overflow-hidden">
+      {/* Blended Background Image */}
       <motion.div 
-        initial="hidden"
-        animate="visible"
-        transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-        variants={imageVariants}
-        className="absolute inset-y-0 right-0 w-full lg:w-[72%] h-full z-0 opacity-25 lg:opacity-100"
+        initial={{ opacity: 0, scale: 1.05 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="absolute inset-0 z-0"
       >
         <Image
           src={industrialLabHero}
           alt="Industrial Material Testing Lab"
           fill
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
           priority
         />
-        {/* Desktop Gradient Fade: Moving fade closer to text to reveal more image */}
-        <div className="hidden lg:block absolute inset-y-0 -left-1 w-full bg-gradient-to-r from-background via-background via-[18%] to-transparent z-10" />
-        
-        {/* Mobile Gradient Fade: Revealing more image at the bottom */}
-        <div className="lg:hidden absolute inset-0 bg-gradient-to-b from-background via-background/75 via-25% to-transparent z-10" />
+        {/* Gradients to blend text and ensure legibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 via-40% to-transparent lg:w-[120%]" />
+        <div className="absolute inset-y-0 left-0 w-full lg:w-1/2 bg-background/50 backdrop-blur-[2px] mask-gradient-to-r pointer-events-none" style={{ WebkitMaskImage: 'linear-gradient(to right, black 50%, transparent 100%)' }} />
       </motion.div>
 
-      {/* Content Side */}
-      <div className="relative z-20">
-        <div className="container mx-auto px-6 lg:px-12 py-16 lg:py-24">
-          <motion.div
-             initial="hidden"
-             animate="visible"
-             transition={{ staggerChildren: 0.15, delayChildren: 0.1 }}
-             className="w-full max-w-3xl"
-          >
-            <motion.div variants={textVariants} className="space-y-6">
-              <h1 className="h1 text-hero-headline">
-                Reliable Material Testing Solutions for{" "}
-                <span className="text-hero-accent">Industrial Quality Assurance</span>
-              </h1>
+      <div className="container mx-auto px-6 lg:px-12 relative z-20">
+        <div className="max-w-2xl">
+          <AnimatedSection>
+            <span className="eyebrow text-hero-accent block mb-4">NABL Accredited Laboratory</span>
+            <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold tracking-tight text-foreground leading-[1.1] mb-6">
+              Tamil Nadu's Trusted Material Testing <span className="text-hero-accent">Equipment Supplier.</span>
+            </h1>
+            <p className="text-lg md:text-xl text-foreground/80 font-medium leading-relaxed mb-10 max-w-xl">
+              Providing accurate, certified testing services and metrology instruments for metals, plastics, and critical industrial applications across South India.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+              <button
+                type="button"
+                onClick={() => openQuoteModal({ productName: "Material Testing Services" })}
+                className="btn-primary px-8 py-4 text-sm font-bold shadow-lg shadow-hero-accent/20 transition-transform hover:-translate-y-0.5 rounded-lg"
+              >
+                Request a Quote
+              </button>
+              <Link
+                href="/products"
+                className="btn-outline px-8 py-4 text-sm font-bold bg-background/50 backdrop-blur-md flex items-center justify-center gap-2 group rounded-lg"
+              >
+                Explore Catalogue
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
 
-              <p className="text-body-lg max-w-xl">
-                Providing accurate, certified testing services for metals, plastics, and industrial applications.
-              </p>
-            </motion.div>
-
-            <motion.div variants={textVariants} className="space-y-10 pt-8">
-              <div className="flex flex-wrap gap-3 sm:gap-4">
-                <button
-                  type="button"
-                  onClick={() => openQuoteModal({ productName: "Material Testing Services" })}
-                  className="btn-primary px-7 py-3.5 text-base"
-                >
-                  Request a Quote
-                </button>
-                <Link
-                  href="/products"
-                  className="btn-outline px-7 py-3.5 text-base"
-                >
-                  Talk to an Engineer
-                </Link>
-              </div>
-
-              {/* Trust Indicators */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-x-6 gap-y-3 pt-6">
-                {[
-                  "NABL Certified",
-                  "ISO 17025",
-                  "25+ Years Experience"
-                ].map((text, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-2 text-xs text-hero-foreground font-semibold tracking-wide uppercase bg-background/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-border shadow-sm"
-                  >
-                    <CheckCircle2 className="w-4 h-4 text-hero-accent" />
-                    <span>{text}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-8 border-t border-border/40">
+              {["NABL Accredited", "ISO/IEC 17025", "25+ Years Exp."].map((text, i) => (
+                <div key={i} className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-hero-accent" />
+                  {text}
+                </div>
+              ))}
+            </div>
+          </AnimatedSection>
         </div>
       </div>
     </section>
@@ -109,4 +77,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-

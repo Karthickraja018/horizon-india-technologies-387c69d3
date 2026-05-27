@@ -44,20 +44,20 @@ const Header = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? "bg-background/95 backdrop-blur-md shadow-[0_1px_3px_rgba(15,23,42,0.05)] border-b border-border/50 py-3" 
-          : "bg-background/90 backdrop-blur-md border-b border-border py-4"
+          ? "bg-background/95 backdrop-blur-md shadow-[0_1px_3px_rgba(15,23,42,0.05)] border-b border-border/50" 
+          : "bg-background/90 backdrop-blur-md border-b border-border"
       }`}
     >
-      <nav className="container mx-auto px-6 lg:px-12 flex items-center justify-between">
+      <nav className={`container mx-auto px-6 lg:px-12 grid grid-cols-[1fr_auto_1fr] items-center transition-all duration-300 ${isScrolled ? "h-16" : "h-20"}`}>
         {/* Left: Logo */}
-        <div className="flex items-center">
+        <div className="flex items-center justify-start">
           <Link href="/" className="inline-flex items-center flex-shrink-0 select-none outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
             <BrandLogo size={isScrolled ? "md" : "lg"} />
           </Link>
         </div>
 
         {/* Center: Navigation Links */}
-        <div className="hidden md:flex items-center justify-center gap-8 text-sm font-medium text-foreground">
+        <div className="hidden md:flex items-center justify-center gap-8 text-sm font-medium text-foreground h-full">
           <Link
             href="/"
             className={`transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm ${isActive("/") ? "text-hero-accent" : "hover:text-hero-accent"}`}
@@ -73,7 +73,7 @@ const Header = () => {
           >
             <Link
               href="/products"
-              className={`transition-colors flex items-center gap-1 py-4 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm ${
+              className={`transition-colors flex items-center gap-1 h-full outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm ${
                 isActive("/products") ? "text-hero-accent" : "hover:text-hero-accent"
               }`}
             >
@@ -178,7 +178,7 @@ const Header = () => {
         </div>
 
         {/* Right: CTA + Mobile toggle */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-end gap-4">
           <button
             type="button"
             onClick={() => openQuoteModal()}
