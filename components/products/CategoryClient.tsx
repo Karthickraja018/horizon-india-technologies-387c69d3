@@ -8,13 +8,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Filter, SlidersHorizontal, CheckSquare, Square, ArrowRight, ArrowRightLeft, X, Layers, ChevronDown } from "lucide-react";
+import { Filter, SlidersHorizontal, CheckSquare, Square, ArrowRight, ArrowRightLeft, X, Layers, ChevronDown, Check } from "lucide-react";
 import InlineCtaBlock from "@/components/forms/InlineCtaBlock";
 import AnimatedSection from "@/components/common/AnimatedSection";
 
 export default function CategoryClient({ category, products }: { category: any, products: any[] }) {
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedStandards, setSelectedStandards] = useState<string[]>([]);
 
   const toggleCompare = (id: string) => {
     if (compareIds.includes(id)) {
@@ -26,19 +27,76 @@ export default function CategoryClient({ category, products }: { category: any, 
 
   const clearCompare = () => setCompareIds([]);
 
+  const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+  // Find all unique standards in current products
+  const dynamicStandards = Array.from(
+    new Set(
+      products
+        .flatMap((p) => p.standardsSupported || [])
+        .filter(Boolean)
+    )
+  );
+
+  const standardsList = dynamicStandards.length > 0 
+    ? dynamicStandards 
+    : ["ASTM E-18", "ISO 6508", "JIS Z2245"];
+
+  const toggleStandard = (std: string) => {
+    if (selectedStandards.includes(std)) {
+      setSelectedStandards(selectedStandards.filter((s) => s !== std));
+    } else {
+      setSelectedStandards([...selectedStandards, std]);
+    }
+  };
+
   const filteredProducts = products.filter((product) => {
-    if (activeFilter === "All") return true;
-    
-    // Simple keyword matching across product data
-    const searchString = `
-      ${product.name || ""} 
-      ${product.description || ""} 
-      ${product.model || ""} 
-      ${product.modelCode || ""}
-      ${Object.values(product.specifications || {}).join(" ")}
-    `.toLowerCase();
-    
-    return searchString.includes(activeFilter.toLowerCase());
+    // 1. Filter by Active Filter (Type of model)
+    if (activeFilter !== "All") {
+      const searchString = `
+        ${product.name || ""} 
+        ${product.description || ""} 
+        ${product.model || ""} 
+        ${product.modelCode || ""}
+        ${Object.values(product.specifications || {}).join(" ")}
+      `.toLowerCase();
+      
+      if (!searchString.includes(activeFilter.toLowerCase())) {
+        return false;
+      }
+    }
+
+    // 2. Filter by Selected Industry Standards
+    if (selectedStandards.length > 0) {
+      const productStds = product.standardsSupported || [];
+      
+      if (productStds.length > 0) {
+        const hasMatchingStandard = productStds.some((pStd) =>
+          selectedStandards.some(
+            (sStd) => normalize(pStd) === normalize(sStd) || pStd.toLowerCase().includes(sStd.toLowerCase()) || sStd.toLowerCase().includes(pStd.toLowerCase())
+          )
+        );
+        if (!hasMatchingStandard) return false;
+      } else {
+        const searchString = `
+          ${product.name || ""} 
+          ${product.description || ""} 
+          ${product.model || ""} 
+          ${product.modelCode || ""}
+          ${Object.values(product.specifications || {}).join(" ")}
+        `.toLowerCase();
+        
+        const hasMatchingStandard = selectedStandards.some((sStd) => {
+          const normStd = normalize(sStd);
+          const normSearch = normalize(searchString);
+          return normSearch.includes(normStd) || searchString.includes(sStd.toLowerCase());
+        });
+        
+        if (!hasMatchingStandard) return false;
+      }
+    }
+
+    return true;
   });
 
   return (
@@ -68,22 +126,60 @@ export default function CategoryClient({ category, products }: { category: any, 
         <div className="flex flex-col lg:flex-row gap-10 items-start">
           
           {/* Mobile Filter Dropdown */}
-          <div className="lg:hidden w-full mb-6">
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">Filter by Type</label>
-            <div className="relative">
-              <select
-                value={activeFilter}
-                onChange={(e) => setActiveFilter(e.target.value)}
-                className="w-full appearance-none bg-background border border-border rounded-lg px-4 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-hero-accent transition-all shadow-sm"
-              >
-                {["All", "Digital", "Analogue", "Touchscreen", "Automatic"].map((filter) => (
-                  <option key={filter} value={filter}>
-                    {filter === "All" ? "All Models" : `${filter} Models`}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-muted-foreground">
-                <ChevronDown className="w-5 h-5" />
+          <div className="lg:hidden w-full mb-6 space-y-4">
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">Filter by Type</label>
+              <div className="relative">
+                <select
+                  value={activeFilter}
+                  onChange={(e) => setActiveFilter(e.target.value)}
+                  className="w-full appearance-none bg-background border border-border rounded-lg px-4 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-hero-accent transition-all shadow-sm"
+                >
+                  {["All", "Digital", "Analogue", "Touchscreen", "Automatic"].map((filter) => (
+                    <option key={filter} value={filter}>
+                      {filter === "All" ? "All Models" : `${filter} Models`}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-muted-foreground">
+                  <ChevronDown className="w-5 h-5" />
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile Standards Filter */}
+            <div className="border-t border-border pt-4">
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block">Filter by Standard</label>
+                {(activeFilter !== "All" || selectedStandards.length > 0) && (
+                  <button
+                    onClick={() => {
+                      setActiveFilter("All");
+                      setSelectedStandards([]);
+                    }}
+                    className="text-xs text-hero-accent font-semibold hover:underline"
+                  >
+                    Clear All
+                  </button>
+                )}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {standardsList.map((std) => {
+                  const isSelected = selectedStandards.includes(std);
+                  return (
+                    <button
+                      key={std}
+                      onClick={() => toggleStandard(std)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors outline-none focus-visible:ring-2 focus-visible:ring-hero-accent ${
+                        isSelected
+                          ? "bg-hero-accent border-hero-accent text-white"
+                          : "bg-background border-border text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {std}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -91,9 +187,22 @@ export default function CategoryClient({ category, products }: { category: any, 
           {/* Sidebar Filters Desktop */}
           <div className="hidden lg:block w-full lg:w-64 shrink-0 lg:sticky lg:top-24 space-y-8">
             <div>
-              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider flex items-center gap-2 mb-4">
-                <Filter className="w-4 h-4" /> Filters
-              </h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider flex items-center gap-2">
+                  <Filter className="w-4 h-4" /> Filters
+                </h3>
+                {(activeFilter !== "All" || selectedStandards.length > 0) && (
+                  <button
+                    onClick={() => {
+                      setActiveFilter("All");
+                      setSelectedStandards([]);
+                    }}
+                    className="text-xs text-hero-accent hover:underline font-semibold transition-all"
+                  >
+                    Clear All
+                  </button>
+                )}
+              </div>
               <div className="flex flex-col gap-2">
                 {["All", "Digital", "Analogue", "Touchscreen", "Automatic"].map((filter) => (
                   <button
@@ -116,12 +225,27 @@ export default function CategoryClient({ category, products }: { category: any, 
                 Industry Standard
               </h3>
               <div className="flex flex-col gap-3">
-                {["ASTM E-18", "ISO 6508", "JIS Z2245"].map((std) => (
-                  <label key={std} className="flex items-center gap-3 cursor-pointer group">
-                    <div className="w-4 h-4 rounded-sm border border-border flex items-center justify-center group-hover:border-hero-accent transition-colors"></div>
-                    <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">{std}</span>
-                  </label>
-                ))}
+                {standardsList.map((std) => {
+                  const isSelected = selectedStandards.includes(std);
+                  return (
+                    <button
+                      key={std}
+                      onClick={() => toggleStandard(std)}
+                      className="flex items-center gap-3 cursor-pointer group text-left w-full focus:outline-none"
+                    >
+                      <div className={`w-4 h-4 rounded-sm border flex items-center justify-center transition-colors ${
+                        isSelected 
+                          ? "border-hero-accent bg-hero-accent text-white" 
+                          : "border-border group-hover:border-hero-accent"
+                      }`}>
+                        {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
+                      </div>
+                      <span className={`text-sm transition-colors ${
+                        isSelected ? "text-foreground font-semibold" : "text-muted-foreground group-hover:text-foreground"
+                      }`}>{std}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -130,12 +254,15 @@ export default function CategoryClient({ category, products }: { category: any, 
           <div className="flex-1 min-w-0">
             {filteredProducts.length === 0 ? (
               <div className="p-12 text-center bg-card border border-border rounded-xl">
-                <p className="text-lg text-muted-foreground">No products found matching "{activeFilter}".</p>
+                <p className="text-lg text-muted-foreground">No products found matching the selected filters.</p>
                 <button 
-                  onClick={() => setActiveFilter("All")}
-                  className="mt-4 text-hero-accent font-semibold hover:underline"
+                  onClick={() => {
+                    setActiveFilter("All");
+                    setSelectedStandards([]);
+                  }}
+                  className="mt-4 text-hero-accent font-semibold hover:underline animate-button-scale"
                 >
-                  Clear filter
+                  Clear all filters
                 </button>
               </div>
             ) : (

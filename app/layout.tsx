@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     "Industrial testing equipment supplier in Tamil Nadu with sales, service, and NABL-accredited calibration support. Serving automotive, aerospace, foundry, and manufacturing industries.",
   keywords:
     "industrial testing equipment, material testing, metrology, calibration, Tamil Nadu, Chennai, Karur, Coimbatore, NABL",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default async function RootLayout({
