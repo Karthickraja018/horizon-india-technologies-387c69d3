@@ -16,7 +16,7 @@ const WhatsAppButton = ({ productName }: WhatsAppButtonProps) => {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 hover:bg-[#1EBE57]"
+      className="hidden md:flex fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 hover:bg-[#1EBE57]"
       aria-label="Chat on WhatsApp"
     >
       <MessageCircle className="w-6 h-6" />

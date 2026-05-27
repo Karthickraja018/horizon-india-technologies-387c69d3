@@ -93,7 +93,7 @@ const QuoteFormModal = ({ categories = fallbackCategories }: QuoteFormModalProps
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => (open ? undefined : closeQuoteModal())}>
-      <DialogContent className="max-w-xl border-border shadow-[0_20px_25px_rgba(15,23,42,0.1),0_8px_10px_rgba(15,23,42,0.06)]">
+      <DialogContent className="max-w-xl border-border shadow-[0_20px_25px_rgba(15,23,42,0.1),0_8px_10px_rgba(15,23,42,0.06)] !top-auto !bottom-0 !translate-y-0 !rounded-b-none !rounded-t-2xl sm:!top-[50%] sm:!bottom-auto sm:!translate-y-[-50%] sm:!rounded-b-lg w-full max-h-[90vh] overflow-y-auto slide-in-up">
         <DialogHeader>
           <DialogTitle className="text-hero-headline">Get a Fast Quote</DialogTitle>
           <DialogDescription>Step {step} of 3. Tell us your requirement and our engineers will respond quickly.</DialogDescription>

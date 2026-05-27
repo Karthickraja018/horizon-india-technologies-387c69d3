@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X, ChevronRight } from "lucide-react";
 
 import BrandLogo from "@/components/common/BrandLogo";
 import { categories as fallbackCategories } from "@/constants/data";
@@ -49,13 +49,16 @@ export default function Navbar({ categories = fallbackCategories }) {
   const shouldReduceMotion = useReducedMotion();
 
   const isFloating = useFloatingNav(SCROLL_THRESHOLD_PX);
+  const [isMobile, setIsMobile] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const productsCloseTimeoutRef = useRef(null);
 
   useEffect(() => {
     setMobileMenuOpen(false);
     setProductsOpen(false);
+    setMobileProductsOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -63,6 +66,16 @@ export default function Navbar({ categories = fallbackCategories }) {
       if (productsCloseTimeoutRef.current) window.clearTimeout(productsCloseTimeoutRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mql.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  const activeFloating = isFloating && !isMobile;
 
   const openProducts = () => {
     if (productsCloseTimeoutRef.current) window.clearTimeout(productsCloseTimeoutRef.current);
@@ -93,7 +106,7 @@ export default function Navbar({ categories = fallbackCategories }) {
   const shellMotion = shouldReduceMotion
     ? {}
     : {
-        animate: isFloating
+        animate: activeFloating
           ? {
               y: 10,
               scale: 0.96,
@@ -110,7 +123,7 @@ export default function Navbar({ categories = fallbackCategories }) {
   const islandMotion = shouldReduceMotion
     ? {}
     : {
-        animate: isFloating
+        animate: activeFloating
           ? {
               borderRadius: 9999,
               // visually "shorter" without layout shift (shell stays 88px)
@@ -132,7 +145,7 @@ export default function Navbar({ categories = fallbackCategories }) {
         <div
           className={[
             "absolute inset-0 z-0 transition-all duration-300 pointer-events-none",
-            isFloating ? "bg-transparent" : "bg-white border-b border-slate-200/60 shadow-sm",
+            activeFloating ? "bg-transparent" : "bg-white border-b border-slate-200/60 shadow-sm",
           ].join(" ")}
         />
 
@@ -147,25 +160,25 @@ export default function Navbar({ categories = fallbackCategories }) {
                 // Allow dropdowns to escape the navbar shell.
                 "overflow-visible",
                 "transition-all duration-300",
-                isFloating
+                activeFloating
                   ? "max-w-5xl bg-white shadow-[0_12px_36px_rgba(15,23,42,0.14)] border border-slate-200/70 ring-1 ring-black/5"
                   : "max-w-none bg-transparent border border-transparent shadow-none",
               ].join(" ")}
               style={{
                 // Ensure the "island" width shrink is visible even on < 5xl viewports.
-                width: isFloating ? "calc(100% - 2rem)" : "100%",
-                maxWidth: isFloating ? "64rem" : "none",
+                width: activeFloating ? "calc(100% - 2rem)" : "100%",
+                maxWidth: activeFloating ? "64rem" : "none",
                 height: `${NAVBAR_HEIGHT_PX}px`,
               }}
               {...islandMotion}
             >
               <nav className="h-full px-6 sm:px-8">
-                <div className="h-full grid grid-cols-[1fr_auto_1fr] items-center">
+                <div className="h-full flex items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr]">
                 {/* Left: Logo */}
                 <div className="flex items-center justify-start min-w-0">
                   <Link href="/" className="inline-flex items-center flex-shrink-0 select-none">
                     <motion.div
-                      animate={shouldReduceMotion ? undefined : { scale: isFloating ? 0.94 : 1.04 }}
+                      animate={shouldReduceMotion ? undefined : { scale: activeFloating ? 0.94 : 1.04 }}
                       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                     >
                       <BrandLogo size="lg" />
@@ -217,7 +230,7 @@ export default function Navbar({ categories = fallbackCategories }) {
                         <div
                           className={[
                             "absolute left-1/2 top-full mt-3 -translate-x-1/2 w-72",
-                            "bg-white/90 backdrop-blur-xl border border-white/50 rounded-2xl",
+                            "bg-white border border-slate-200 rounded-2xl",
                             "shadow-[0_18px_55px_rgba(15,23,42,0.14)]",
                             "py-2 z-50 overflow-hidden",
                             "transition-all duration-200",
@@ -262,7 +275,7 @@ export default function Navbar({ categories = fallbackCategories }) {
                       "px-5 py-2.5 rounded-md text-[15px] font-semibold",
                       "transition-colors",
                     ].join(" ")}
-                    animate={shouldReduceMotion ? undefined : { scale: isFloating ? 0.96 : 1 }}
+                    animate={shouldReduceMotion ? undefined : { scale: activeFloating ? 0.96 : 1 }}
                     transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                   >
                     Get Quote
@@ -273,7 +286,7 @@ export default function Navbar({ categories = fallbackCategories }) {
                     className={[
                       "md:hidden inline-flex items-center justify-center",
                       "h-10 w-10 rounded-full",
-                      isFloating ? "bg-white/70 backdrop-blur border border-slate-200/70" : "bg-white border border-slate-200/60",
+                      activeFloating ? "bg-white/70 backdrop-blur border border-slate-200/70" : "bg-white border border-slate-200/60",
                       "text-slate-800 transition-colors",
                     ].join(" ")}
                     onClick={() => setMobileMenuOpen((v) => !v)}
@@ -290,57 +303,105 @@ export default function Navbar({ categories = fallbackCategories }) {
         </motion.div>
       </div>
 
-      {/* Mobile menu (animated) */}
+      {/* Mobile menu (Slide-in Drawer) */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={shouldReduceMotion ? undefined : { opacity: 0, y: -6 }}
-            animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? undefined : { opacity: 0, y: -6 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="md:hidden px-4"
-          >
-            <div className="mx-auto max-w-5xl">
-              <div className="mt-2 rounded-2xl bg-white/95 backdrop-blur-xl border border-white/60 shadow-[0_18px_55px_rgba(15,23,42,0.14)] p-3">
-                <div className="flex flex-col gap-1">
-                  {navItems
-                    .filter((i) => !i.isDropdown)
-                    .map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={[
-                          "px-3 py-2 rounded-xl font-semibold",
-                          isActive(item.href)
-                            ? "bg-slate-50 text-hero-accent"
-                            : "text-slate-900 hover:bg-slate-50",
-                        ].join(" ")}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-
-                  <Link
-                    href="/products"
-                    className={[
-                      "px-3 py-2 rounded-xl font-semibold",
-                      isActive("/products") ? "bg-slate-50 text-hero-accent" : "text-slate-900 hover:bg-slate-50",
-                    ].join(" ")}
-                  >
-                    Products
-                  </Link>
-                </div>
-
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <motion.div
+              initial={shouldReduceMotion ? undefined : { x: "100%" }}
+              animate={shouldReduceMotion ? undefined : { x: 0 }}
+              exit={shouldReduceMotion ? undefined : { x: "100%" }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="fixed top-0 right-0 bottom-0 w-[85%] max-w-[400px] bg-background border-l border-border z-50 md:hidden flex flex-col shadow-2xl"
+            >
+              <div className="flex items-center justify-between p-4 border-b border-border h-[88px]">
+                <span className="font-bold text-lg">Menu</span>
                 <button
-                  type="button"
-                  onClick={() => openQuoteModal()}
-                  className="w-full mt-3 btn-primary py-3 rounded-xl font-semibold"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="touch-target rounded-full bg-slate-100 flex items-center justify-center btn-mobile-press"
+                  aria-label="Close menu"
                 >
-                  Get Quote
+                  <X className="w-5 h-5" />
                 </button>
               </div>
-            </div>
-          </motion.div>
+
+              <div className="flex-1 overflow-y-auto py-4 px-4 flex flex-col gap-2 pb-[120px]">
+                {navItems.map((item) => {
+                  if (item.isDropdown) {
+                    return (
+                      <div key={item.href} className="border-b border-border/50 pb-2 mb-2">
+                        <button
+                          onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                          className="flex items-center justify-between w-full p-3 font-semibold text-left rounded-lg hover:bg-slate-50 transition-colors"
+                        >
+                          <span className={isActive("/products") ? "text-hero-accent" : "text-slate-900"}>
+                            Products
+                          </span>
+                          <ChevronDown
+                            className={`w-5 h-5 transition-transform duration-300 ${mobileProductsOpen ? "rotate-180" : ""}`}
+                          />
+                        </button>
+                        <AnimatePresence>
+                          {mobileProductsOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pl-4 pt-2 pb-2 space-y-1">
+                                {categories.map((cat) => (
+                                  <Link
+                                    key={cat.slug}
+                                    href={`/products/${cat.slug}`}
+                                    className="block p-3 rounded-lg text-sm text-slate-600 hover:text-hero-accent hover:bg-slate-50 font-medium"
+                                  >
+                                    {cat.name}
+                                  </Link>
+                                ))}
+                                <div className="mt-2 pt-2 border-t border-border/50">
+                                  <Link
+                                    href="/products"
+                                    className="flex items-center justify-between p-3 rounded-lg text-sm font-bold text-hero-accent hover:bg-hero-accent/10"
+                                  >
+                                    View All Products
+                                    <ChevronRight className="w-4 h-4" />
+                                  </Link>
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={[
+                        "p-3 rounded-lg font-semibold border-b border-border/50 mb-1",
+                        isActive(item.href)
+                          ? "text-hero-accent bg-hero-accent/5"
+                          : "text-slate-900 hover:bg-slate-50",
+                      ].join(" ")}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>

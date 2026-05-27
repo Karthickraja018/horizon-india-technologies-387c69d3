@@ -138,7 +138,13 @@ export default async function ProductPage({
                   <div className="aspect-[4/3] bg-muted/30 flex items-center justify-center p-8 relative">
                     {item.image ? (
                       <div className="w-full h-full relative z-10 transform transition-transform duration-500 group-hover:scale-105">
-                        <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-xs bg-muted/20">Image Preview</div>
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                          className="object-contain p-4"
+                        />
                       </div>
                     ) : (
                       <span className="text-xs text-muted-foreground">No Image</span>

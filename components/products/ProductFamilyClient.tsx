@@ -52,8 +52,14 @@ export default function ProductFamilyClient({ product }: { product: any }) {
             <div className="absolute inset-0 bg-gradient-to-tr from-muted/50 to-transparent rounded-xl" />
             {heroImage ? (
               <div className="w-full h-full relative z-10 transform transition-transform duration-500 group-hover:scale-105">
-                {/* Normally we use Image here */}
-                <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-muted/20">Image Preview</div>
+                <Image
+                  src={heroImage}
+                  alt={currentModel}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-contain p-8"
+                  priority
+                />
               </div>
             ) : (
               <div className="text-muted-foreground text-sm flex items-center justify-center h-full w-full bg-muted/30 border border-border/50 rounded z-10">No Image Available</div>
@@ -92,15 +98,15 @@ export default function ProductFamilyClient({ product }: { product: any }) {
 
           {/* Variant Selector */}
           {product.variants && product.variants.length > 1 && (
-            <div className="mb-10 bg-muted/30 border border-border p-6 rounded-xl">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-foreground mb-4">Configuration</h3>
+            <div className="mb-10 sticky top-[88px] z-30 bg-background/95 backdrop-blur-md border border-border p-4 md:p-6 rounded-xl shadow-sm md:shadow-none mx-[-16px] px-[16px] md:mx-0 md:bg-muted/30">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-foreground mb-3 md:mb-4">Configuration</h3>
               {product.variantSelectorType === 'tabs' ? (
-                <div className="flex flex-wrap gap-2">
+                <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
                   {product.variants.map((v: any) => (
                     <button
                       key={v.id}
                       onClick={() => setActiveVariantId(v.id)}
-                      className={`px-5 py-2.5 text-sm font-semibold rounded-md transition-all outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                      className={`shrink-0 px-5 py-2.5 text-sm font-semibold rounded-md transition-all outline-none focus-visible:ring-2 focus-visible:ring-ring btn-mobile-press ${
                         activeVariantId === v.id 
                           ? 'bg-foreground text-background shadow-md' 
                           : 'bg-background border border-border text-foreground hover:border-hero-accent/50 hover:bg-muted'
@@ -138,7 +144,7 @@ export default function ProductFamilyClient({ product }: { product: any }) {
             </QuoteButton>
             <a
               href="mailto:horizonindiatechnologies@gmail.com"
-              className="sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-card border border-border px-6 py-3.5 text-sm font-semibold text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-card border border-border px-6 py-3.5 text-sm font-semibold text-foreground hover:bg-muted transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring btn-mobile-press"
             >
               <Mail className="w-4 h-4" /> Email Us
             </a>

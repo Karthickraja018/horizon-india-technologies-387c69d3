@@ -21,7 +21,7 @@ const TrustBar = () => {
       <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-gradient-to-r from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10 pointer-events-none" />
       <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-gradient-to-l from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10 pointer-events-none" />
       
-      <div className="flex select-none">
+      <div className="hidden md:flex select-none">
         <motion.div
           className="flex whitespace-nowrap"
           animate={{
@@ -54,6 +54,23 @@ const TrustBar = () => {
             </div>
           ))}
         </motion.div>
+      </div>
+
+      {/* Mobile Static Grid */}
+      <div className="md:hidden container mx-auto px-4 relative z-20">
+        <div className="grid grid-cols-2 gap-3">
+          {items.slice(0, 4).map((item, i) => (
+            <div
+              key={i}
+              className="flex flex-col items-start gap-2 p-4 bg-white rounded-xl border border-border shadow-sm"
+            >
+              <item.icon className="w-5 h-5 text-hero-accent" />
+              <span className="text-[11px] uppercase tracking-wide font-bold text-slate-800 leading-tight">
+                {item.label}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -8,7 +8,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Filter, SlidersHorizontal, CheckSquare, Square, ArrowRight, ArrowRightLeft, X, Layers } from "lucide-react";
+import { Filter, SlidersHorizontal, CheckSquare, Square, ArrowRight, ArrowRightLeft, X, Layers, ChevronDown } from "lucide-react";
 import InlineCtaBlock from "@/components/forms/InlineCtaBlock";
 import AnimatedSection from "@/components/common/AnimatedSection";
 
@@ -25,6 +25,21 @@ export default function CategoryClient({ category, products }: { category: any, 
   };
 
   const clearCompare = () => setCompareIds([]);
+
+  const filteredProducts = products.filter((product) => {
+    if (activeFilter === "All") return true;
+    
+    // Simple keyword matching across product data
+    const searchString = `
+      ${product.name || ""} 
+      ${product.description || ""} 
+      ${product.model || ""} 
+      ${product.modelCode || ""}
+      ${Object.values(product.specifications || {}).join(" ")}
+    `.toLowerCase();
+    
+    return searchString.includes(activeFilter.toLowerCase());
+  });
 
   return (
     <div className="container mx-auto px-6 lg:px-12 py-16">
@@ -52,8 +67,29 @@ export default function CategoryClient({ category, products }: { category: any, 
       <AnimatedSection>
         <div className="flex flex-col lg:flex-row gap-10 items-start">
           
-          {/* Sidebar Filters */}
-          <div className="w-full lg:w-64 shrink-0 lg:sticky lg:top-24 space-y-8">
+          {/* Mobile Filter Dropdown */}
+          <div className="lg:hidden w-full mb-6">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">Filter by Type</label>
+            <div className="relative">
+              <select
+                value={activeFilter}
+                onChange={(e) => setActiveFilter(e.target.value)}
+                className="w-full appearance-none bg-background border border-border rounded-lg px-4 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-hero-accent transition-all shadow-sm"
+              >
+                {["All", "Digital", "Analogue", "Touchscreen", "Automatic"].map((filter) => (
+                  <option key={filter} value={filter}>
+                    {filter === "All" ? "All Models" : `${filter} Models`}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-muted-foreground">
+                <ChevronDown className="w-5 h-5" />
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar Filters Desktop */}
+          <div className="hidden lg:block w-full lg:w-64 shrink-0 lg:sticky lg:top-24 space-y-8">
             <div>
               <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider flex items-center gap-2 mb-4">
                 <Filter className="w-4 h-4" /> Filters
@@ -92,13 +128,19 @@ export default function CategoryClient({ category, products }: { category: any, 
 
           {/* Product Grid */}
           <div className="flex-1 min-w-0">
-            {products.length === 0 ? (
+            {filteredProducts.length === 0 ? (
               <div className="p-12 text-center bg-card border border-border rounded-xl">
-                <p className="text-lg text-muted-foreground">Products coming soon.</p>
+                <p className="text-lg text-muted-foreground">No products found matching "{activeFilter}".</p>
+                <button 
+                  onClick={() => setActiveFilter("All")}
+                  className="mt-4 text-hero-accent font-semibold hover:underline"
+                >
+                  Clear filter
+                </button>
               </div>
             ) : (
               <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {products.map((product) => {
+                {filteredProducts.map((product) => {
                   const variantCount = product.variants?.length || 0;
                   const isCompared = compareIds.includes(product.id);
                   
@@ -129,8 +171,13 @@ export default function CategoryClient({ category, products }: { category: any, 
                         <div className="absolute inset-0 bg-gradient-to-t from-background/10 to-transparent z-10" />
                         {product.image ? (
                           <div className="w-full h-full relative z-0 transform transition-transform duration-700 group-hover:scale-105">
-                            {/* In production this uses next/image */}
-                            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-xs bg-muted">Image Reference</div>
+                            <Image
+                              src={product.image}
+                              alt={product.name}
+                              fill
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              className="object-contain p-4"
+                            />
                           </div>
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground rounded text-xs">
@@ -146,15 +193,15 @@ export default function CategoryClient({ category, products }: { category: any, 
                       </Link>
                       
                       {/* Card Content */}
-                      <div className="p-6 flex flex-col flex-1 border-t border-border">
+                      <div className="p-4 md:p-6 flex flex-col flex-1 border-t border-border">
                         <div className="flex-1">
-                          <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2 font-semibold">
+                          <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1.5 font-semibold">
                             {product.model || product.modelCode}
                           </p>
-                          <h2 className="text-lg font-bold text-foreground mb-3 leading-snug group-hover:text-hero-accent transition-colors">
+                          <h2 className="text-base md:text-lg font-bold text-foreground mb-3 leading-snug group-hover:text-hero-accent transition-colors">
                             {product.name}
                           </h2>
-                          <div className="space-y-2 mb-6">
+                          <div className="space-y-1.5 md:space-y-2 mb-4 md:mb-6">
                             {Object.entries(product.specifications || {}).slice(0, 3).map(([k, v]) => (
                               <div key={k} className="flex items-center justify-between text-xs py-1 border-b border-border/50 last:border-0">
                                 <span className="text-muted-foreground">{k}</span>
@@ -163,13 +210,30 @@ export default function CategoryClient({ category, products }: { category: any, 
                             ))}
                           </div>
                         </div>
-                        <div className="mt-auto">
+                        <div className="mt-auto flex flex-col gap-2">
                           <Link
                             href={`/products/${product.categorySlug}/${product.slug}`}
-                            className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-muted px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-hero-accent hover:text-white transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-muted px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-hero-accent hover:text-white transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring btn-mobile-press"
                           >
                             View Series Details <ArrowRight className="w-4 h-4" />
                           </Link>
+                          {/* Quick Mobile Actions */}
+                          <div className="grid grid-cols-2 gap-2 lg:hidden">
+                            <a 
+                              href={`https://wa.me/919751458300?text=Hi, I am interested in ${product.name}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center justify-center gap-1.5 rounded-md border border-[#25D366] text-[#25D366] bg-[#25D366]/5 px-3 py-2 text-xs font-semibold btn-mobile-press"
+                            >
+                              WhatsApp
+                            </a>
+                            <a 
+                              href="#"
+                              className="inline-flex items-center justify-center gap-1.5 rounded-md border border-border text-foreground px-3 py-2 text-xs font-semibold btn-mobile-press"
+                            >
+                              Brochure
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -178,7 +242,7 @@ export default function CategoryClient({ category, products }: { category: any, 
               </div>
             )}
             
-            {products.length > 0 && (
+            {filteredProducts.length > 0 && (
               <div className="mt-16">
                 <InlineCtaBlock
                   title="Need support choosing the right model?"
@@ -194,7 +258,7 @@ export default function CategoryClient({ category, products }: { category: any, 
 
       {/* Sticky Compare Bar */}
       {compareIds.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 transform transition-all duration-300 translate-y-0">
+        <div className="fixed bottom-[80px] md:bottom-0 left-0 right-0 z-50 p-4 transform transition-all duration-300 translate-y-0">
           <div className="container mx-auto px-4 lg:px-8">
             <div className="bg-foreground text-background rounded-xl shadow-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 border border-foreground/90">
               <div className="flex items-center gap-4">

@@ -34,7 +34,7 @@ export function mapCategory(payloadCategory: PayloadCategory, productCount = 0):
     name: payloadCategory.name,
     description: payloadCategory.description || '',
     icon: SLUG_TO_ICON_NAME[payloadCategory.slug] || 'Package',
-    image: getMediaUrl(payloadCategory.heroImage),
+    image: `/images/categories/${payloadCategory.slug}.png`,
     productCount,
   };
 }

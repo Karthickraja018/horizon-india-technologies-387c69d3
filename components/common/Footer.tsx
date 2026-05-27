@@ -6,10 +6,47 @@
  * contrast: pass
  */
 
+import { useState } from "react";
 import Link from "next/link";
-import { Phone, Mail, MapPin, Linkedin, ExternalLink } from "lucide-react";
+import { Phone, Mail, MapPin, Linkedin, ExternalLink, ChevronDown } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import AnimatedSection from "@/components/common/AnimatedSection";
 import BrandLogo from "@/components/common/BrandLogo";
+
+const FooterSection = ({ title, children }: { title: string, children: React.ReactNode }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    <div className="border-b border-border/40 lg:border-none py-3 lg:py-0">
+      <button 
+        onClick={() => setIsOpen(!isOpen)} 
+        className="flex items-center justify-between w-full lg:hidden min-h-[44px] text-left"
+        type="button"
+      >
+        <p className="eyebrow text-foreground m-0">{title}</p>
+        <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+      <div className="hidden lg:block">
+        <p className="eyebrow mb-5 text-foreground">{title}</p>
+        {children}
+      </div>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="lg:hidden overflow-hidden"
+          >
+            <div className="pt-2 pb-4">
+              {children}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const Footer = () => (
   <footer className="bg-background border-t border-border mt-auto">
@@ -42,83 +79,80 @@ const Footer = () => (
             </div>
           </div>
 
-          {/* Columns */}
-          <div>
-            <p className="eyebrow mb-5 text-foreground">Equipment</p>
-            <ul className="flex flex-col gap-3">
-              {[
-                { to: "/products/hardness-testing", label: "Hardness Testers" },
-                { to: "/products/universal-testing-machines", label: "Universal Testing" },
-                { to: "/products/metrology", label: "Metrology" },
-                { to: "/products/ndt-equipment", label: "NDT Equipment" },
-                { to: "/products", label: "View All Products" },
-              ].map((l) => (
-                <li key={l.to}>
-                  <Link
-                    href={l.to}
-                    className="text-sm text-muted-foreground hover:text-hero-accent transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm block"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <div className="flex flex-col lg:contents">
+            <FooterSection title="Equipment">
+              <ul className="flex flex-col gap-3">
+                {[
+                  { to: "/products/hardness-testing", label: "Hardness Testers" },
+                  { to: "/products/universal-testing-machines", label: "Universal Testing" },
+                  { to: "/products/metrology", label: "Metrology" },
+                  { to: "/products/ndt-equipment", label: "NDT Equipment" },
+                  { to: "/products", label: "View All Products" },
+                ].map((l) => (
+                  <li key={l.to}>
+                    <Link
+                      href={l.to}
+                      className="text-sm text-muted-foreground hover:text-hero-accent transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm block min-h-[32px] flex items-center"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </FooterSection>
 
-          <div>
-            <p className="eyebrow mb-5 text-foreground">Services</p>
-            <ul className="flex flex-col gap-3">
-              {[
-                { to: "/services/calibration-services-chennai", label: "NABL Calibration" },
-                { to: "/services", label: "Annual Maintenance" },
-                { to: "/services", label: "Installation & Training" },
-                { to: "/services", label: "Equipment Repair" },
-              ].map((l) => (
-                <li key={l.to}>
-                  <Link
-                    href={l.to}
-                    className="text-sm text-muted-foreground hover:text-hero-accent transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm block"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            <FooterSection title="Services">
+              <ul className="flex flex-col gap-3">
+                {[
+                  { to: "/services/calibration-services-chennai", label: "NABL Calibration" },
+                  { to: "/services", label: "Annual Maintenance" },
+                  { to: "/services", label: "Installation & Training" },
+                  { to: "/services", label: "Equipment Repair" },
+                ].map((l) => (
+                  <li key={l.to}>
+                    <Link
+                      href={l.to}
+                      className="text-sm text-muted-foreground hover:text-hero-accent transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm block min-h-[32px] flex items-center"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </FooterSection>
 
-          <div>
-            <p className="eyebrow mb-5 text-foreground">Company</p>
-            <ul className="flex flex-col gap-3">
-              {[
-                { to: "/about", label: "About Us" },
-                { to: "/contact", label: "Contact & Locations" },
-                { to: "/about#certifications", label: "Certifications" },
-                { to: "/about#clients", label: "Clients" },
-              ].map((l) => (
-                <li key={l.to}>
-                  <Link
-                    href={l.to}
-                    className="text-sm text-muted-foreground hover:text-hero-accent transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm block"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            <FooterSection title="Company">
+              <ul className="flex flex-col gap-3">
+                {[
+                  { to: "/about", label: "About Us" },
+                  { to: "/contact", label: "Contact & Locations" },
+                  { to: "/about#certifications", label: "Certifications" },
+                  { to: "/about#clients", label: "Clients" },
+                ].map((l) => (
+                  <li key={l.to}>
+                    <Link
+                      href={l.to}
+                      className="text-sm text-muted-foreground hover:text-hero-accent transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm block min-h-[32px] flex items-center"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </FooterSection>
 
-          <div>
-            <p className="eyebrow mb-5 text-foreground">Locations</p>
-            <ul className="flex flex-col gap-3">
-              <li className="text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground block mb-1">Karur (Head Office)</span>
-                3/126, Mettu Street, Mettumahadhanapuram, Karur – 639105, TN
-              </li>
-              <li className="text-sm text-muted-foreground mt-2">
-                <span className="font-semibold text-foreground block mb-1">Coimbatore</span>
-                182, Nanjappa Nagar, 5th St West, Singanallur, Coimbatore – 641005
-              </li>
-            </ul>
+            <FooterSection title="Locations">
+              <ul className="flex flex-col gap-4 lg:gap-3">
+                <li className="text-sm text-muted-foreground">
+                  <span className="font-semibold text-foreground block mb-1">Karur (Head Office)</span>
+                  3/126, Mettu Street, Mettumahadhanapuram, Karur – 639105, TN
+                </li>
+                <li className="text-sm text-muted-foreground">
+                  <span className="font-semibold text-foreground block mb-1">Coimbatore</span>
+                  182, Nanjappa Nagar, 5th St West, Singanallur, Coimbatore – 641005
+                </li>
+              </ul>
+            </FooterSection>
           </div>
 
         </div>

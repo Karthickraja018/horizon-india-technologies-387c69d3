@@ -12,7 +12,7 @@ const HeroSection = () => {
   const { openQuoteModal } = useQuoteModal();
 
   return (
-    <section className="relative w-full min-h-[85vh] flex items-center justify-center pt-24 pb-16 overflow-hidden">
+    <section className="relative w-full min-h-[70vh] md:min-h-[85vh] flex items-center justify-center pt-24 pb-16 overflow-hidden">
       {/* Blended Background Image */}
       <motion.div 
         initial={{ opacity: 0, scale: 1.05 }}
@@ -43,17 +43,17 @@ const HeroSection = () => {
               Providing accurate, certified testing services and metrology instruments for metals, plastics, and critical industrial applications across South India.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+            <div className="flex flex-col sm:flex-row gap-4 mb-10 md:mb-12 w-full">
               <button
                 type="button"
                 onClick={() => openQuoteModal({ productName: "Material Testing Services" })}
-                className="btn-primary px-8 py-4 text-sm font-bold shadow-lg shadow-hero-accent/20 transition-transform hover:-translate-y-0.5 rounded-lg"
+                className="btn-primary w-full sm:w-auto px-8 py-4 text-sm font-bold shadow-lg shadow-hero-accent/20 transition-transform hover:-translate-y-0.5 rounded-lg btn-mobile-press flex justify-center"
               >
                 Request a Quote
               </button>
               <Link
                 href="/products"
-                className="btn-outline px-8 py-4 text-sm font-bold bg-background/50 backdrop-blur-md flex items-center justify-center gap-2 group rounded-lg"
+                className="btn-outline w-full sm:w-auto px-8 py-4 text-sm font-bold bg-background/50 backdrop-blur-md flex items-center justify-center gap-2 group rounded-lg btn-mobile-press"
               >
                 Explore Catalogue
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
